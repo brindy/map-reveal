@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14854.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14854.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -678,7 +678,7 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="111" y="-107"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -687,8 +687,30 @@
                     <window key="window" title="Master Map" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="271"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <toolbar key="toolbar" implicitIdentifier="527243D2-C1C3-4969-BB11-75A3CDAF07BD" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="Sbe-Ch-b6c">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="09737FAD-1FD3-460C-9074-F616DE0AE86B" explicitItemIdentifier="Paint" label="Paint" paletteLabel="Paint" tag="-1" image="MRPaint" selectable="YES" id="Nbb-84-eF2">
+                                    <size key="minSize" width="32" height="32"/>
+                                    <size key="maxSize" width="32" height="32"/>
+                                    <connections>
+                                        <action selector="setRevealPaint:" target="Oky-zY-oP4" id="6J0-xI-DRH"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="41662EF4-D2CF-4658-B5B8-B34EDC0E566D" explicitItemIdentifier="Area" label="Area" paletteLabel="Area" tag="-1" image="MRRect" selectable="YES" id="Ysq-5T-peu">
+                                    <size key="minSize" width="32" height="32"/>
+                                    <size key="maxSize" width="32" height="32"/>
+                                    <connections>
+                                        <action selector="setRevealArea:" target="Oky-zY-oP4" id="sQ2-5J-xLG"/>
+                                    </connections>
+                                </toolbarItem>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="Nbb-84-eF2"/>
+                                <toolbarItem reference="Ysq-5T-peu"/>
+                            </defaultToolbarItems>
+                        </toolbar>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
                         </connections>
@@ -699,7 +721,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="291"/>
+            <point key="canvasLocation" x="75" y="291.5"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="TzF-n6-6Ag">
@@ -715,25 +737,12 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="Df1-u6-Pqz" kind="relationship" relationship="window.shadowedContentViewController" id="N6j-an-T8n"/>
+                        <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="4cE-Ub-AzO"/>
                     </connections>
                 </windowController>
                 <customObject id="eRJ-Ng-ixm" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="855" y="239"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="RA2-ch-igq">
-            <objects>
-                <viewController id="Df1-u6-Pqz" sceneMemberID="viewController">
-                    <view key="view" id="aQd-xZ-a3A">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="mMq-8s-Pwc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="855" y="790"/>
+            <point key="canvasLocation" x="753" y="291"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -743,42 +752,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="733" height="484"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="8" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHQ-EB-JIq">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="8" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZBM-iW-rv8">
                                 <rect key="frame" x="0.0" y="0.0" width="733" height="484"/>
-                                <clipView key="contentView" id="z8n-9u-5H7" customClass="CenteringClipView" customModule="MapReveal" customModuleProvider="target">
+                                <clipView key="contentView" id="sq6-pg-KCO" customClass="CenteringClipView" customModule="MapReveal" customModuleProvider="target">
                                     <rect key="frame" x="1" y="1" width="731" height="482"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gAN-2v-ipm" customClass="FogOfWarImageView" customModule="MapReveal" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="317" width="163" height="165"/>
+                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WnQ-ON-iut">
+                                            <rect key="frame" x="0.0" y="434" width="48" height="48"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        </customView>
+                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="qGr-1A-uQh"/>
+                                        </imageView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="ZFG-vA-MlV">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="c3D-xS-E9d">
                                     <rect key="frame" x="1" y="467" width="731" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="NBB-aY-CxK">
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="BCe-cg-5h7">
                                     <rect key="frame" x="716" y="1" width="16" height="482"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="UHQ-EB-JIq" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="0vF-MG-nx2"/>
-                            <constraint firstAttribute="bottom" secondItem="UHQ-EB-JIq" secondAttribute="bottom" id="7cg-2P-y9z"/>
-                            <constraint firstAttribute="trailing" secondItem="UHQ-EB-JIq" secondAttribute="trailing" id="NCt-Yz-ZdJ"/>
-                            <constraint firstItem="UHQ-EB-JIq" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="xwI-PG-i0G"/>
+                            <constraint firstAttribute="trailing" secondItem="ZBM-iW-rv8" secondAttribute="trailing" id="4C1-Gz-ffl"/>
+                            <constraint firstAttribute="bottom" secondItem="ZBM-iW-rv8" secondAttribute="bottom" id="EnW-SC-Ngn"/>
+                            <constraint firstItem="ZBM-iW-rv8" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="jjK-37-ALb"/>
+                            <constraint firstItem="ZBM-iW-rv8" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="mXu-4B-M5z"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imageView" destination="gAN-2v-ipm" id="JDC-8X-YgE"/>
+                        <outlet property="imageView" destination="WnQ-ON-iut" id="LK2-Ea-svg"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-51.5" y="897"/>
+            <point key="canvasLocation" x="395" y="897"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="MRPaint" width="32" height="32"/>
+        <image name="MRRect" width="32" height="32"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="cq2-FE-JQM"/>
+    </inferredMetricsTieBreakers>
 </document>
