@@ -692,23 +692,53 @@
                         <toolbar key="toolbar" implicitIdentifier="527243D2-C1C3-4969-BB11-75A3CDAF07BD" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="Sbe-Ch-b6c">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="09737FAD-1FD3-460C-9074-F616DE0AE86B" explicitItemIdentifier="Paint" label="Paint" paletteLabel="Paint" tag="-1" image="MRPaint" selectable="YES" id="Nbb-84-eF2">
-                                    <size key="minSize" width="32" height="32"/>
-                                    <size key="maxSize" width="32" height="32"/>
+                                    <size key="minSize" width="48" height="48"/>
+                                    <size key="maxSize" width="48" height="48"/>
                                     <connections>
                                         <action selector="setRevealPaint:" target="Oky-zY-oP4" id="6J0-xI-DRH"/>
                                     </connections>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="41662EF4-D2CF-4658-B5B8-B34EDC0E566D" explicitItemIdentifier="Area" label="Area" paletteLabel="Area" tag="-1" image="MRRect" selectable="YES" id="Ysq-5T-peu">
-                                    <size key="minSize" width="32" height="32"/>
-                                    <size key="maxSize" width="32" height="32"/>
+                                    <size key="minSize" width="48" height="48"/>
+                                    <size key="maxSize" width="48" height="48"/>
                                     <connections>
                                         <action selector="setRevealArea:" target="Oky-zY-oP4" id="sQ2-5J-xLG"/>
                                     </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="07EA13A6-8C1A-4FDC-8A1F-9C7B65788282" explicitItemIdentifier="Path" label="Path" paletteLabel="Path" tag="-1" image="MRPath" selectable="YES" id="r6S-hO-qcM">
+                                    <size key="minSize" width="48" height="48"/>
+                                    <size key="maxSize" width="48" height="48"/>
+                                    <connections>
+                                        <action selector="setRevealPath:" target="Oky-zY-oP4" id="npa-cA-euu"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="F8B58DEF-C81F-4D64-814E-9B7E27F43240" explicitItemIdentifier="Pointer" label="Pointer" paletteLabel="Pointer" tag="-1" image="MRPointer" selectable="YES" id="kDN-bC-6Nj">
+                                    <size key="minSize" width="48" height="48"/>
+                                    <size key="maxSize" width="48" height="48"/>
+                                    <connections>
+                                        <action selector="activatePointer:" target="Oky-zY-oP4" id="HzK-BX-Fed"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="wJJ-TN-oBK"/>
+                                <toolbarItem implicitItemIdentifier="07DB64A7-203F-4CE6-89CE-72C05D543335" explicitItemIdentifier="RevealToggle" label="Reveal" paletteLabel="Reveal" sizingBehavior="auto" id="EiO-90-BAc">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="cOd-IE-oVy">
+                                        <rect key="frame" x="8" y="14" width="45" height="43"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="shh-wU-prO">
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
                                 </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="Nbb-84-eF2"/>
                                 <toolbarItem reference="Ysq-5T-peu"/>
+                                <toolbarItem reference="r6S-hO-qcM"/>
+                                <toolbarItem reference="wJJ-TN-oBK"/>
+                                <toolbarItem reference="kDN-bC-6Nj"/>
+                                <toolbarItem reference="EiO-90-BAc"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -792,8 +822,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="MRPaint" width="32" height="32"/>
-        <image name="MRRect" width="32" height="32"/>
+        <image name="MRPaint" width="48" height="48"/>
+        <image name="MRPath" width="48" height="48"/>
+        <image name="MRPointer" width="48" height="48"/>
+        <image name="MRRect" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cq2-FE-JQM"/>

@@ -22,7 +22,7 @@ class ViewController: NSViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         let fogOfWar = FogOfWarImageView(frame: NSRect(x: 0, y: 0, width: 200, height: 200))
         fogOfWar.autoresizingMask = [.width, .height]
         fogOfWar.translatesAutoresizingMaskIntoConstraints = true
@@ -37,7 +37,8 @@ class ViewController: NSViewController {
         view.window?.toolbar?.selectedItemIdentifier = NSToolbarItem.Identifier("Paint")
         
         fog?.color = other ? NSColor.white : NSColor(white: 1.0, alpha: 0.5)
-
+        fog?.follow = !other
+        
         if otherViewController == nil && !other {
             let otherWindowController = storyboard?.instantiateController(withIdentifier: "VisibleMap") as? NSWindowController
             guard let otherViewController = otherWindowController?.contentViewController as? ViewController else { return }
@@ -56,11 +57,12 @@ class ViewController: NSViewController {
         panel.allowsMultipleSelection = false
         if panel.runModal() == .OK {
             mainViewController?.loadImage(panel.url!)
+            otherViewController?.loadImage(panel.url!)
             loadImage(panel.url!)
         }
         
     }
-    
+
     @IBAction func setRevealPaint(_ sender: Any) {
         print(#function)
     }
@@ -68,14 +70,22 @@ class ViewController: NSViewController {
     @IBAction func setRevealArea(_ sender: Any) {
         print(#function)
     }
-
+    
+    @IBAction func setRevealPath(_ sender: Any) {
+        print(#function)
+    }
+    
+    @IBAction func activatePointer(_ sender: Any) {
+        print(#function)
+    }
+    
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
         guard !other else { return }
         let point = view.convert(event.locationInWindow, to: imageView)
         print(#function, point)
-        fog?.start(point)
-        otherViewController?.fog?.start(point)
+        fog?.start(at: point)
+        otherViewController?.fog?.start(at: point)
     }
     
     override func mouseUp(with event: NSEvent) {
@@ -83,8 +93,8 @@ class ViewController: NSViewController {
         guard !other else { return }
         let point = view.convert(event.locationInWindow, to: imageView)
         print(#function, point)
-        fog?.finish()
-        otherViewController?.fog?.finish()
+        fog?.finish(at: point)
+        otherViewController?.fog?.finish(at: point)
     }
     
     override func mouseDragged(with event: NSEvent) {
@@ -92,8 +102,8 @@ class ViewController: NSViewController {
         guard !other else { return }
         let point = view.convert(event.locationInWindow, to: imageView)
         print(#function, point)
-        fog?.move(point)
-        otherViewController?.fog?.move(point)
+        fog?.move(to: point)
+        otherViewController?.fog?.move(to : point)
     }
     
     private func loadImage(_ url: URL) {
@@ -103,6 +113,8 @@ class ViewController: NSViewController {
         guard let currentFrame = imageView?.frame else { return }
         imageView?.frame = NSRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: image.size.width, height: image.size.height)
         view.needsLayout = true
+        fog?.restore()
+        otherViewController?.fog?.restore()
     }
     
 }
@@ -110,6 +122,11 @@ class ViewController: NSViewController {
 class FogOfWarImageView: NSView {
 
     var color: NSColor = NSColor(white: 1.0, alpha: 0.5)
+    var follow = true
+    var currentDrawFactory: Drawable.Factory = PaintDrawable.factory
+    
+    private var currentDrawable: Drawable = PaintDrawable()
+    private var drawables = [Drawable]()
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -119,31 +136,55 @@ class FogOfWarImageView: NSView {
         context.cgContext.setFillColor(color.cgColor)
         context.cgContext.fill(bounds)
         
-        context.compositingOperation = .destinationIn
-        context.cgContext.setFillColor(NSColor.clear.cgColor)
-        
-        let width: CGFloat = 50
-        points.forEach {
-            let rect = CGRect(x: $0.x - width / 2, y: $0.y - width / 2, width: width, height: width)
-            context.cgContext.fillEllipse(in: rect)
+        reveal(context: context)
+
+        if follow {
+            context.cgContext.setStrokeColor(NSColor.black.cgColor)
+            context.cgContext.setLineWidth(5)
+            context.cgContext.setFillColor(NSColor.black.cgColor)
+            currentDrawable.follow(into: context.cgContext)
         }
         
         context.restoreGraphicsState()
     }
     
-    var points = Set<NSPoint>()
-    
-    func start(_ point: NSPoint) {
+    private func reveal(context: NSGraphicsContext) {
+        context.saveGraphicsState()
+        context.compositingOperation = .destinationIn
+        context.cgContext.setFillColor(NSColor.clear.cgColor)
+        context.cgContext.setStrokeColor(NSColor.clear.cgColor)
+        currentDrawable.reveal(into: context.cgContext)
+        drawables.forEach { $0.reveal(into: context.cgContext )}
+        context.restoreGraphicsState()
     }
-    
-    func move(_ point: NSPoint) {
-        points.insert(point)
+
+    func start(at point: NSPoint) {
+        currentDrawable.start(at: point)
         needsDisplay = true
     }
     
-    func finish() {
+    func move(to point: NSPoint) {
+        currentDrawable.moved(to: point)
+        needsDisplay = true
     }
-     
+    
+    func finish(at point: NSPoint) {
+        currentDrawable.finish(at: point)
+        drawables.append(currentDrawable)
+        currentDrawable = currentDrawFactory()
+        needsDisplay = true
+    }
+    
+    func undo() {
+        drawables.removeLast()
+        needsDisplay = true
+    }
+    
+    func restore() {
+        drawables.removeAll()
+        currentDrawable = currentDrawFactory()
+    }
+    
 }
 
 extension NSPoint: Hashable {
@@ -151,6 +192,73 @@ extension NSPoint: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(x)
         hasher.combine(y)
+    }
+    
+}
+
+protocol Drawable: NSObjectProtocol {
+    
+    typealias Factory = (() -> Drawable)
+    
+    func follow(into context: CGContext)
+    
+    func reveal(into context: CGContext)
+    
+    func start(at point: NSPoint)
+    
+    func moved(to point: NSPoint)
+    
+    func finish(at point: NSPoint)
+    
+}
+
+extension Drawable {
+    
+    func start(at point: NSPoint) { }
+    
+    func moved(to point: NSPoint) { }
+    
+    func finish(at point: NSPoint) { }
+    
+}
+
+class PaintDrawable: NSObject, Drawable {
+    
+    static func factory() -> Drawable { return PaintDrawable() }
+    
+    let width: CGFloat = 50
+    
+    var points = Set<NSPoint>()
+    var lastPoint: NSPoint?
+
+    var path: NSBezierPath?
+    
+    func start(at point: NSPoint) {
+        lastPoint = point
+    }
+    
+    func moved(to point: NSPoint) {
+        lastPoint = point
+        points.insert(point)
+    }
+    
+    func finish(at point: NSPoint) {
+        lastPoint = nil
+    }
+    
+    func follow(into context: CGContext) {
+        guard let lastPoint = lastPoint else { return }
+        context.strokeEllipse(in: rect(from: lastPoint))
+    }
+    
+    func reveal(into context: CGContext) {
+        points.forEach {
+            context.fillEllipse(in: rect(from: $0))
+        }
+    }
+    
+    func rect(from point: NSPoint) -> CGRect {
+        return CGRect(x: point.x - width / 2, y: point.y - width / 2, width: width, height: width)
     }
     
 }
