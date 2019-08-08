@@ -10,15 +10,11 @@ import Cocoa
 
 // using images from icon8.com
 
-class ViewController: NSViewController {
+class MapRenderingViewController: NSViewController {
 
     @IBOutlet weak var imageView: NSImageView!
 
     weak var fog: FogOfWarImageView?
-    
-    weak var otherViewController: ViewController?
-    weak var mainViewController: ViewController?
-    var other = false
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,89 +26,8 @@ class ViewController: NSViewController {
         self.fog = fogOfWar
         
     }
-    
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        
-        view.window?.toolbar?.selectedItemIdentifier = NSToolbarItem.Identifier("Paint")
-        
-        fog?.color = other ? NSColor.white : NSColor(white: 1.0, alpha: 0.5)
-        fog?.follow = !other
-        
-        if otherViewController == nil && !other {
-            let otherWindowController = storyboard?.instantiateController(withIdentifier: "VisibleMap") as? NSWindowController
-            guard let otherViewController = otherWindowController?.contentViewController as? ViewController else { return }
-            otherViewController.other = true
-            otherViewController.mainViewController = self
-            self.otherViewController = otherViewController
-            otherWindowController?.showWindow(self)
-        }
-        
-    }
-    
-    @IBAction func openDocument(_ sender: Any) {
-        
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = true
-        panel.allowsMultipleSelection = false
-        if panel.runModal() == .OK {
-            mainViewController?.loadImage(panel.url!)
-            otherViewController?.loadImage(panel.url!)
-            loadImage(panel.url!)
-        }
-        
-    }
-
-    @IBAction func setRevealPaint(_ sender: Any) {
-        print(#function)
-    }
-
-    @IBAction func setRevealArea(_ sender: Any) {
-        print(#function)
-    }
-    
-    @IBAction func setRevealPath(_ sender: Any) {
-        print(#function)
-    }
-    
-    @IBAction func activatePointer(_ sender: Any) {
-        print(#function)
-    }
-    
-    @IBAction func pushToOther(_ sender: Any) {
-        print(#function)
-        guard let fog = fog else { return }
-        otherViewController?.fog?.update(from: fog)
-    }
-    
-    override func mouseDown(with event: NSEvent) {
-        super.mouseDown(with: event)
-        guard !other else { return }
-        let point = view.convert(event.locationInWindow, to: imageView)
-        print(#function, point)
-        fog?.start(at: point)
-        // otherViewController?.fog?.start(at: point)
-    }
-    
-    override func mouseUp(with event: NSEvent) {
-        super.mouseUp(with: event)
-        guard !other else { return }
-        let point = view.convert(event.locationInWindow, to: imageView)
-        print(#function, point)
-        fog?.finish(at: point)
-        // otherViewController?.fog?.finish(at: point)
-    }
-    
-    override func mouseDragged(with event: NSEvent) {
-        super.mouseDragged(with: event)
-        guard !other else { return }
-        let point = view.convert(event.locationInWindow, to: imageView)
-        print(#function, point)
-        fog?.move(to: point)
-        // otherViewController?.fog?.move(to : point)
-    }
-    
-    private func loadImage(_ url: URL) {
+            
+    func loadImage(_ url: URL) {
         print(#function, url)
         let image = NSImage(byReferencing: url)
         imageView?.image = image
@@ -120,7 +35,6 @@ class ViewController: NSViewController {
         imageView?.frame = NSRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: image.size.width, height: image.size.height)
         view.needsLayout = true
         fog?.restore()
-        otherViewController?.fog?.restore()
     }
     
 }

@@ -8,21 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		850385E722F48C06002259DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385E622F48C06002259DB /* AppDelegate.swift */; };
-		850385E922F48C06002259DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385E822F48C06002259DB /* ViewController.swift */; };
+		850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385E822F48C06002259DB /* MapRenderingViewController.swift */; };
 		850385EB22F48C08002259DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 850385EA22F48C08002259DB /* Assets.xcassets */; };
 		850385EE22F48C08002259DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850385EC22F48C08002259DB /* Main.storyboard */; };
 		850385F722F49B35002259DB /* CenteringClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385F622F49B35002259DB /* CenteringClipView.swift */; };
+		8526684D22FBAB31006AD48A /* MasterMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526684C22FBAB31006AD48A /* MasterMapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		850385E322F48C06002259DB /* MapReveal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapReveal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		850385E622F48C06002259DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		850385E822F48C06002259DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		850385E822F48C06002259DB /* MapRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRenderingViewController.swift; sourceTree = "<group>"; };
 		850385EA22F48C08002259DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		850385ED22F48C08002259DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		850385EF22F48C08002259DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		850385F022F48C08002259DB /* MapReveal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapReveal.entitlements; sourceTree = "<group>"; };
 		850385F622F49B35002259DB /* CenteringClipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteringClipView.swift; sourceTree = "<group>"; };
+		8526684C22FBAB31006AD48A /* MasterMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,12 +58,13 @@
 			isa = PBXGroup;
 			children = (
 				850385E622F48C06002259DB /* AppDelegate.swift */,
-				850385E822F48C06002259DB /* ViewController.swift */,
 				850385EA22F48C08002259DB /* Assets.xcassets */,
-				850385EC22F48C08002259DB /* Main.storyboard */,
-				850385EF22F48C08002259DB /* Info.plist */,
-				850385F022F48C08002259DB /* MapReveal.entitlements */,
 				850385F622F49B35002259DB /* CenteringClipView.swift */,
+				850385EF22F48C08002259DB /* Info.plist */,
+				850385EC22F48C08002259DB /* Main.storyboard */,
+				850385F022F48C08002259DB /* MapReveal.entitlements */,
+				8526684C22FBAB31006AD48A /* MasterMapViewController.swift */,
+				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -136,7 +139,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				850385E922F48C06002259DB /* ViewController.swift in Sources */,
+				850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */,
+				8526684D22FBAB31006AD48A /* MasterMapViewController.swift in Sources */,
 				850385E722F48C06002259DB /* AppDelegate.swift in Sources */,
 				850385F722F49B35002259DB /* CenteringClipView.swift in Sources */,
 			);
