@@ -79,13 +79,19 @@ class ViewController: NSViewController {
         print(#function)
     }
     
+    @IBAction func pushToOther(_ sender: Any) {
+        print(#function)
+        guard let fog = fog else { return }
+        otherViewController?.fog?.update(from: fog)
+    }
+    
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
         guard !other else { return }
         let point = view.convert(event.locationInWindow, to: imageView)
         print(#function, point)
         fog?.start(at: point)
-        otherViewController?.fog?.start(at: point)
+        // otherViewController?.fog?.start(at: point)
     }
     
     override func mouseUp(with event: NSEvent) {
@@ -94,7 +100,7 @@ class ViewController: NSViewController {
         let point = view.convert(event.locationInWindow, to: imageView)
         print(#function, point)
         fog?.finish(at: point)
-        otherViewController?.fog?.finish(at: point)
+        // otherViewController?.fog?.finish(at: point)
     }
     
     override func mouseDragged(with event: NSEvent) {
@@ -103,7 +109,7 @@ class ViewController: NSViewController {
         let point = view.convert(event.locationInWindow, to: imageView)
         print(#function, point)
         fog?.move(to: point)
-        otherViewController?.fog?.move(to : point)
+        // otherViewController?.fog?.move(to : point)
     }
     
     private func loadImage(_ url: URL) {
@@ -169,8 +175,9 @@ class FogOfWarImageView: NSView {
     }
     
     func finish(at point: NSPoint) {
-        currentDrawable.finish(at: point)
-        drawables.append(currentDrawable)
+        if currentDrawable.finish(at: point) {
+            drawables.append(currentDrawable)
+        }
         currentDrawable = currentDrawFactory()
         needsDisplay = true
     }
@@ -183,6 +190,12 @@ class FogOfWarImageView: NSView {
     func restore() {
         drawables.removeAll()
         currentDrawable = currentDrawFactory()
+        needsDisplay = true
+    }
+    
+    func update(from other: FogOfWarImageView) {
+        drawables = other.drawables
+        needsDisplay = true
     }
     
 }
@@ -208,7 +221,7 @@ protocol Drawable: NSObjectProtocol {
     
     func moved(to point: NSPoint)
     
-    func finish(at point: NSPoint)
+    func finish(at point: NSPoint) -> Bool
     
 }
 
@@ -218,7 +231,7 @@ extension Drawable {
     
     func moved(to point: NSPoint) { }
     
-    func finish(at point: NSPoint) { }
+    func finish(at point: NSPoint) -> Bool { return true }
     
 }
 
@@ -230,8 +243,6 @@ class PaintDrawable: NSObject, Drawable {
     
     var points = Set<NSPoint>()
     var lastPoint: NSPoint?
-
-    var path: NSBezierPath?
     
     func start(at point: NSPoint) {
         lastPoint = point
@@ -242,8 +253,9 @@ class PaintDrawable: NSObject, Drawable {
         points.insert(point)
     }
     
-    func finish(at point: NSPoint) {
+    func finish(at point: NSPoint) -> Bool {
         lastPoint = nil
+        return !points.isEmpty
     }
     
     func follow(into context: CGContext) {

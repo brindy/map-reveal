@@ -723,13 +723,21 @@
                                 <toolbarItem implicitItemIdentifier="07DB64A7-203F-4CE6-89CE-72C05D543335" explicitItemIdentifier="RevealToggle" label="Reveal" paletteLabel="Reveal" sizingBehavior="auto" id="EiO-90-BAc">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="cOd-IE-oVy">
-                                        <rect key="frame" x="8" y="14" width="45" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="45" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="shh-wU-prO">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="vaL-3e-iJI"/>
+                                <toolbarItem implicitItemIdentifier="F02474E2-BF33-4368-A415-D08F4129A9C0" explicitItemIdentifier="Push" label="Push" paletteLabel="Push" tag="-1" image="MRSend" id="Y0r-qi-tQK">
+                                    <size key="minSize" width="48" height="48"/>
+                                    <size key="maxSize" width="48" height="48"/>
+                                    <connections>
+                                        <action selector="pushToOther:" target="Oky-zY-oP4" id="M4H-Yg-QRA"/>
+                                    </connections>
                                 </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
@@ -739,6 +747,8 @@
                                 <toolbarItem reference="wJJ-TN-oBK"/>
                                 <toolbarItem reference="kDN-bC-6Nj"/>
                                 <toolbarItem reference="EiO-90-BAc"/>
+                                <toolbarItem reference="vaL-3e-iJI"/>
+                                <toolbarItem reference="Y0r-qi-tQK"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -826,6 +836,7 @@
         <image name="MRPath" width="48" height="48"/>
         <image name="MRPointer" width="48" height="48"/>
         <image name="MRRect" width="48" height="48"/>
+        <image name="MRSend" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cq2-FE-JQM"/>
