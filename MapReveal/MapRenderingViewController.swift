@@ -8,13 +8,13 @@
 
 import Cocoa
 
-// using images from icon8.com
-
 class MapRenderingViewController: NSViewController {
 
     @IBOutlet weak var imageView: NSImageView!
 
     weak var fog: FogOfWarImageView?
+    
+    var editable = true
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,6 @@ class MapRenderingViewController: NSViewController {
         fogOfWar.translatesAutoresizingMaskIntoConstraints = true
         imageView.addSubview(fogOfWar)
         self.fog = fogOfWar
-        
     }
             
     func loadImage(_ url: URL) {
@@ -37,79 +36,33 @@ class MapRenderingViewController: NSViewController {
         fog?.restore()
     }
     
-}
-
-class FogOfWarImageView: NSView {
-
-    var color: NSColor = NSColor(white: 1.0, alpha: 0.5)
-    var follow = true
-    var currentDrawFactory: Drawable.Factory = PaintDrawable.factory
-    
-    private var currentDrawable: Drawable = PaintDrawable()
-    private var drawables = [Drawable]()
-    
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        
-        guard let context = NSGraphicsContext.current else { return }
-        context.saveGraphicsState()
-        context.cgContext.setFillColor(color.cgColor)
-        context.cgContext.fill(bounds)
-        
-        reveal(context: context)
-
-        if follow {
-            context.cgContext.setStrokeColor(NSColor.black.cgColor)
-            context.cgContext.setLineWidth(5)
-            context.cgContext.setFillColor(NSColor.black.cgColor)
-            currentDrawable.follow(into: context.cgContext)
-        }
-        
-        context.restoreGraphicsState()
+    override func mouseDown(with event: NSEvent) {
+        super.mouseDown(with: event)
+        guard editable else { return }
+        let point = convert(event.locationInWindow)
+        print(#function, point)
+        fog?.start(at: point)
     }
     
-    private func reveal(context: NSGraphicsContext) {
-        context.saveGraphicsState()
-        context.compositingOperation = .destinationIn
-        context.cgContext.setFillColor(NSColor.clear.cgColor)
-        context.cgContext.setStrokeColor(NSColor.clear.cgColor)
-        currentDrawable.reveal(into: context.cgContext)
-        drawables.forEach { $0.reveal(into: context.cgContext )}
-        context.restoreGraphicsState()
+    override func mouseUp(with event: NSEvent) {
+        super.mouseUp(with: event)
+        guard editable else { return }
+        let point = convert(event.locationInWindow)
+        print(#function, point)
+        fog?.finish(at: point)
+    }
+    
+    override func mouseDragged(with event: NSEvent) {
+        super.mouseDragged(with: event)
+        guard editable else { return }
+        let point = convert(event.locationInWindow)
+        print(#function, point)
+        fog?.move(to: point)
+    }
+    
+    private func convert(_ point: NSPoint) -> NSPoint {
+        guard let parent = parent else { return point }
+        return parent.view.convert(point, to: imageView)
     }
 
-    func start(at point: NSPoint) {
-        currentDrawable.start(at: point)
-        needsDisplay = true
-    }
-    
-    func move(to point: NSPoint) {
-        currentDrawable.moved(to: point)
-        needsDisplay = true
-    }
-    
-    func finish(at point: NSPoint) {
-        if currentDrawable.finish(at: point) {
-            drawables.append(currentDrawable)
-        }
-        currentDrawable = currentDrawFactory()
-        needsDisplay = true
-    }
-    
-    func undo() {
-        drawables.removeLast()
-        needsDisplay = true
-    }
-    
-    func restore() {
-        drawables.removeAll()
-        currentDrawable = currentDrawFactory()
-        needsDisplay = true
-    }
-    
-    func update(from other: FogOfWarImageView) {
-        drawables = other.drawables
-        needsDisplay = true
-    }
-    
 }

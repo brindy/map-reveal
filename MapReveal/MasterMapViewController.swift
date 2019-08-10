@@ -19,6 +19,7 @@ class MasterMapViewController: NSViewController {
         let otherWindowController = storyboard?.instantiateController(withIdentifier: "VisibleMap") as? NSWindowController
         guard let otherViewController = otherWindowController?.contentViewController as? MapRenderingViewController else { return }
         otherViewController.fog?.color = NSColor.white
+        otherViewController.editable = false
         self.playerMap = otherViewController
         otherWindowController?.showWindow(self)
     }
@@ -68,25 +69,4 @@ class MasterMapViewController: NSViewController {
         playerMap?.fog?.update(from: fog)
     }
     
-    override func mouseDown(with event: NSEvent) {
-        super.mouseDown(with: event)
-        let point = view.convert(event.locationInWindow, to: gmMap?.imageView)
-        print(#function, point)
-        gmMap?.fog?.start(at: point)
-    }
-    
-    override func mouseUp(with event: NSEvent) {
-        super.mouseUp(with: event)
-        let point = view.convert(event.locationInWindow, to: gmMap?.imageView)
-        print(#function, point)
-        gmMap?.fog?.finish(at: point)
-    }
-    
-    override func mouseDragged(with event: NSEvent) {
-        super.mouseDragged(with: event)
-        let point = view.convert(event.locationInWindow, to: gmMap?.imageView)
-        print(#function, point)
-        gmMap?.fog?.move(to: point)
-    }
-
 }
