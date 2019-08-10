@@ -13,6 +13,7 @@
 		850385EE22F48C08002259DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850385EC22F48C08002259DB /* Main.storyboard */; };
 		850385F722F49B35002259DB /* CenteringClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385F622F49B35002259DB /* CenteringClipView.swift */; };
 		8526684D22FBAB31006AD48A /* MasterMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526684C22FBAB31006AD48A /* MasterMapViewController.swift */; };
+		8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526684E22FBB1C9006AD48A /* Drawable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		850385F022F48C08002259DB /* MapReveal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapReveal.entitlements; sourceTree = "<group>"; };
 		850385F622F49B35002259DB /* CenteringClipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteringClipView.swift; sourceTree = "<group>"; };
 		8526684C22FBAB31006AD48A /* MasterMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterMapViewController.swift; sourceTree = "<group>"; };
+		8526684E22FBB1C9006AD48A /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,11 +62,12 @@
 				850385E622F48C06002259DB /* AppDelegate.swift */,
 				850385EA22F48C08002259DB /* Assets.xcassets */,
 				850385F622F49B35002259DB /* CenteringClipView.swift */,
+				8526684E22FBB1C9006AD48A /* Drawable.swift */,
 				850385EF22F48C08002259DB /* Info.plist */,
 				850385EC22F48C08002259DB /* Main.storyboard */,
+				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
 				8526684C22FBAB31006AD48A /* MasterMapViewController.swift */,
-				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 				8526684D22FBAB31006AD48A /* MasterMapViewController.swift in Sources */,
 				850385E722F48C06002259DB /* AppDelegate.swift in Sources */,
 				850385F722F49B35002259DB /* CenteringClipView.swift in Sources */,
+				8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
