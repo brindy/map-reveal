@@ -40,9 +40,8 @@ class MasterMapViewController: NSViewController {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
         panel.allowsMultipleSelection = false
-        if panel.runModal() == .OK {
-            gmMap?.loadImage(panel.url!)
-            playerMap?.loadImage(panel.url!)
+        if panel.runModal() == .OK, let url = panel.url {
+            loadImage(from: url)
         }
         
     }
@@ -68,5 +67,26 @@ class MasterMapViewController: NSViewController {
         guard let fog = gmMap?.fog else { return }
         playerMap?.fog?.update(from: fog)
     }
+    
+    private func loadImage(from url: URL) {
+        
+        // let fm = FileManager.default.contain
+        
+        gmMap?.loadImage(url)
+        playerMap?.loadImage(url)
+
+    }
+    
+}
+
+extension MasterMapViewController: NSTableViewDelegate {
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return 0
+    }
+    
+}
+
+extension MasterMapViewController: NSTableViewDataSource {
     
 }
