@@ -8,7 +8,7 @@
 
 import AppKit
 
-class MasterMapViewController: NSViewController {
+class MainViewController: NSViewController {
     
     weak var gmMap: MapRenderingViewController?
     weak var playerMap: MapRenderingViewController?
@@ -70,16 +70,17 @@ class MasterMapViewController: NSViewController {
     
     private func loadImage(from url: URL) {
         
-        // let fm = FileManager.default.contain
-        
-        gmMap?.loadImage(url)
-        playerMap?.loadImage(url)
+        AppModel.shared.addImage(from: url) { url, error in
+            guard let url = url, error == nil else { return }
+            self.gmMap?.loadImage(url)
+            self.playerMap?.loadImage(url)
+        }
 
     }
     
 }
 
-extension MasterMapViewController: NSTableViewDelegate {
+extension MainViewController: NSTableViewDelegate {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return 0
@@ -87,6 +88,6 @@ extension MasterMapViewController: NSTableViewDelegate {
     
 }
 
-extension MasterMapViewController: NSTableViewDataSource {
+extension MainViewController: NSTableViewDataSource {
     
 }

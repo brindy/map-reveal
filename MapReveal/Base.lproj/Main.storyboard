@@ -763,10 +763,10 @@
             </objects>
             <point key="canvasLocation" x="75" y="291.5"/>
         </scene>
-        <!--Master Map View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="TqQ-XM-Tft">
             <objects>
-                <viewController id="yc7-69-gjm" customClass="MasterMapViewController" customModule="MapReveal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="yc7-69-gjm" customClass="MainViewController" sceneMemberID="viewController">
                     <view key="view" id="nLx-Ka-aXC">
                         <rect key="frame" x="0.0" y="0.0" width="928" height="622"/>
                         <autoresizingMask key="autoresizingMask"/>

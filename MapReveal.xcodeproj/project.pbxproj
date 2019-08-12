@@ -12,9 +12,11 @@
 		850385EB22F48C08002259DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 850385EA22F48C08002259DB /* Assets.xcassets */; };
 		850385EE22F48C08002259DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850385EC22F48C08002259DB /* Main.storyboard */; };
 		850385F722F49B35002259DB /* CenteringClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385F622F49B35002259DB /* CenteringClipView.swift */; };
-		8526684D22FBAB31006AD48A /* MasterMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526684C22FBAB31006AD48A /* MasterMapViewController.swift */; };
+		8526684D22FBAB31006AD48A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526684C22FBAB31006AD48A /* MainViewController.swift */; };
 		8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526684E22FBB1C9006AD48A /* Drawable.swift */; };
 		8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */; };
+		852668532301DC2D006AD48A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852668522301DC2D006AD48A /* AppModel.swift */; };
+		852668562301E082006AD48A /* Maps.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 852668542301E082006AD48A /* Maps.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,9 +28,11 @@
 		850385EF22F48C08002259DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		850385F022F48C08002259DB /* MapReveal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapReveal.entitlements; sourceTree = "<group>"; };
 		850385F622F49B35002259DB /* CenteringClipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteringClipView.swift; sourceTree = "<group>"; };
-		8526684C22FBAB31006AD48A /* MasterMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterMapViewController.swift; sourceTree = "<group>"; };
+		8526684C22FBAB31006AD48A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8526684E22FBB1C9006AD48A /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
 		8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogOfWarImageView.swift; sourceTree = "<group>"; };
+		852668522301DC2D006AD48A /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		852668552301E082006AD48A /* Maps.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Maps.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,15 +66,17 @@
 			isa = PBXGroup;
 			children = (
 				850385E622F48C06002259DB /* AppDelegate.swift */,
+				852668522301DC2D006AD48A /* AppModel.swift */,
 				850385EA22F48C08002259DB /* Assets.xcassets */,
 				850385F622F49B35002259DB /* CenteringClipView.swift */,
 				8526684E22FBB1C9006AD48A /* Drawable.swift */,
 				8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */,
 				850385EF22F48C08002259DB /* Info.plist */,
 				850385EC22F48C08002259DB /* Main.storyboard */,
+				8526684C22FBAB31006AD48A /* MainViewController.swift */,
 				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
-				8526684C22FBAB31006AD48A /* MasterMapViewController.swift */,
+				852668542301E082006AD48A /* Maps.xcdatamodeld */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -145,8 +151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				852668532301DC2D006AD48A /* AppModel.swift in Sources */,
 				850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */,
-				8526684D22FBAB31006AD48A /* MasterMapViewController.swift in Sources */,
+				852668562301E082006AD48A /* Maps.xcdatamodeld in Sources */,
+				8526684D22FBAB31006AD48A /* MainViewController.swift in Sources */,
 				850385E722F48C06002259DB /* AppDelegate.swift in Sources */,
 				850385F722F49B35002259DB /* CenteringClipView.swift in Sources */,
 				8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */,
@@ -295,6 +303,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.org.brindy.MapReveal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -315,6 +324,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.org.brindy.MapReveal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -343,6 +353,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		852668542301E082006AD48A /* Maps.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				852668552301E082006AD48A /* Maps.xcdatamodel */,
+			);
+			currentVersion = 852668552301E082006AD48A /* Maps.xcdatamodel */;
+			path = Maps.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 850385DB22F48C06002259DB /* Project object */;
 }
