@@ -14,8 +14,9 @@ class MapRenderingViewController: NSViewController {
 
     weak var fog: FogOfWarImageView?
     
+    var userMap: UserMap?
     var editable = true
- 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,7 +27,10 @@ class MapRenderingViewController: NSViewController {
         self.fog = fogOfWar
     }
             
-    func loadImage(_ url: URL) {
+    func load(_ userMap: UserMap) {
+        guard let url = userMap.imageUrl, url != self.userMap?.imageUrl else { return }
+
+        self.userMap = userMap
         print(#function, url)
         let image = NSImage(byReferencing: url)
         imageView?.image = image

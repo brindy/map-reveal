@@ -9,7 +9,9 @@
 import AppKit
 
 class MainViewController: NSViewController {
-    
+
+    @IBOutlet weak var tableView: NSTableView!
+
     weak var gmMap: MapRenderingViewController?
     weak var playerMap: MapRenderingViewController?
     
@@ -41,7 +43,10 @@ class MainViewController: NSViewController {
         panel.canChooseFiles = true
         panel.allowsMultipleSelection = false
         if panel.runModal() == .OK, let url = panel.url {
-            loadImage(from: url)
+            AppModel.shared.addImage(from: url) { error in
+                guard error == nil else { return }
+                self.tableView.reloadData()
+            }
         }
         
     }
@@ -64,30 +69,45 @@ class MainViewController: NSViewController {
     
     @IBAction func pushToOther(_ sender: Any) {
         print(#function)
+        guard tableView.selectedRow >= 0 else { return }
         guard let fog = gmMap?.fog else { return }
+
+        let userMap = AppModel.shared.userMaps[tableView.selectedRow]
+        playerMap?.load(userMap)
         playerMap?.fog?.update(from: fog)
     }
-    
-    private func loadImage(from url: URL) {
-        
-        AppModel.shared.addImage(from: url) { url, error in
-            guard let url = url, error == nil else { return }
-            self.gmMap?.loadImage(url)
-            self.playerMap?.loadImage(url)
-        }
 
+    @IBAction func imageNameEdited(_ sender: NSTextField) {
+        AppModel.shared.userMaps[tableView.selectedRow].displayName = sender.stringValue
+        AppModel.shared.save()
     }
-    
+
+    private func loadSelected() {
+        let userMap = AppModel.shared.userMaps[tableView.selectedRow]
+        gmMap?.load(userMap)
+    }
+
 }
 
 extension MainViewController: NSTableViewDelegate {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return 0
+        return AppModel.shared.userMaps.count
     }
-    
+
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        guard let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("UserMapCellId"), owner: self) as? NSTableCellView else { return nil }
+        cell.textField?.stringValue = AppModel.shared.userMaps[row].displayName ?? "<unnamed>"
+        return cell
+    }
+
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        guard tableView.selectedRow >= 0 else { return }
+        loadSelected()
+    }
+
 }
 
 extension MainViewController: NSTableViewDataSource {
-    
+
 }

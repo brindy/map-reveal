@@ -15,59 +15,80 @@ class AppModel {
 
     private var persistence = NSPersistentContainer(name: "Maps")
     
-    private var appUrl: URL {
+    fileprivate var appUrl: URL {
         let fm = FileManager.default
-        guard let folder = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+        guard let appFolder = fm.urls(for: .documentDirectory, in: .userDomainMask).first else {
             fatalError("Unable to find application support directory")
         }
-        guard let bundleId = Bundle.main.bundleIdentifier else {
-            fatalError("Unable to find bundle id")
-        }
-        let appFolder = folder.appendingPathComponent(bundleId)
+
         var isDirectory: ObjCBool = false
         let folderExists = fm.fileExists(atPath: appFolder.path, isDirectory: &isDirectory)
         if !folderExists {
             try? fm.createDirectory(at: appFolder, withIntermediateDirectories: true, attributes: nil)
-        }
-        
-        if !isDirectory.boolValue {
+        } else if !isDirectory.boolValue {
             fatalError("app folder is not a directory")
         }
         
         return appFolder
     }
+
+    lazy var userMaps: [UserMap] = []
     
     init() {
+        let semaphore = DispatchSemaphore(value: 1)
         persistence.loadPersistentStores { _, error in
-            fatalError("Error loading persistence store \(error?.localizedDescription ?? "unknown error")")
+            self.fetch()
+            semaphore.signal()
+            guard let error = error else { return }
+            fatalError(error.localizedDescription)
         }
+        semaphore.wait()
     }
     
-    func addImage(from url: URL, completion: @escaping (URL?, Error?) -> Void) {
+    func addImage(from url: URL, completion: @escaping (Error?) -> Void) {
         DispatchQueue.global(qos: .utility).async {
-            var result: URL?
             var addError: Error?
             do {
-                result = try self.addImage(at: url)
+                try self.addImage(at: url)
+                self.fetch()
             } catch {
                 addError = error
             }
             DispatchQueue.main.async {
-                completion(result, addError)
+                completion(addError)
             }
         }
     }
-    
-    private func addImage(at: URL) throws -> URL {
-        let uid = UUID().uuidString
-        let destination = appUrl.appendingPathComponent(uid).appendingPathExtension("bin")
-        try FileManager.default.copyItem(at: at, to: destination)
-        let context = self.persistence.newBackgroundContext()
-        let entity = UserMap(context: context)
-        entity.displayName = at.lastPathComponent
-        entity.uid = uid
-        try context.save()
-        return destination
+
+    func save() {
+        try? persistence.viewContext.save()
+    }
+
+    func fetch() {
+        let request: NSFetchRequest<UserMap> = UserMap.fetchRequest()
+        userMaps = (try? self.persistence.viewContext.fetch(request)) ?? []
     }
     
+    private func addImage(at url: URL) throws {
+        let uid = UUID().uuidString
+        let destination = appUrl.appendingPathComponent(uid).appendingPathExtension("bin")
+        print(#function, url, "copying to", destination)
+
+        let context = self.persistence.newBackgroundContext()
+        let entity = UserMap(context: context)
+        entity.displayName = url.lastPathComponent
+        entity.uid = uid
+        try FileManager.default.copyItem(at: url, to: destination)
+        try context.save()
+    }
+    
+}
+
+extension UserMap {
+
+    var imageUrl: URL? {
+        guard let uid = uid else { return nil }
+        return AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("bin")
+    }
+
 }
