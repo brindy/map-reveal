@@ -44,20 +44,34 @@ class AppModel {
         }
         semaphore.wait()
     }
-    
-    func addImage(from url: URL, completion: @escaping (Error?) -> Void) {
+
+    func add(gmImage: NSImage, playerImage: NSImage, named: String, completion: @escaping (Error?) -> Void) {
+
         DispatchQueue.global(qos: .utility).async {
-            var addError: Error?
+            let uid = UUID().uuidString
+
+            let gmImageUrl = AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("gm")
+            let playerImageUrl = AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("player")
+            var lastError: Error? = nil
             do {
-                try self.addImage(at: url)
+                try gmImage.write(to: gmImageUrl)
+                try playerImage.write(to: playerImageUrl)
+
+                let context = self.persistence.newBackgroundContext()
+                let entity = UserMap(context: context)
+                entity.displayName = named
+                entity.uid = uid
+                try context.save()
                 self.fetch()
             } catch {
-                addError = error
+                lastError = error
             }
+
             DispatchQueue.main.async {
-                completion(addError)
+                completion(lastError)
             }
         }
+
     }
 
     func save() {
@@ -94,9 +108,14 @@ class AppModel {
 
 extension UserMap {
 
-    var imageUrl: URL? {
+    var gmImageUrl: URL? {
         guard let uid = uid else { return nil }
-        return AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("bin")
+        return AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("gm")
+    }
+
+    var playerImageUrl: URL? {
+        guard let uid = uid else { return nil }
+        return AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("player")
     }
 
     var revealedUrl: URL? {
@@ -105,10 +124,28 @@ extension UserMap {
     }
 
     func deleteFiles() {
-        guard let imageUrl = imageUrl, let revealedUrl = revealedUrl else { return }
+        guard let gmImageUrl = gmImageUrl, let playerImageUrl = playerImageUrl, let revealedUrl = revealedUrl else { return }
         let fm = FileManager.default
-        try? fm.removeItem(at: imageUrl)
+        try? fm.removeItem(at: gmImageUrl)
+        try? fm.removeItem(at: playerImageUrl)
         try? fm.removeItem(at: revealedUrl)
+    }
+
+}
+
+extension NSImage {
+
+    func write(to url: URL) throws {
+        guard let image = cgImage(forProposedRect: nil, context: nil, hints: nil) else { return }
+
+        let rep = NSBitmapImageRep(cgImage: image)
+        rep.size = NSSize(width: image.width, height: image.height)
+        guard let imageData = rep.representation(using: .png, properties: [:]) else {
+            print(#function, "failed to create representation of image")
+            return
+        }
+
+        try imageData.write(to: url)
     }
 
 }

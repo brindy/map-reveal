@@ -17,6 +17,7 @@
 		8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */; };
 		852668532301DC2D006AD48A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852668522301DC2D006AD48A /* AppModel.swift */; };
 		852668562301E082006AD48A /* Maps.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 852668542301E082006AD48A /* Maps.xcdatamodeld */; };
+		85D47B3423027B09004E21A7 /* OpenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D47B3323027B09004E21A7 /* OpenViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogOfWarImageView.swift; sourceTree = "<group>"; };
 		852668522301DC2D006AD48A /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		852668552301E082006AD48A /* Maps.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Maps.xcdatamodel; sourceTree = "<group>"; };
+		85D47B3323027B09004E21A7 /* OpenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
 				852668542301E082006AD48A /* Maps.xcdatamodeld */,
+				85D47B3323027B09004E21A7 /* OpenViewController.swift */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -153,6 +156,7 @@
 			files = (
 				852668532301DC2D006AD48A /* AppModel.swift in Sources */,
 				850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */,
+				85D47B3423027B09004E21A7 /* OpenViewController.swift in Sources */,
 				852668562301E082006AD48A /* Maps.xcdatamodeld in Sources */,
 				8526684D22FBAB31006AD48A /* MainViewController.swift in Sources */,
 				850385E722F48C06002259DB /* AppDelegate.swift in Sources */,

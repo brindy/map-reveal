@@ -743,8 +743,17 @@
                                         <action selector="pushToOther:" target="Oky-zY-oP4" id="M4H-Yg-QRA"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="38115BD7-B4A6-4D42-915C-07B7CC94E633" explicitItemIdentifier="Open" label="Open" paletteLabel="Open" tag="-1" image="NSFolder" id="lr8-mL-WsC">
+                                    <size key="minSize" width="32" height="32"/>
+                                    <size key="maxSize" width="32" height="32"/>
+                                    <connections>
+                                        <action selector="openDocument:" target="Oky-zY-oP4" id="dYB-yq-RXF"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
+                                <toolbarItem reference="lr8-mL-WsC"/>
+                                <toolbarItem reference="vaL-3e-iJI"/>
                                 <toolbarItem reference="Nbb-84-eF2"/>
                                 <toolbarItem reference="Ysq-5T-peu"/>
                                 <toolbarItem reference="r6S-hO-qcM"/>
@@ -766,6 +775,138 @@
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="291.5"/>
+        </scene>
+        <!--Open View Controller-->
+        <scene sceneID="11R-3g-l2i">
+            <objects>
+                <viewController id="zhf-Oi-43h" customClass="OpenViewController" customModule="MapReveal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="mnn-1M-BCo">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="359"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Po-aR-FDH">
+                                <rect key="frame" x="17" y="105" width="200" height="179"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="tHQ-Wy-TMm"/>
+                                <connections>
+                                    <action selector="imageSelectedWithSender:" target="zhf-Oi-43h" id="6eg-5E-aQF"/>
+                                </connections>
+                            </imageView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8uq-pQ-sGV">
+                                <rect key="frame" x="233" y="105" width="200" height="179"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="deG-Dp-Mxg"/>
+                                <connections>
+                                    <action selector="imageSelectedWithSender:" target="zhf-Oi-43h" id="TwE-im-wIj"/>
+                                </connections>
+                            </imageView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kph-yb-xOS">
+                                <rect key="frame" x="18" y="292" width="55" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="GM Map" id="l0j-kV-sWf">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hX1-En-jdF">
+                                <rect key="frame" x="234" y="292" width="71" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Player Map" id="C7X-Bt-bph">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L0J-3e-y2M">
+                                <rect key="frame" x="363" y="14" width="73" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DsC-fN-2HB">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openClickedWithSneder:" target="zhf-Oi-43h" id="Gem-D7-TOV"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uMl-LN-fCZ">
+                                <rect key="frame" x="14" y="14" width="82" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ENK-6P-V4J">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="zhf-Oi-43h" id="SBh-kF-lFh"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kUp-UM-d35">
+                                <rect key="frame" x="18" y="49" width="414" height="43"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" selectable="YES" title="Click above, or drag in images.  If you only select one image it will be used for both GMs and Players." id="0Va-fN-oJn">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wuk-UY-pQQ">
+                                <rect key="frame" x="401" y="288" width="35" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSAddTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="g1b-ua-ocB">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectPlayerImageWithSender:" target="zhf-Oi-43h" id="vNN-lk-9tN"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FY0-fI-k0d">
+                                <rect key="frame" x="185" y="287" width="35" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSAddTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="psF-dB-lBj">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectGMImageWithSender:" target="zhf-Oi-43h" id="VSx-dT-W6E"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SKq-MK-4UB">
+                                <rect key="frame" x="59" y="320" width="371" height="21"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="0zT-7c-lrq">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="zhf-Oi-43h" id="afb-7B-Qz8"/>
+                                </connections>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yTd-eM-Ry9">
+                                <rect key="frame" x="18" y="323" width="51" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Title" id="Jv1-lu-8n3">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="gmImage" destination="9Po-aR-FDH" id="iQE-iW-CUq"/>
+                        <outlet property="nameField" destination="SKq-MK-4UB" id="ICm-Ra-oA9"/>
+                        <outlet property="openButton" destination="L0J-3e-y2M" id="Wru-Cb-MS2"/>
+                        <outlet property="playerImage" destination="8uq-pQ-sGV" id="t7h-8X-HtK"/>
+                    </connections>
+                </viewController>
+                <customObject id="0mr-jH-w68" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-891" y="1817.5"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="TqQ-XM-Tft">
@@ -894,6 +1035,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="MDi-Oy-6Lv" id="mB9-y4-c0S"/>
+                        <segue destination="zhf-Oi-43h" kind="sheet" identifier="Open" id="FCX-nJ-wuG"/>
                     </connections>
                 </viewController>
                 <customObject id="g6t-19-GcS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -975,6 +1117,8 @@
         <image name="MRPointer" width="48" height="48"/>
         <image name="MRRect" width="48" height="48"/>
         <image name="MRSend" width="48" height="48"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSFolder" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="9ov-bc-5SS"/>

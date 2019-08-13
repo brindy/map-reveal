@@ -21,7 +21,8 @@ class MapRenderingViewController: NSViewController {
         }
     }
 
-    var userMap: UserMap?
+    var imageUrl: URL?
+    var revealedUrl: URL?
     var editable = true
 
     override func viewDidLoad() {
@@ -34,13 +35,12 @@ class MapRenderingViewController: NSViewController {
         self.fog = fogOfWar
     }
             
-    func load(_ userMap: UserMap) {
-        guard let url = userMap.imageUrl, url != self.userMap?.imageUrl else { return }
+    func load(imageUrl: URL, revealedUrl: URL) {
 
-        self.userMap = userMap
-        print(#function, url)
+        self.imageUrl = imageUrl
+        self.revealedUrl = revealedUrl
 
-        let image = NSImage(byReferencing: url)
+        let image = NSImage(byReferencing: imageUrl)
         imageView?.image = image
 
         guard let currentFrame = imageView?.frame else { return }
@@ -51,7 +51,6 @@ class MapRenderingViewController: NSViewController {
         fog?.restore()
         scrollView.magnify(toFit: newFrame)
 
-        guard let revealedUrl = userMap.revealedUrl else { return }
         DispatchQueue.global(qos: .utility).async {
             self.fog?.readRevealed(from: revealedUrl)
         }
@@ -95,7 +94,7 @@ class MapRenderingViewController: NSViewController {
         print(#function, point)
         fog?.finish(at: point)
 
-        guard let revealedUrl = userMap?.revealedUrl else { return }
+        guard let revealedUrl = revealedUrl else { return }
         self.fog?.writeRevealed(to: revealedUrl)
     }
     

@@ -37,21 +37,15 @@ class MainViewController: NSViewController {
         if let controller = segue.destinationController as? MapRenderingViewController {
             gmMap = controller
         }
-    }
-    
-    @IBAction func openDocument(_ sender: Any) {
-        
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = true
-        panel.allowsMultipleSelection = false
-        if panel.runModal() == .OK, let url = panel.url {
-            AppModel.shared.addImage(from: url) { error in
-                guard error == nil else { return }
-                self.tableView.reloadData()
-                self.selectLast()
-            }
+        if let controller = segue.destinationController as? OpenViewController {
+            controller.delegate = self
         }
-        
+    }
+
+    @IBAction func openDocument(_ sender: Any) {
+
+        performSegue(withIdentifier: NSStoryboardSegue.Identifier("Open"), sender: self)
+
     }
 
     @IBAction func delete(_ sender: Any) {
@@ -64,7 +58,7 @@ class MainViewController: NSViewController {
 
         gmMap?.clear()
 
-        if playerMap?.userMap == userMap {
+        if playerMap?.imageUrl == userMap.playerImageUrl {
             playerMap?.clear()
         }
 
@@ -97,9 +91,9 @@ class MainViewController: NSViewController {
     
     @IBAction func pushToOther(_ sender: Any) {
         print(#function)
-        guard let userMap = selectedUserMap else { return }
+        guard let playerImageUrl = selectedUserMap?.playerImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
         guard let fog = gmMap?.fog else { return }
-        playerMap?.load(userMap)
+        playerMap?.load(imageUrl: playerImageUrl, revealedUrl: revealedUrl)
         playerMap?.update(from: fog)
     }
 
@@ -111,7 +105,8 @@ class MainViewController: NSViewController {
     private func loadSelected() {
         let userMap = AppModel.shared.userMaps[tableView.selectedRow]
         selectedUserMap = userMap
-        gmMap?.load(userMap)
+        guard let gmImageUrl = selectedUserMap?.gmImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
+        gmMap?.load(imageUrl: gmImageUrl, revealedUrl: revealedUrl)
     }
 
     private func selectLast() {
@@ -120,7 +115,7 @@ class MainViewController: NSViewController {
     }
 }
 
-extension MainViewController: NSTableViewDelegate {
+extension MainViewController: NSTableViewDelegate, NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return AppModel.shared.userMaps.count
@@ -139,6 +134,15 @@ extension MainViewController: NSTableViewDelegate {
 
 }
 
-extension MainViewController: NSTableViewDataSource {
+extension MainViewController: OpenDelegate {
+
+    func viewController(_ controller: OpenViewController, didOpenImages images: [NSImage], named: String) {
+        print(#function)
+        AppModel.shared.add(gmImage: images[0], playerImage: images.count > 1 ? images[1] : images[0], named: named) { error in
+            guard error == nil else { return }
+            self.tableView.reloadData()
+            self.selectLast()
+        }
+    }
 
 }
