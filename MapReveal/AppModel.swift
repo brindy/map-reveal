@@ -61,6 +61,9 @@ class AppModel {
     }
 
     func save() {
+        persistence.viewContext.deletedObjects.forEach {
+            ($0 as? UserMap)?.deleteFiles()
+        }
         try? persistence.viewContext.save()
         fetch()
     }
@@ -99,6 +102,13 @@ extension UserMap {
     var revealedUrl: URL? {
         guard let uid = uid else { return nil }
         return AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("revealed")
+    }
+
+    func deleteFiles() {
+        guard let imageUrl = imageUrl, let revealedUrl = revealedUrl else { return }
+        let fm = FileManager.default
+        try? fm.removeItem(at: imageUrl)
+        try? fm.removeItem(at: revealedUrl)
     }
 
 }

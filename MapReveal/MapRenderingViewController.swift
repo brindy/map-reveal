@@ -53,8 +53,17 @@ class MapRenderingViewController: NSViewController {
 
     func update(from other: FogOfWarImageView) {
         fog?.update(from: other)
-        guard let frame = imageView?.frame else { return }
+
+        guard let image = imageView.image else { return }
+        let frame = NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+        imageView.frame = frame
         scrollView.magnify(toFit: frame)
+    }
+
+    func clear() {
+        imageView.image = nil
+        imageView.frame = NSRect(x: 0, y: 0, width: 0, height: 0)
+        fog?.restore()
     }
     
     override func mouseDown(with event: NSEvent) {

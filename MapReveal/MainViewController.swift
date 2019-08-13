@@ -46,6 +46,7 @@ class MainViewController: NSViewController {
             AppModel.shared.addImage(from: url) { error in
                 guard error == nil else { return }
                 self.tableView.reloadData()
+                self.selectLast()
             }
         }
         
@@ -53,9 +54,18 @@ class MainViewController: NSViewController {
 
     @IBAction func delete(_ sender: Any) {
         guard tableView.selectedRow >= 0 else { return }
-        AppModel.shared.delete(AppModel.shared.userMaps[tableView.selectedRow])
+
+        let userMap = AppModel.shared.userMaps[tableView.selectedRow]
+        AppModel.shared.delete(userMap)
         AppModel.shared.save()
         tableView.reloadData()
+
+        gmMap?.clear()
+
+        if playerMap?.userMap == userMap {
+            playerMap?.clear()
+        }
+
     }
 
     @IBAction func setRevealPaint(_ sender: Any) {
@@ -94,6 +104,10 @@ class MainViewController: NSViewController {
         gmMap?.load(userMap)
     }
 
+    private func selectLast() {
+        let index = AppModel.shared.userMaps.count - 1
+        tableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
+    }
 }
 
 extension MainViewController: NSTableViewDelegate {
