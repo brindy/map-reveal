@@ -71,6 +71,14 @@ class MapRenderingViewController: NSViewController {
         imageView.frame = NSRect(x: 0, y: 0, width: 0, height: 0)
         fog?.restore()
     }
+
+    func usePaintTool() {
+        fog?.usePaintTool()
+    }
+
+    func useAreaTool() {
+        fog?.useAreaTool()
+    }
     
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)

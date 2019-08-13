@@ -27,49 +27,44 @@ class FogOfWarImageView: NSView {
         super.draw(dirtyRect)
         
         guard let context = NSGraphicsContext.current else { return }
+
+        // Fill in the background color
         context.saveGraphicsState()
         context.cgContext.setFillColor(color.cgColor)
         context.cgContext.fill(bounds)
-        
-        draw(drawables, into: context)
+        context.restoreGraphicsState()
 
+        // Erase or draw depending on drawables revealing type
+        draw(drawables, into: context)
         if let currentDrawable = currentDrawable {
             draw([currentDrawable], into: context)
         }
 
-        if follow {
-            context.cgContext.setStrokeColor(NSColor.black.cgColor)
-            context.cgContext.setLineWidth(5)
-            context.cgContext.setFillColor(NSColor.black.cgColor)
-            currentDrawable?.follow(into: context.cgContext)
-        }
-        
-        context.restoreGraphicsState()
-    }
-    
-    private func draw(_ drawables: [Drawable], into context: NSGraphicsContext) {
-        drawables.forEach {
+        // if drawing the follow of the mouse do so for current drawable
+        if follow, let currentDrawable = currentDrawable {
             context.saveGraphicsState()
-
-            if $0.revealing {
-                context.compositingOperation = .destinationIn
-                context.cgContext.setFillColor(NSColor.clear.cgColor)
-                context.cgContext.setStrokeColor(NSColor.clear.cgColor)
-            } else {
-                context.compositingOperation = .destinationOver
-                context.cgContext.setFillColor(color.cgColor)
-                context.cgContext.setStrokeColor(color.cgColor)
-            }
-            $0.reveal(into: context.cgContext)
-
+            context.cgContext.setStrokeColor(CGColor.black)
+            context.cgContext.setLineWidth(5)
+            currentDrawable.follow(into: context.cgContext)
             context.restoreGraphicsState()
         }
+        
     }
-    
+
+    func usePaintTool() {
+        currentDrawFactory = PaintDrawable.factory
+        newDrawable()
+    }
+
+    func useAreaTool() {
+        currentDrawFactory = AreaDrawable.factory
+        newDrawable()
+    }
+
     func start(at point: NSPoint) {
 
         if nil == currentDrawable {
-            currentDrawable = currentDrawFactory(revealing)
+            newDrawable()
         }
 
         currentDrawable?.start(at: point)
@@ -88,13 +83,13 @@ class FogOfWarImageView: NSView {
                 drawables = [PNGDrawable(image: image)]
             }
         }
-        currentDrawable = currentDrawFactory(revealing)
+        newDrawable()
         needsDisplay = true
     }
     
     func restore() {
         drawables.removeAll()
-        currentDrawable = currentDrawFactory(revealing)
+        newDrawable()
         needsDisplay = true
     }
     
@@ -159,6 +154,27 @@ class FogOfWarImageView: NSView {
         }
 
         drawables = [PNGDrawable(image: cgImage)]
+        DispatchQueue.main.async {
+            self.needsDisplay = true
+        }
     }
-    
+
+    private func draw(_ drawables: [Drawable], into context: NSGraphicsContext) {
+        drawables.forEach {
+            context.saveGraphicsState()
+            configure(context, for: $0.revealing)
+            $0.reveal(into: context.cgContext)
+            context.restoreGraphicsState()
+        }
+    }
+
+    private func newDrawable() {
+        currentDrawable = currentDrawFactory(revealing)
+    }
+
+    private func configure(_ context: NSGraphicsContext, for revealing: Bool) {
+        context.compositingOperation = revealing ? .destinationIn : .color
+        context.cgContext.setFillColor(revealing ? CGColor.clear : CGColor.white)
+    }
+
 }

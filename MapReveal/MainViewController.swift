@@ -72,9 +72,11 @@ class MainViewController: NSViewController {
 
     @IBAction func setRevealPaint(_ sender: Any) {
         print(#function)
+        gmMap?.usePaintTool()
     }
     
     @IBAction func setRevealArea(_ sender: Any) {
+        gmMap?.useAreaTool()
         print(#function)
     }
     

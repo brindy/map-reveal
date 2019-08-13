@@ -102,6 +102,52 @@ class PaintDrawable: NSObject, Drawable {
 
 }
 
+class AreaDrawable: NSObject, Drawable {
+
+    static func factory(revealing: Bool) -> Drawable {
+        return AreaDrawable(revealing)
+    }
+
+    let followFillColor = NSColor(white: 1.0, alpha: 0.5).cgColor
+
+    let revealing: Bool
+
+    var startPoint: NSPoint?
+    var lastPoint: NSPoint?
+
+    var rect: NSRect? {
+        guard let start = startPoint else { return nil }
+        guard let end = lastPoint else { return nil }
+        return NSRect(x: min(end.x, start.x), y: min(end.y, start.y), width: abs(end.x - start.x), height: abs(end.y - start.y))
+    }
+
+    private init(_ revealing: Bool) {
+        self.revealing = revealing
+        super.init()
+    }
+
+    func start(at point: NSPoint) {
+        startPoint = point
+    }
+
+    func moved(to point: NSPoint) {
+        lastPoint = point
+    }
+
+    func reveal(into context: CGContext) {
+        if let rect = rect {
+            context.fill(rect)
+        }
+    }
+
+    func follow(into context: CGContext) {
+        if let rect = rect {
+            context.stroke(rect)
+        }
+    }
+
+}
+
 extension NSPoint: Hashable {
     
     public func hash(into hasher: inout Hasher) {
