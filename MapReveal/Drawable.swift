@@ -28,6 +28,10 @@ protocol Drawable: NSObjectProtocol {
 
 extension Drawable {
 
+    var revealing: Bool {
+        return true
+    }
+
     func follow(into context: CGContext) { }
 
     func start(at point: NSPoint) { }
@@ -39,8 +43,6 @@ extension Drawable {
 }
 
 class PNGDrawable: NSObject, Drawable {
-
-    var revealing: Bool = true
 
     let image: CGImage
 
@@ -58,21 +60,16 @@ class PaintDrawable: NSObject, Drawable {
 
     static func factory(revealing: Bool) -> Drawable { return PaintDrawable(revealing) }
 
-    struct Keys {
-        static let points = "points"
-    }
-
     let revealing: Bool
 
-    init(_ revealing: Bool) {
+    var width: CGFloat = 50
+    var points = Set<NSPoint>()
+    var lastPoint: NSPoint?
+
+    private init(_ revealing: Bool) {
         self.revealing = revealing
         super.init()
     }
-
-    var points = Set<NSPoint>()
-
-    var width: CGFloat = 50
-    var lastPoint: NSPoint?
 
     func start(at point: NSPoint) {
         lastPoint = point
@@ -99,7 +96,7 @@ class PaintDrawable: NSObject, Drawable {
         }
     }
     
-    func rect(from point: NSPoint) -> CGRect {
+    private func rect(from point: NSPoint) -> CGRect {
         return CGRect(x: point.x - width / 2, y: point.y - width / 2, width: width, height: width)
     }
 

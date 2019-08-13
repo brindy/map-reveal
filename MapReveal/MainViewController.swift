@@ -14,6 +14,8 @@ class MainViewController: NSViewController {
 
     weak var gmMap: MapRenderingViewController?
     weak var playerMap: MapRenderingViewController?
+
+    var selectedUserMap: UserMap?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,10 +95,8 @@ class MainViewController: NSViewController {
     
     @IBAction func pushToOther(_ sender: Any) {
         print(#function)
-        guard tableView.selectedRow >= 0 else { return }
+        guard let userMap = selectedUserMap else { return }
         guard let fog = gmMap?.fog else { return }
-
-        let userMap = AppModel.shared.userMaps[tableView.selectedRow]
         playerMap?.load(userMap)
         playerMap?.update(from: fog)
     }
@@ -108,6 +108,7 @@ class MainViewController: NSViewController {
 
     private func loadSelected() {
         let userMap = AppModel.shared.userMaps[tableView.selectedRow]
+        selectedUserMap = userMap
         gmMap?.load(userMap)
     }
 
