@@ -958,6 +958,7 @@
                     </view>
                     <connections>
                         <outlet property="imageView" destination="WnQ-ON-iut" id="LK2-Ea-svg"/>
+                        <outlet property="scrollView" destination="ZBM-iW-rv8" id="rCA-8P-yCn"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

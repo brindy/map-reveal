@@ -74,7 +74,7 @@ class MainViewController: NSViewController {
 
         let userMap = AppModel.shared.userMaps[tableView.selectedRow]
         playerMap?.load(userMap)
-        playerMap?.fog?.update(from: fog)
+        playerMap?.update(from: fog)
     }
 
     @IBAction func imageNameEdited(_ sender: NSTextField) {

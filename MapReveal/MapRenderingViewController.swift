@@ -11,6 +11,7 @@ import Cocoa
 class MapRenderingViewController: NSViewController {
 
     @IBOutlet weak var imageView: NSImageView!
+    @IBOutlet weak var scrollView: NSScrollView!
 
     weak var fog: FogOfWarImageView?
     
@@ -35,9 +36,17 @@ class MapRenderingViewController: NSViewController {
         let image = NSImage(byReferencing: url)
         imageView?.image = image
         guard let currentFrame = imageView?.frame else { return }
-        imageView?.frame = NSRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: image.size.width, height: image.size.height)
+        let newFrame = NSRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: image.size.width, height: image.size.height)
+        imageView?.frame = newFrame
         view.needsLayout = true
         fog?.restore()
+        scrollView.magnify(toFit: newFrame)
+    }
+
+    func update(from other: FogOfWarImageView) {
+        fog?.update(from: other)
+        guard let frame = imageView?.frame else { return }
+        scrollView.magnify(toFit: frame)
     }
     
     override func mouseDown(with event: NSEvent) {
