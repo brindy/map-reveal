@@ -83,6 +83,13 @@ class MainViewController: NSViewController {
     @IBAction func activatePointer(_ sender: Any) {
         print(#function)
     }
+
+    @IBAction func toggleReveal(_ sender: Any) {
+        print(#function, sender)
+
+        gmMap?.revealing = (sender as? NSButton)?.state == NSControl.StateValue.on
+
+    }
     
     @IBAction func pushToOther(_ sender: Any) {
         print(#function)

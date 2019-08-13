@@ -10,7 +10,9 @@ import AppKit
 
 protocol Drawable: NSObjectProtocol {
     
-    typealias Factory = (() -> Drawable)
+    typealias Factory = ((Bool) -> Drawable)
+
+    var revealing: Bool { get }
 
     func follow(into context: CGContext)
     
@@ -38,6 +40,8 @@ extension Drawable {
 
 class PNGDrawable: NSObject, Drawable {
 
+    var revealing: Bool = true
+
     let image: CGImage
 
     init(image: CGImage) {
@@ -52,10 +56,17 @@ class PNGDrawable: NSObject, Drawable {
 
 class PaintDrawable: NSObject, Drawable {
 
-    static func factory() -> Drawable { return PaintDrawable() }
+    static func factory(revealing: Bool) -> Drawable { return PaintDrawable(revealing) }
 
     struct Keys {
         static let points = "points"
+    }
+
+    let revealing: Bool
+
+    init(_ revealing: Bool) {
+        self.revealing = revealing
+        super.init()
     }
 
     var points = Set<NSPoint>()

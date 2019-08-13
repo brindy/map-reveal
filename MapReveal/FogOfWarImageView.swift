@@ -9,14 +9,20 @@
 import AppKit
 
 class FogOfWarImageView: NSView {
-    
+
+    var revealing = true {
+        didSet {
+            currentDrawable = currentDrawFactory(revealing)
+        }
+    }
+
     var color: NSColor = NSColor(white: 1.0, alpha: 0.5)
     var follow = true
     var currentDrawFactory: Drawable.Factory = PaintDrawable.factory
     
-    private var currentDrawable: Drawable = PaintDrawable()
+    private var currentDrawable: Drawable?
     private var drawables = [Drawable]()
-    
+
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -25,49 +31,70 @@ class FogOfWarImageView: NSView {
         context.cgContext.setFillColor(color.cgColor)
         context.cgContext.fill(bounds)
         
-        reveal(context: context)
-        
+        draw(drawables, into: context)
+
+        if let currentDrawable = currentDrawable {
+            draw([currentDrawable], into: context)
+        }
+
         if follow {
             context.cgContext.setStrokeColor(NSColor.black.cgColor)
             context.cgContext.setLineWidth(5)
             context.cgContext.setFillColor(NSColor.black.cgColor)
-            currentDrawable.follow(into: context.cgContext)
+            currentDrawable?.follow(into: context.cgContext)
         }
         
         context.restoreGraphicsState()
     }
     
-    private func reveal(context: NSGraphicsContext) {
-        context.saveGraphicsState()
-        context.compositingOperation = .destinationIn
-        context.cgContext.setFillColor(NSColor.clear.cgColor)
-        context.cgContext.setStrokeColor(NSColor.clear.cgColor)
-        currentDrawable.reveal(into: context.cgContext)
-        drawables.forEach { $0.reveal(into: context.cgContext )}
-        context.restoreGraphicsState()
+    private func draw(_ drawables: [Drawable], into context: NSGraphicsContext) {
+        drawables.forEach {
+            context.saveGraphicsState()
+
+            if $0.revealing {
+                context.compositingOperation = .destinationIn
+                context.cgContext.setFillColor(NSColor.clear.cgColor)
+                context.cgContext.setStrokeColor(NSColor.clear.cgColor)
+            } else {
+                context.compositingOperation = .destinationOver
+                context.cgContext.setFillColor(color.cgColor)
+                context.cgContext.setStrokeColor(color.cgColor)
+            }
+            $0.reveal(into: context.cgContext)
+
+            context.restoreGraphicsState()
+        }
     }
     
     func start(at point: NSPoint) {
-        currentDrawable.start(at: point)
+
+        if nil == currentDrawable {
+            currentDrawable = currentDrawFactory(revealing)
+        }
+
+        currentDrawable?.start(at: point)
         needsDisplay = true
     }
     
     func move(to point: NSPoint) {
-        currentDrawable.moved(to: point)
+        currentDrawable?.moved(to: point)
         needsDisplay = true
     }
     
     func finish(at point: NSPoint) {
-        if currentDrawable.finish(at: point) {
+        if let currentDrawable = currentDrawable, currentDrawable.finish(at: point) {
             drawables.append(currentDrawable)
+            if let image = createImage() {
+                drawables = [PNGDrawable(image: image)]
+            }
         }
-        currentDrawable = currentDrawFactory()
+        currentDrawable = currentDrawFactory(revealing)
         needsDisplay = true
     }
     
     func restore() {
         drawables.removeAll()
-        currentDrawable = currentDrawFactory()
+        currentDrawable = currentDrawFactory(revealing)
         needsDisplay = true
     }
     
@@ -76,8 +103,7 @@ class FogOfWarImageView: NSView {
         needsDisplay = true
     }
 
-    func writeRevealed(to url: URL) {
-
+    func createImage() -> CGImage? {
         let cgContext = CGContext(data: nil,
                            width: Int(frame.width),
                            height: Int(frame.height),
@@ -92,9 +118,17 @@ class FogOfWarImageView: NSView {
 
         cgContext.fill(frame)
 
-        reveal(context: nsContext)
+        draw(drawables, into: nsContext)
 
-        let image = cgContext.makeImage()!
+        return cgContext.makeImage()
+    }
+
+    func writeRevealed(to url: URL) {
+
+        guard let image = createImage() else {
+            print(#function, "failed to create image")
+            return
+        }
 
         let rep = NSBitmapImageRep(cgImage: image)
         rep.size = frame.size
@@ -125,7 +159,6 @@ class FogOfWarImageView: NSView {
         }
 
         drawables = [PNGDrawable(image: cgImage)]
-
     }
     
 }

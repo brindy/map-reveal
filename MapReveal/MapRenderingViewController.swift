@@ -14,7 +14,13 @@ class MapRenderingViewController: NSViewController {
     @IBOutlet weak var scrollView: NSScrollView!
 
     weak var fog: FogOfWarImageView?
-    
+
+    var revealing = true {
+        didSet {
+            fog?.revealing = revealing
+        }
+    }
+
     var userMap: UserMap?
     var editable = true
 
