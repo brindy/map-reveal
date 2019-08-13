@@ -51,6 +51,13 @@ class MainViewController: NSViewController {
         
     }
 
+    @IBAction func delete(_ sender: Any) {
+        guard tableView.selectedRow >= 0 else { return }
+        AppModel.shared.delete(AppModel.shared.userMaps[tableView.selectedRow])
+        AppModel.shared.save()
+        tableView.reloadData()
+    }
+
     @IBAction func setRevealPaint(_ sender: Any) {
         print(#function)
     }

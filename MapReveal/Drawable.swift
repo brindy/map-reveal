@@ -8,7 +8,7 @@
 
 import AppKit
 
-protocol Drawable: NSObjectProtocol, NSCoding {
+protocol Drawable: NSObjectProtocol {
     
     typealias Factory = (() -> Drawable)
 
@@ -25,13 +25,29 @@ protocol Drawable: NSObjectProtocol, NSCoding {
 }
 
 extension Drawable {
-    
+
+    func follow(into context: CGContext) { }
+
     func start(at point: NSPoint) { }
     
     func moved(to point: NSPoint) { }
     
     func finish(at point: NSPoint) -> Bool { return true }
     
+}
+
+class PNGDrawable: NSObject, Drawable {
+
+    let image: CGImage
+
+    init(image: CGImage) {
+        self.image = image
+    }
+
+    func reveal(into context: CGContext) {
+        context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+    }
+
 }
 
 class PaintDrawable: NSObject, Drawable {
@@ -46,14 +62,6 @@ class PaintDrawable: NSObject, Drawable {
 
     var width: CGFloat = 50
     var lastPoint: NSPoint?
-
-    required init?(coder: NSCoder) {
-        points = (coder.decodeObject(forKey: Keys.points) as? Set<NSPoint>) ?? Set<NSPoint>()
-    }
-
-    override init() {
-        super.init()
-    }
 
     func start(at point: NSPoint) {
         lastPoint = point
@@ -82,10 +90,6 @@ class PaintDrawable: NSObject, Drawable {
     
     func rect(from point: NSPoint) -> CGRect {
         return CGRect(x: point.x - width / 2, y: point.y - width / 2, width: width, height: width)
-    }
-
-    func encode(with coder: NSCoder) {
-        coder.encode(points, forKey: Keys.points)
     }
 
 }

@@ -62,11 +62,16 @@ class AppModel {
 
     func save() {
         try? persistence.viewContext.save()
+        fetch()
     }
 
     func fetch() {
         let request: NSFetchRequest<UserMap> = UserMap.fetchRequest()
         userMaps = (try? self.persistence.viewContext.fetch(request)) ?? []
+    }
+
+    func delete(_ userMap: UserMap) {
+        persistence.viewContext.delete(userMap)        
     }
     
     private func addImage(at url: URL) throws {

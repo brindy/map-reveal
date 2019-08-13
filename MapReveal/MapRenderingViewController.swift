@@ -73,9 +73,7 @@ class MapRenderingViewController: NSViewController {
         fog?.finish(at: point)
 
         guard let revealedUrl = userMap?.revealedUrl else { return }
-        DispatchQueue.global(qos: .utility).async {
-            self.fog?.writeRevealed(to: revealedUrl)
-        }
+        self.fog?.writeRevealed(to: revealedUrl)
     }
     
     override func mouseDragged(with event: NSEvent) {

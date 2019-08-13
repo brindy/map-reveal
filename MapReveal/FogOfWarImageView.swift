@@ -77,31 +77,55 @@ class FogOfWarImageView: NSView {
     }
 
     func writeRevealed(to url: URL) {
-        print(#function, url)
-        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: drawables, requiringSecureCoding: false) else {
-            print(#function, "failed to archive drawables")
+
+        let cgContext = CGContext(data: nil,
+                           width: Int(frame.width),
+                           height: Int(frame.height),
+                           bitsPerComponent: 8,
+                           bytesPerRow: 0,
+                           space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                           bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+        let nsContext = NSGraphicsContext(cgContext: cgContext, flipped: false)
+
+        cgContext.setFillColor(CGColor.white)
+        cgContext.fill(bounds)
+
+        cgContext.fill(frame)
+
+        reveal(context: nsContext)
+
+        let image = cgContext.makeImage()!
+
+        let rep = NSBitmapImageRep(cgImage: image)
+        rep.size = frame.size
+        guard let imageData = rep.representation(using: .png, properties: [:]) else {
+            print(#function, "failed to create representation of image")
             return
         }
+
         do {
-            try data.write(to: url)
+            try imageData.write(to: url)
         } catch {
-            print(#function, "failed to write archive data")
+            print(#function, "failed to write revealed image to", url)
         }
+
     }
 
     func readRevealed(from url: URL) {
         print(#function, url)
 
-        guard let data = try? Data(contentsOf: url) else {
-            print(#function, "failed to read data at", url)
+        guard let image = NSImage(contentsOf: url) else {
+            print(#function, "failed to read image at", url)
             return
         }
 
-        guard let drawables = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [Drawable] else {
-            print(#function, "failed to unarchive data at", url)
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+            print(#function, "failed to get cgimage from image at", url)
             return
         }
-        self.drawables = drawables
+
+        drawables = [PNGDrawable(image: cgImage)]
+
     }
     
 }
