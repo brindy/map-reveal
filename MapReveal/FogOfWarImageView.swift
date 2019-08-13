@@ -65,11 +65,6 @@ class FogOfWarImageView: NSView {
         needsDisplay = true
     }
     
-    func undo() {
-        drawables.removeLast()
-        needsDisplay = true
-    }
-    
     func restore() {
         drawables.removeAll()
         currentDrawable = currentDrawFactory()
@@ -79,6 +74,34 @@ class FogOfWarImageView: NSView {
     func update(from other: FogOfWarImageView) {
         drawables = other.drawables
         needsDisplay = true
+    }
+
+    func writeRevealed(to url: URL) {
+        print(#function, url)
+        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: drawables, requiringSecureCoding: false) else {
+            print(#function, "failed to archive drawables")
+            return
+        }
+        do {
+            try data.write(to: url)
+        } catch {
+            print(#function, "failed to write archive data")
+        }
+    }
+
+    func readRevealed(from url: URL) {
+        print(#function, url)
+
+        guard let data = try? Data(contentsOf: url) else {
+            print(#function, "failed to read data at", url)
+            return
+        }
+
+        guard let drawables = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [Drawable] else {
+            print(#function, "failed to unarchive data at", url)
+            return
+        }
+        self.drawables = drawables
     }
     
 }

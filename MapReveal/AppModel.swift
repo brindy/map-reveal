@@ -91,4 +91,9 @@ extension UserMap {
         return AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("bin")
     }
 
+    var revealedUrl: URL? {
+        guard let uid = uid else { return nil }
+        return AppModel.shared.appUrl.appendingPathComponent(uid).appendingPathExtension("revealed")
+    }
+
 }
