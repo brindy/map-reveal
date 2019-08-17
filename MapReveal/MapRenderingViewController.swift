@@ -8,11 +8,18 @@
 
 import Cocoa
 
+protocol MapRendereringDelegate: NSObjectProtocol {
+
+    func toolFinished(_ controller: MapRenderingViewController)
+
+}
+
 class MapRenderingViewController: NSViewController {
 
     @IBOutlet weak var imageView: NSImageView!
     @IBOutlet weak var scrollView: NSScrollView!
 
+    weak var delegate: MapRendereringDelegate?
     weak var fog: FogOfWarImageView?
 
     var revealing = true {
@@ -86,18 +93,7 @@ class MapRenderingViewController: NSViewController {
         print(#function, point)
         fog?.start(at: point)
     }
-    
-    override func mouseUp(with event: NSEvent) {
-        super.mouseUp(with: event)
-        guard editable else { return }
-        let point = convert(event.locationInWindow)
-        print(#function, point)
-        fog?.finish(at: point)
 
-        guard let revealedUrl = revealedUrl else { return }
-        self.fog?.writeRevealed(to: revealedUrl)
-    }
-    
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
         guard editable else { return }
@@ -105,7 +101,20 @@ class MapRenderingViewController: NSViewController {
         print(#function, point)
         fog?.move(to: point)
     }
-    
+
+    override func mouseUp(with event: NSEvent) {
+        super.mouseUp(with: event)
+        guard editable else { return }
+        let point = convert(event.locationInWindow)
+        print(#function, point)
+        fog?.finish(at: point)
+
+        if let revealedUrl = revealedUrl {
+            self.fog?.writeRevealed(to: revealedUrl)
+        }
+        delegate?.toolFinished(self)
+    }
+
     private func convert(_ point: NSPoint) -> NSPoint {
         guard let parent = parent else { return point }
         return parent.view.convert(point, to: imageView)

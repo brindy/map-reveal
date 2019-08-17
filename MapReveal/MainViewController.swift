@@ -25,8 +25,9 @@ class MainViewController: NSViewController {
     weak var playerMap: MapRenderingViewController?
 
     var selectedUserMap: UserMap?
+    var autoPush: Bool = true
 
-    // MARK - overrides
+    // MARK: overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,7 @@ class MainViewController: NSViewController {
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let controller = segue.destinationController as? MapRenderingViewController {
             gmMap = controller
+            gmMap?.delegate = self
         }
         if let controller = segue.destinationController as? OpenViewController {
             controller.delegate = self
@@ -57,7 +59,7 @@ class MainViewController: NSViewController {
         }
     }
 
-    // MARK - actions
+    // MARK: actions
 
     @IBAction func openDocument(_ sender: Any) {
 
@@ -101,9 +103,11 @@ class MainViewController: NSViewController {
 
     @IBAction func toggleReveal(_ sender: Any) {
         print(#function, sender)
+        gmMap?.revealing = (sender as? NSButton)?.state == .on
+    }
 
-        gmMap?.revealing = (sender as? NSButton)?.state == NSControl.StateValue.on
-
+    @IBAction func toggleAutoPush(_ sender: Any) {
+        autoPush = (sender as? NSButton)?.state == .on
     }
     
     @IBAction func pushToOther(_ sender: Any) {
@@ -119,13 +123,22 @@ class MainViewController: NSViewController {
         AppModel.shared.save()
     }
 
-    // MARK - private
+    // MARK: private
 
     private func loadSelected() {
         let userMap = AppModel.shared.userMaps[tableView.selectedRow]
         selectedUserMap = userMap
         guard let gmImageUrl = selectedUserMap?.gmImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
         gmMap?.load(imageUrl: gmImageUrl, revealedUrl: revealedUrl)
+    }
+
+}
+
+extension MainViewController: MapRendereringDelegate {
+
+    func toolFinished(_ controller: MapRenderingViewController) {
+        guard autoPush else { return }
+        pushToOther(self)
     }
 
 }

@@ -735,6 +735,20 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="B5715CC3-47E5-493C-8705-8CC2E76E2ED0" explicitItemIdentifier="AutoPushToggle" label="Auto Push" paletteLabel="Auto Push" sizingBehavior="auto" id="tXp-4g-Nzo">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="8Tb-iy-dqj">
+                                        <rect key="frame" x="8" y="14" width="45" height="43"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="6Hy-Sa-uDN">
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="toggleAutoPush:" target="Oky-zY-oP4" id="HKI-bu-dIt"/>
+                                    </connections>
+                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="vaL-3e-iJI"/>
                                 <toolbarItem implicitItemIdentifier="F02474E2-BF33-4368-A415-D08F4129A9C0" explicitItemIdentifier="Push" label="Push" paletteLabel="Push" tag="-1" image="MRSend" id="Y0r-qi-tQK">
                                     <size key="minSize" width="48" height="48"/>
@@ -760,6 +774,7 @@
                                 <toolbarItem reference="wJJ-TN-oBK"/>
                                 <toolbarItem reference="kDN-bC-6Nj"/>
                                 <toolbarItem reference="EiO-90-BAc"/>
+                                <toolbarItem reference="tXp-4g-Nzo"/>
                                 <toolbarItem reference="vaL-3e-iJI"/>
                                 <toolbarItem reference="Y0r-qi-tQK"/>
                             </defaultToolbarItems>
