@@ -10,13 +10,24 @@ import AppKit
 
 class MainViewController: NSViewController {
 
+    struct DropInfo {
+
+        let image: NSImage
+        let row: Int
+
+    }
+
+    let mapPasteboardType = NSPasteboard.PasteboardType(rawValue: "mapreveal.usermap")
+
     @IBOutlet weak var tableView: NSTableView!
 
     weak var gmMap: MapRenderingViewController?
     weak var playerMap: MapRenderingViewController?
 
     var selectedUserMap: UserMap?
-    
+
+    // MARK - overrides
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,6 +37,8 @@ class MainViewController: NSViewController {
         otherViewController.editable = false
         self.playerMap = otherViewController
         otherWindowController?.showWindow(self)
+
+        tableView.registerForDraggedTypes([ mapPasteboardType, .fileURL ])
     }
     
     override func viewDidAppear() {
@@ -39,8 +52,12 @@ class MainViewController: NSViewController {
         }
         if let controller = segue.destinationController as? OpenViewController {
             controller.delegate = self
+            controller.droppedImage = (sender as? DropInfo)?.image
+            controller.dropRow = (sender as? DropInfo)?.row
         }
     }
+
+    // MARK - actions
 
     @IBAction func openDocument(_ sender: Any) {
 
@@ -102,6 +119,8 @@ class MainViewController: NSViewController {
         AppModel.shared.save()
     }
 
+    // MARK - private
+
     private func loadSelected() {
         let userMap = AppModel.shared.userMaps[tableView.selectedRow]
         selectedUserMap = userMap
@@ -109,10 +128,6 @@ class MainViewController: NSViewController {
         gmMap?.load(imageUrl: gmImageUrl, revealedUrl: revealedUrl)
     }
 
-    private func selectLast() {
-        let index = AppModel.shared.userMaps.count - 1
-        tableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
-    }
 }
 
 extension MainViewController: NSTableViewDelegate, NSTableViewDataSource {
@@ -132,16 +147,69 @@ extension MainViewController: NSTableViewDelegate, NSTableViewDataSource {
         loadSelected()
     }
 
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
+        print(#function, row)
+
+        if let uid = info.draggingPasteboard.string(forType: mapPasteboardType) {
+            moveMapWithUid(uid: uid, to: row)
+            return true
+        }
+
+        if let image = NSImage(pasteboard: info.draggingPasteboard) {
+
+            print(#function, dropOperation == .above ? "above" : "on")
+
+            performSegue(withIdentifier: "Open", sender: DropInfo(image: image, row: row))
+            return true
+        }
+
+        return false
+    }
+
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
+        print(#function)
+        return info.draggingPasteboard.string(forType: mapPasteboardType) != nil ? .move : .copy
+    }
+
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
+        print(#function, row)
+        guard let uid = AppModel.shared.userMaps[row].uid else { return nil }
+        let pasteboardItem = NSPasteboardItem()
+        pasteboardItem.setString(uid, forType: mapPasteboardType)
+        return pasteboardItem
+    }
+
+    private func moveMapWithUid(uid: String, to row: Int) {
+        print(#function, uid)
+
+        guard let originalRow = AppModel.shared.userMaps.firstIndex(where: { $0.uid == uid }) else { return }
+        print(#function, originalRow)
+
+        var newRow = row
+        if originalRow < newRow {
+            newRow = row - 1
+        }
+
+        tableView.beginUpdates()
+        tableView.moveRow(at: originalRow, to: newRow)
+        tableView.endUpdates()
+
+        AppModel.shared.moveMap(from: originalRow, to: newRow)
+
+    }
+
 }
 
 extension MainViewController: OpenDelegate {
 
-    func viewController(_ controller: OpenViewController, didOpenImages images: [NSImage], named: String) {
-        print(#function)
-        AppModel.shared.add(gmImage: images[0], playerImage: images.count > 1 ? images[1] : images[0], named: named) { error in
+    func viewController(_ controller: OpenViewController, didOpenImages images: [NSImage], named: String, toRow row: Int?) {
+        print(#function, named, row ?? -1)
+        AppModel.shared.add(gmImage: images[0], playerImage: images.count > 1 ? images[1] : images[0], named: named, toRow: row) { uid, error in
             guard error == nil else { return }
-            self.tableView.reloadData()
-            self.selectLast()
+            guard let index = AppModel.shared.userMaps.firstIndex(where: { $0.uid == uid }) else { return }
+            let indexes  = IndexSet(integer: index)
+            self.tableView.insertRows(at: indexes, withAnimation: .effectGap)
+            self.tableView.selectRowIndexes(indexes, byExtendingSelection: false)
         }
     }
 

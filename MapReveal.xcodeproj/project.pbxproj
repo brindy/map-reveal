@@ -35,6 +35,7 @@
 		852668522301DC2D006AD48A /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		852668552301E082006AD48A /* Maps.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Maps.xcdatamodel; sourceTree = "<group>"; };
 		85D47B3323027B09004E21A7 /* OpenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenViewController.swift; sourceTree = "<group>"; };
+		85D47B3523075D85004E21A7 /* Maps 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Maps 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -362,9 +363,10 @@
 		852668542301E082006AD48A /* Maps.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				85D47B3523075D85004E21A7 /* Maps 2.xcdatamodel */,
 				852668552301E082006AD48A /* Maps.xcdatamodel */,
 			);
-			currentVersion = 852668552301E082006AD48A /* Maps.xcdatamodel */;
+			currentVersion = 85D47B3523075D85004E21A7 /* Maps 2.xcdatamodel */;
 			path = Maps.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

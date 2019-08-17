@@ -10,7 +10,7 @@ import AppKit
 
 protocol OpenDelegate: NSObjectProtocol {
 
-    func viewController(_ controller: OpenViewController, didOpenImages images: [NSImage], named: String)
+    func viewController(_ controller: OpenViewController, didOpenImages images: [NSImage], named: String, toRow row: Int?)
 
 }
 
@@ -22,6 +22,14 @@ class OpenViewController: NSViewController {
     @IBOutlet weak var nameField: NSTextField!
 
     weak var delegate: OpenDelegate?
+
+    weak var droppedImage: NSImage?
+    var dropRow: Int?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        gmImage.image = droppedImage
+    }
 
     var hasImage: Bool {
         return gmImage.image != nil || playerImage.image != nil
@@ -57,7 +65,7 @@ class OpenViewController: NSViewController {
 
     @IBAction func openClicked(sneder: Any) {
         let images = [gmImage.image, playerImage.image].compactMap { $0 }
-        delegate?.viewController(self, didOpenImages: images, named: nameField.stringValue)
+        delegate?.viewController(self, didOpenImages: images, named: nameField.stringValue, toRow: dropRow)
         dismiss(self)
     }
 
@@ -78,7 +86,6 @@ class OpenViewController: NSViewController {
 extension OpenViewController: NSTextFieldDelegate {
 
     func controlTextDidChange(_ obj: Notification) {
-        print(#function, obj)
         refreshOpenButton()
     }
 

@@ -10,7 +10,7 @@ import AppKit
 import CoreData
 
 class AppModel {
-    
+
     static let shared = AppModel()
 
     private var persistence = NSPersistentContainer(name: "Maps")
@@ -37,7 +37,7 @@ class AppModel {
     init() {
         let semaphore = DispatchSemaphore(value: 1)
         persistence.loadPersistentStores { _, error in
-            self.fetch()
+            self.fetchUserMaps()
             semaphore.signal()
             guard let error = error else { return }
             fatalError(error.localizedDescription)
@@ -45,7 +45,16 @@ class AppModel {
         semaphore.wait()
     }
 
-    func add(gmImage: NSImage, playerImage: NSImage, named: String, completion: @escaping (Error?) -> Void) {
+    func moveMap(from: Int, to: Int) {
+        var maps = self.userMaps
+        let map = maps.remove(at: from)
+        maps.insert(map, at: to)
+        applyOrder(maps)
+        save()
+        fetchUserMaps()
+    }
+
+    func add(gmImage: NSImage, playerImage: NSImage, named: String, toRow row: Int? = nil, completion: @escaping (String?, Error?) -> Void) {
 
         DispatchQueue.global(qos: .utility).async {
             let uid = UUID().uuidString
@@ -58,17 +67,24 @@ class AppModel {
                 try playerImage.write(to: playerImageUrl)
 
                 let context = self.persistence.newBackgroundContext()
+
+
                 let entity = UserMap(context: context)
                 entity.displayName = named
                 entity.uid = uid
+
+                var maps = self.fetch(context: context)
+                maps.insert(entity, at: (row ?? self.userMaps.count) + 1)
+                self.applyOrder(maps)
+
                 try context.save()
-                self.fetch()
+                self.fetchUserMaps()
             } catch {
                 lastError = error
             }
 
             DispatchQueue.main.async {
-                completion(lastError)
+                completion(lastError == nil ? uid : nil, lastError)
             }
         }
 
@@ -79,31 +95,29 @@ class AppModel {
             ($0 as? UserMap)?.deleteFiles()
         }
         try? persistence.viewContext.save()
-        fetch()
+        fetchUserMaps()
     }
 
-    func fetch() {
-        let request: NSFetchRequest<UserMap> = UserMap.fetchRequest()
-        userMaps = (try? self.persistence.viewContext.fetch(request)) ?? []
+    func fetchUserMaps() {
+        userMaps = fetch(context: self.persistence.viewContext)
     }
 
     func delete(_ userMap: UserMap) {
         persistence.viewContext.delete(userMap)        
     }
-    
-    private func addImage(at url: URL) throws {
-        let uid = UUID().uuidString
-        let destination = appUrl.appendingPathComponent(uid).appendingPathExtension("bin")
-        print(#function, url, "copying to", destination)
 
-        let context = self.persistence.newBackgroundContext()
-        let entity = UserMap(context: context)
-        entity.displayName = url.lastPathComponent
-        entity.uid = uid
-        try FileManager.default.copyItem(at: url, to: destination)
-        try context.save()
+    private func applyOrder(_ maps: [UserMap]) {
+        for i in 0 ..< maps.count {
+            maps[i].order = Int64(i)
+        }
     }
-    
+
+    private func fetch(context: NSManagedObjectContext) -> [UserMap] {
+        let request: NSFetchRequest<UserMap> = UserMap.fetchRequest()
+        request.sortDescriptors = [ .init(key: "order", ascending: true) ]
+        return (try? context.fetch(request)) ?? []
+    }
+
 }
 
 extension UserMap {

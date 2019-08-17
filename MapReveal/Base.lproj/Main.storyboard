@@ -906,7 +906,7 @@ Gw
                 </viewController>
                 <customObject id="0mr-jH-w68" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-891" y="1817.5"/>
+            <point key="canvasLocation" x="-149" y="1790"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="TqQ-XM-Tft">
