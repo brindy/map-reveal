@@ -688,7 +688,7 @@
                     <window key="window" title="Master Map" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="271"/>
+                        <rect key="contentRect" x="196" y="240" width="556" height="271"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <toolbar key="toolbar" implicitIdentifier="527243D2-C1C3-4969-BB11-75A3CDAF07BD" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="Sbe-Ch-b6c">
                             <allowedToolbarItems>
@@ -720,14 +720,13 @@
                                         <action selector="activatePointer:" target="Oky-zY-oP4" id="HzK-BX-Fed"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="wJJ-TN-oBK"/>
                                 <toolbarItem implicitItemIdentifier="07DB64A7-203F-4CE6-89CE-72C05D543335" explicitItemIdentifier="RevealToggle" label="Reveal" paletteLabel="Reveal" sizingBehavior="auto" id="EiO-90-BAc">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="cOd-IE-oVy">
-                                        <rect key="frame" x="0.0" y="14" width="45" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="61" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="shh-wU-prO">
-                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
@@ -735,18 +734,18 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="B5715CC3-47E5-493C-8705-8CC2E76E2ED0" explicitItemIdentifier="AutoPushToggle" label="Auto Push" paletteLabel="Auto Push" sizingBehavior="auto" id="tXp-4g-Nzo">
+                                <toolbarItem implicitItemIdentifier="9CB63CFE-DA2B-4856-8AF6-E7FD4BF8122C" explicitItemIdentifier="ZoomFitToggle" label="Zoom Fit" paletteLabel="Zoom Fit" sizingBehavior="auto" id="kqK-yC-kJA">
                                     <nil key="toolTip"/>
-                                    <button key="view" verticalHuggingPriority="750" id="8Tb-iy-dqj">
-                                        <rect key="frame" x="8" y="14" width="45" height="43"/>
+                                    <button key="view" verticalHuggingPriority="750" id="xOK-Wk-KiZ">
+                                        <rect key="frame" x="0.0" y="14" width="61" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="6Hy-Sa-uDN">
-                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="iut-of-prc">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
                                     <connections>
-                                        <action selector="toggleAutoPush:" target="Oky-zY-oP4" id="HKI-bu-dIt"/>
+                                        <action selector="toggleZoomFit:" target="Oky-zY-oP4" id="gfo-lr-CRA"/>
                                     </connections>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="vaL-3e-iJI"/>
@@ -764,6 +763,21 @@
                                         <action selector="openDocument:" target="Oky-zY-oP4" id="dYB-yq-RXF"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="B5715CC3-47E5-493C-8705-8CC2E76E2ED0" explicitItemIdentifier="AutoPushToggle" label="Auto Push" paletteLabel="Auto Push" sizingBehavior="auto" id="tXp-4g-Nzo">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="8Tb-iy-dqj">
+                                        <rect key="frame" x="0.0" y="14" width="61" height="43"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="6Hy-Sa-uDN">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="toggleAutoPush:" target="Oky-zY-oP4" id="HKI-bu-dIt"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="6yx-gd-d5y"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="lr8-mL-WsC"/>
@@ -771,10 +785,11 @@
                                 <toolbarItem reference="Nbb-84-eF2"/>
                                 <toolbarItem reference="Ysq-5T-peu"/>
                                 <toolbarItem reference="r6S-hO-qcM"/>
-                                <toolbarItem reference="wJJ-TN-oBK"/>
                                 <toolbarItem reference="kDN-bC-6Nj"/>
+                                <toolbarItem reference="6yx-gd-d5y"/>
                                 <toolbarItem reference="EiO-90-BAc"/>
                                 <toolbarItem reference="tXp-4g-Nzo"/>
+                                <toolbarItem reference="kqK-yC-kJA"/>
                                 <toolbarItem reference="vaL-3e-iJI"/>
                                 <toolbarItem reference="Y0r-qi-tQK"/>
                             </defaultToolbarItems>
@@ -789,7 +804,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="291.5"/>
+            <point key="canvasLocation" x="113" y="291.5"/>
         </scene>
         <!--Open View Controller-->
         <scene sceneID="11R-3g-l2i">

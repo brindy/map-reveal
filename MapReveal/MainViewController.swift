@@ -26,6 +26,7 @@ class MainViewController: NSViewController {
 
     var selectedUserMap: UserMap?
     var autoPush: Bool = true
+    var zoomFit: Bool = true
 
     // MARK: overrides
 
@@ -109,6 +110,10 @@ class MainViewController: NSViewController {
     @IBAction func toggleAutoPush(_ sender: Any) {
         autoPush = (sender as? NSButton)?.state == .on
     }
+
+    @IBAction func toggleZoomFit(_ sender: Any) {
+        zoomFit = (sender as? NSButton)?.state == .on
+    }
     
     @IBAction func pushToOther(_ sender: Any) {
         print(#function)
@@ -116,6 +121,9 @@ class MainViewController: NSViewController {
         guard let fog = gmMap?.fog else { return }
         playerMap?.load(imageUrl: playerImageUrl, revealedUrl: revealedUrl)
         playerMap?.update(from: fog)
+        if zoomFit {
+            playerMap?.zoomToFit()
+        }
     }
 
     @IBAction func imageNameEdited(_ sender: NSTextField) {
@@ -130,6 +138,7 @@ class MainViewController: NSViewController {
         selectedUserMap = userMap
         guard let gmImageUrl = selectedUserMap?.gmImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
         gmMap?.load(imageUrl: gmImageUrl, revealedUrl: revealedUrl)
+        gmMap?.zoomToFit()
     }
 
 }

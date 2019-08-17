@@ -56,7 +56,6 @@ class MapRenderingViewController: NSViewController {
         view.needsLayout = true
         
         fog?.restore()
-        scrollView.magnify(toFit: newFrame)
 
         DispatchQueue.global(qos: .utility).async {
             self.fog?.readRevealed(from: revealedUrl)
@@ -65,11 +64,6 @@ class MapRenderingViewController: NSViewController {
 
     func update(from other: FogOfWarImageView) {
         fog?.update(from: other)
-
-        guard let image = imageView.image else { return }
-        let frame = NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-        imageView.frame = frame
-        scrollView.magnify(toFit: frame)
     }
 
     func clear() {
@@ -84,6 +78,13 @@ class MapRenderingViewController: NSViewController {
 
     func useAreaTool() {
         fog?.useAreaTool()
+    }
+
+    func zoomToFit() {
+        guard let image = imageView.image else { return }
+        let frame = NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+        imageView.frame = frame
+        scrollView.magnify(toFit: frame)
     }
     
     override func mouseDown(with event: NSEvent) {
