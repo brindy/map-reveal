@@ -1142,11 +1142,11 @@ Gw
         </scene>
     </scenes>
     <resources>
-        <image name="MRPaint" width="48" height="48"/>
-        <image name="MRPath" width="48" height="48"/>
-        <image name="MRPointer" width="48" height="48"/>
-        <image name="MRRect" width="48" height="48"/>
-        <image name="MRSend" width="48" height="48"/>
+        <image name="MRPaint" width="24" height="24"/>
+        <image name="MRPath" width="24" height="24"/>
+        <image name="MRPointer" width="24" height="24"/>
+        <image name="MRRect" width="24" height="24"/>
+        <image name="MRSend" width="24" height="24"/>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSFolder" width="32" height="32"/>
     </resources>
