@@ -16,7 +16,7 @@
 		8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526684E22FBB1C9006AD48A /* Drawable.swift */; };
 		8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */; };
 		852668532301DC2D006AD48A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852668522301DC2D006AD48A /* AppModel.swift */; };
-		852668562301E082006AD48A /* Maps.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 852668542301E082006AD48A /* Maps.xcdatamodeld */; };
+		8563DB4E230B4556002C4AAC /* MapsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */; };
 		85D47B3423027B09004E21A7 /* OpenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D47B3323027B09004E21A7 /* OpenViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,9 +33,8 @@
 		8526684E22FBB1C9006AD48A /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
 		8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogOfWarImageView.swift; sourceTree = "<group>"; };
 		852668522301DC2D006AD48A /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
-		852668552301E082006AD48A /* Maps.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Maps.xcdatamodel; sourceTree = "<group>"; };
+		8563DB4D230B4556002C4AAC /* MapsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapsModel.xcdatamodel; sourceTree = "<group>"; };
 		85D47B3323027B09004E21A7 /* OpenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenViewController.swift; sourceTree = "<group>"; };
-		85D47B3523075D85004E21A7 /* Maps 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Maps 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +78,8 @@
 				8526684C22FBAB31006AD48A /* MainViewController.swift */,
 				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
-				852668542301E082006AD48A /* Maps.xcdatamodeld */,
 				85D47B3323027B09004E21A7 /* OpenViewController.swift */,
+				8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -158,12 +157,12 @@
 				852668532301DC2D006AD48A /* AppModel.swift in Sources */,
 				850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */,
 				85D47B3423027B09004E21A7 /* OpenViewController.swift in Sources */,
-				852668562301E082006AD48A /* Maps.xcdatamodeld in Sources */,
 				8526684D22FBAB31006AD48A /* MainViewController.swift in Sources */,
 				850385E722F48C06002259DB /* AppDelegate.swift in Sources */,
 				850385F722F49B35002259DB /* CenteringClipView.swift in Sources */,
 				8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */,
 				8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */,
+				8563DB4E230B4556002C4AAC /* MapsModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,14 +359,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		852668542301E082006AD48A /* Maps.xcdatamodeld */ = {
+		8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				85D47B3523075D85004E21A7 /* Maps 2.xcdatamodel */,
-				852668552301E082006AD48A /* Maps.xcdatamodel */,
+				8563DB4D230B4556002C4AAC /* MapsModel.xcdatamodel */,
 			);
-			currentVersion = 85D47B3523075D85004E21A7 /* Maps 2.xcdatamodel */;
-			path = Maps.xcdatamodeld;
+			currentVersion = 8563DB4D230B4556002C4AAC /* MapsModel.xcdatamodel */;
+			path = MapsModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

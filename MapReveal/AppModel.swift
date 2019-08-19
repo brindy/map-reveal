@@ -13,7 +13,7 @@ class AppModel {
 
     static let shared = AppModel()
 
-    private var persistence = NSPersistentContainer(name: "Maps")
+    private var persistence = NSPersistentContainer(name: "MapsModel")
     
     fileprivate var appUrl: URL {
         let fm = FileManager.default
