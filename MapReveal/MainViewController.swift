@@ -32,14 +32,7 @@ class MainViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let otherWindowController = storyboard?.instantiateController(withIdentifier: "VisibleMap") as? NSWindowController
-        guard let otherViewController = otherWindowController?.contentViewController as? MapRenderingViewController else { return }
-        otherViewController.fog?.color = NSColor.white
-        otherViewController.editable = false
-        self.playerMap = otherViewController
-        otherWindowController?.showWindow(self)
-
+        createOtherWindow()
         tableView.registerForDraggedTypes([ mapPasteboardType, .fileURL ])
     }
     
@@ -139,6 +132,18 @@ class MainViewController: NSViewController {
         guard let gmImageUrl = selectedUserMap?.gmImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
         gmMap?.load(imageUrl: gmImageUrl, revealedUrl: revealedUrl)
         gmMap?.zoomToFit()
+    }
+
+    private func createOtherWindow() {
+        let otherWindowController = storyboard?.instantiateController(withIdentifier: "VisibleMap") as? NSWindowController
+        guard let otherViewController = otherWindowController?.contentViewController as? MapRenderingViewController else { return }
+        otherViewController.fog?.color = NSColor.white
+        otherViewController.editable = false
+        self.playerMap = otherViewController
+        otherWindowController?.showWindow(self)
+        DispatchQueue.main.async {
+            otherWindowController?.window?.orderFrontRegardless()
+        }
     }
 
 }
