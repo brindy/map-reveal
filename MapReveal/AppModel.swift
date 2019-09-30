@@ -49,6 +49,7 @@ class AppModel {
         let semaphore = DispatchSemaphore(value: 1)
         persistence.loadPersistentStores { _, error in
             self.fetchMaps()
+            self.fetchMarkers()
             semaphore.signal()
             guard let error = error else { return }
             fatalError(error.localizedDescription)
@@ -63,6 +64,15 @@ class AppModel {
         applyOrder(maps)
         save()
         fetchMaps()
+    }
+
+    func moveMarker(from: Int, to: Int) {
+        var markers = self.userMarkers
+        let marker = markers.remove(at: from)
+        markers.insert(marker, at: to)
+        applyOrder(markers)
+        save()
+        fetchMarkers()
     }
 
     func add(markerImage image: NSImage, named name: String, toRow row: Int? = nil, completion: @escaping (String?, Error?) -> Void) {

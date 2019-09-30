@@ -1,5 +1,5 @@
 /*
-MapsTableController.swift
+MarkersTableControllerDelegate.swift
 
 Copyright 2019 Chris Brind
 
@@ -18,19 +18,19 @@ limitations under the License.
 
 import AppKit
 
-protocol MapsTableControllerDelegate: NSObjectProtocol {
+protocol MarkersTableControllerDelegate: NSObjectProtocol {
 
-    func selected(userMap: UserMap)
-    func delete(userMap: UserMap)
-    func handle(drop: MapsTableController.DropInfo)
+    func selected(userMarker: UserMarker)
+    func delete(userMarker: UserMarker)
+    func handle(drop: MarkersTableController.DropInfo)
 
 }
 
-class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource {
+class MarkersTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource {
 
     struct DropInfo {
 
-        static let pastboardType = NSPasteboard.PasteboardType(rawValue: "mapreveal.usermap")
+        static let pastboardType = NSPasteboard.PasteboardType(rawValue: "mapreveal.usermarker")
 
         let image: NSImage
         let row: Int
@@ -38,9 +38,9 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
     }
 
     let tableView: NSTableView
-    let delegate: MapsTableControllerDelegate
+    let delegate: MarkersTableControllerDelegate
 
-    init(tableView: NSTableView, delegate: MapsTableControllerDelegate) {
+    init(tableView: NSTableView, delegate: MarkersTableControllerDelegate) {
         self.tableView = tableView
         self.delegate = delegate
         super.init()
@@ -50,26 +50,33 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return AppModel.shared.userMaps.count
+        return AppModel.shared.userMarkers.count
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("Cell"), owner: self) as? NSTableCellView else { return nil }
-        cell.textField?.stringValue = AppModel.shared.userMaps[row].displayName ?? "<unnamed>"
+        
+        let marker = AppModel.shared.userMarkers[row]
+        cell.textField?.stringValue = marker.displayName ?? "<unnamed>"
+
+        if let imageUrl = marker.imageUrl {
+            cell.imageView?.image = NSImage(byReferencing: imageUrl)
+        }
+
         return cell
     }
 
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard tableView.selectedRow >= 0 else { return }
-        let userMap = AppModel.shared.userMaps[tableView.selectedRow]
-        delegate.selected(userMap: userMap)
+        let userMarker = AppModel.shared.userMarkers[tableView.selectedRow]
+        delegate.selected(userMarker: userMarker)
     }
 
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         print(#function, row)
 
         if let uid = info.draggingPasteboard.string(forType: DropInfo.pastboardType) {
-            moveMapWithUid(uid: uid, to: row, onTableView: tableView)
+            moveMarkerWithUid(uid: uid, to: row, onTableView: tableView)
             return true
         }
 
@@ -88,7 +95,7 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
 
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
         print(#function, row)
-        guard let uid = AppModel.shared.userMaps[row].uid else { return nil }
+        guard let uid = AppModel.shared.userMarkers[row].uid else { return nil }
         let pasteboardItem = NSPasteboardItem()
         pasteboardItem.setString(uid, forType: DropInfo.pastboardType)
         return pasteboardItem
@@ -96,14 +103,14 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
 
     func deleteSelected() {
         guard tableView.selectedRow >= 0 else { return }
-        let userMap = AppModel.shared.userMaps[tableView.selectedRow]
-        delegate.delete(userMap: userMap)
+        let userMarker = AppModel.shared.userMarkers[tableView.selectedRow]
+        delegate.delete(userMarker: userMarker)
     }
 
-    private func moveMapWithUid(uid: String, to row: Int, onTableView tableView: NSTableView) {
+    private func moveMarkerWithUid(uid: String, to row: Int, onTableView tableView: NSTableView) {
         print(#function, uid)
 
-        guard let originalRow = AppModel.shared.userMaps.firstIndex(where: { $0.uid == uid }) else { return }
+        guard let originalRow = AppModel.shared.userMarkers.firstIndex(where: { $0.uid == uid }) else { return }
         print(#function, originalRow)
 
         var newRow = row
@@ -115,7 +122,7 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
         tableView.moveRow(at: originalRow, to: newRow)
         tableView.endUpdates()
 
-        AppModel.shared.moveMap(from: originalRow, to: newRow)
+        AppModel.shared.moveMarker(from: originalRow, to: newRow)
 
     }
 

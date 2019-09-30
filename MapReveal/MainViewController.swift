@@ -38,12 +38,14 @@ class MainViewController: NSViewController {
     var zoomFit: Bool = true
 
     var mapsTableController: MapsTableController!
+    var markersTableController: MarkersTableController!
 
     // MARK: overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()
         mapsTableController = MapsTableController(tableView: mapsTableView, delegate: self)
+        markersTableController = MarkersTableController(tableView: markersTableView, delegate: self)
         createOtherWindow()
     }
     
@@ -59,8 +61,13 @@ class MainViewController: NSViewController {
         }
         if let controller = segue.destinationController as? ImportMapViewController {
             controller.delegate = self
-            controller.droppedImage = (sender as? MapsTableController.UserMapDrop)?.image
-            controller.dropRow = (sender as?  MapsTableController.UserMapDrop)?.row
+            controller.droppedImage = (sender as? MapsTableController.DropInfo)?.image
+            controller.dropRow = (sender as?  MapsTableController.DropInfo)?.row
+        }
+        if let controller = segue.destinationController as? ImportMarkerViewController {
+            controller.delegate = self
+            controller.droppedImage = (sender as? MarkersTableController.DropInfo)?.image
+            controller.dropRow = (sender as?  MarkersTableController.DropInfo)?.row
         }
     }
 
@@ -76,6 +83,7 @@ class MainViewController: NSViewController {
 
     @IBAction func delete(_ sender: Any) {
         mapsTableController.deleteSelected()
+        markersTableController.deleteSelected()
     }
 
     @IBAction func setRevealPaint(_ sender: Any) {
@@ -175,7 +183,11 @@ extension MainViewController: ImportMarkerDelegate {
     func viewController(_ controller: ImportMarkerViewController, didOpenImage image: NSImage, named name: String, toRow row: Int?) {
         print(#function, name, row ?? -1)
         AppModel.shared.add(markerImage: image, named: name, toRow: row) { uid, error in
-            
+            guard error == nil else { return }
+            guard let index = AppModel.shared.userMarkers.firstIndex(where: { $0.uid == uid }) else { return }
+            let indexes  = IndexSet(integer: index)
+            self.markersTableView.insertRows(at: indexes, withAnimation: .effectGap)
+            self.markersTableView.selectRowIndexes(indexes, byExtendingSelection: false)
         }
     }
 
@@ -191,7 +203,7 @@ extension MainViewController: MapsTableControllerDelegate {
         gmMap?.zoomToFit()
     }
 
-    func handle(drop: MapsTableController.UserMapDrop) {
+    func handle(drop: MapsTableController.DropInfo) {
         performSegue(withIdentifier: Segues.importMap, sender: drop)
     }
 
@@ -205,6 +217,28 @@ extension MainViewController: MapsTableControllerDelegate {
         if playerMap?.imageUrl == userMap.playerImageUrl {
             playerMap?.clear()
         }
+    }
+
+}
+
+extension MainViewController: MarkersTableControllerDelegate {
+
+    func selected(userMarker: UserMarker) {
+        mapsTableView.selectRowIndexes([], byExtendingSelection: false)
+        // TODO
+    }
+
+    func handle(drop: MarkersTableController.DropInfo) {
+        performSegue(withIdentifier: Segues.importMarker, sender: drop)
+    }
+
+    func delete(userMarker: UserMarker) {
+        AppModel.shared.delete(userMarker)
+        AppModel.shared.save()
+        markersTableView.reloadData()
+
+        // TODO refresh the map
+
     }
 
 }
