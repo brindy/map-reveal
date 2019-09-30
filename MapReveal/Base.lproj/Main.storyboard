@@ -199,10 +199,10 @@ CA
                                 <toolbarItem implicitItemIdentifier="07DB64A7-203F-4CE6-89CE-72C05D543335" explicitItemIdentifier="RevealToggle" label="Reveal" paletteLabel="Reveal" sizingBehavior="auto" id="EiO-90-BAc">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="cOd-IE-oVy">
-                                        <rect key="frame" x="0.0" y="14" width="61" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="69" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="shh-wU-prO">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
@@ -213,10 +213,10 @@ CA
                                 <toolbarItem implicitItemIdentifier="9CB63CFE-DA2B-4856-8AF6-E7FD4BF8122C" explicitItemIdentifier="ZoomFitToggle" label="Zoom Fit" paletteLabel="Zoom Fit" sizingBehavior="auto" id="kqK-yC-kJA">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="xOK-Wk-KiZ">
-                                        <rect key="frame" x="0.0" y="14" width="61" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="65" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="iut-of-prc">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
@@ -242,10 +242,10 @@ CA
                                 <toolbarItem implicitItemIdentifier="B5715CC3-47E5-493C-8705-8CC2E76E2ED0" explicitItemIdentifier="AutoPushToggle" label="Auto Push" paletteLabel="Auto Push" sizingBehavior="auto" id="tXp-4g-Nzo">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="8Tb-iy-dqj">
-                                        <rect key="frame" x="0.0" y="14" width="61" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="65" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" inset="2" id="6Hy-Sa-uDN">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
@@ -256,8 +256,6 @@ CA
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="6yx-gd-d5y"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
-                                <toolbarItem reference="lr8-mL-WsC"/>
-                                <toolbarItem reference="vaL-3e-iJI"/>
                                 <toolbarItem reference="Nbb-84-eF2"/>
                                 <toolbarItem reference="Ysq-5T-peu"/>
                                 <toolbarItem reference="r6S-hO-qcM"/>
@@ -423,27 +421,27 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dM0-VW-p8t">
-                                <rect key="frame" x="0.0" y="0.0" width="928" height="459"/>
+                                <rect key="frame" x="0.0" y="0.0" width="928" height="359"/>
                                 <subviews>
                                     <customView misplaced="YES" id="sXr-YF-Lct">
-                                        <rect key="frame" x="0.0" y="0.0" width="248" height="459"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="248" height="359"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" translatesAutoresizingMaskIntoConstraints="NO" id="L6d-mP-Eaq">
-                                                <rect key="frame" x="0.0" y="-25" width="248" height="459"/>
+                                                <rect key="frame" x="0.0" y="-50" width="248" height="359"/>
                                                 <subviews>
                                                     <customView misplaced="YES" id="cmE-Oe-Vbl">
-                                                        <rect key="frame" x="0.0" y="0.0" width="248" height="219"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="248" height="171"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hy2-tG-8Sn">
-                                                                <rect key="frame" x="0.0" y="-13" width="248" height="155"/>
+                                                                <rect key="frame" x="0.0" y="-24" width="248" height="105"/>
                                                                 <clipView key="contentView" id="diq-oq-RNl">
-                                                                    <rect key="frame" x="1" y="0.0" width="246" height="154"/>
+                                                                    <rect key="frame" x="1" y="0.0" width="246" height="104"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="zXP-nc-tAW" viewBased="YES" id="MDi-Oy-6Lv">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="246" height="129"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="246" height="79"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -517,18 +515,18 @@ Gw
                                                             <constraint firstItem="hy2-tG-8Sn" firstAttribute="width" secondItem="cmE-Oe-Vbl" secondAttribute="width" id="zFl-SH-Oa7"/>
                                                         </constraints>
                                                     </customView>
-                                                    <customView misplaced="YES" id="6xX-5Y-72l">
-                                                        <rect key="frame" x="0.0" y="229" width="248" height="230"/>
+                                                    <customView ambiguous="YES" id="6xX-5Y-72l">
+                                                        <rect key="frame" x="0.0" y="181" width="248" height="178"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
-                                                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rVI-DR-33V">
-                                                                <rect key="frame" x="0.0" y="-12" width="246" height="294"/>
-                                                                <clipView key="contentView" id="ACW-yC-3gS">
-                                                                    <rect key="frame" x="1" y="0.0" width="244" height="293"/>
+                                                            <scrollView ambiguous="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rVI-DR-33V">
+                                                                <rect key="frame" x="0.0" y="-26" width="246" height="244"/>
+                                                                <clipView key="contentView" ambiguous="YES" id="ACW-yC-3gS">
+                                                                    <rect key="frame" x="1" y="0.0" width="244" height="243"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="mm0-7r-zJV" viewBased="YES" id="HwE-IT-3ju">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="244" height="268"/>
+                                                                        <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="mm0-7r-zJV" viewBased="YES" id="HwE-IT-3ju">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="244" height="218"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -618,11 +616,11 @@ Gw
                                         </constraints>
                                     </customView>
                                     <customView misplaced="YES" id="9ZG-Tb-mLY">
-                                        <rect key="frame" x="258" y="0.0" width="670" height="459"/>
+                                        <rect key="frame" x="258" y="0.0" width="670" height="359"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <containerView translatesAutoresizingMaskIntoConstraints="NO" id="hUr-Qz-7yf">
-                                                <rect key="frame" x="0.0" y="-25" width="670" height="459"/>
+                                                <rect key="frame" x="0.0" y="-50" width="670" height="359"/>
                                                 <connections>
                                                     <segue destination="XfG-lQ-9wD" kind="embed" id="9ov-bc-5SS"/>
                                                 </connections>
@@ -728,10 +726,10 @@ Gw
             </objects>
             <point key="canvasLocation" x="857" y="869.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Import Marker View Controller-->
         <scene sceneID="dVq-3F-uCb">
             <objects>
-                <viewController id="ZUe-sW-cTD" sceneMemberID="viewController">
+                <viewController id="ZUe-sW-cTD" customClass="ImportMarkerViewController" customModule="MapReveal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="aBF-No-EtP">
                         <rect key="frame" x="0.0" y="0.0" width="234" height="359"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -740,6 +738,9 @@ Gw
                                 <rect key="frame" x="17" y="105" width="200" height="179"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="rCc-9d-fTQ"/>
+                                <connections>
+                                    <action selector="imageSelectedWithSender:" target="ZUe-sW-cTD" id="YLC-DJ-hjY"/>
+                                </connections>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="shj-hq-F7Q">
                                 <rect key="frame" x="18" y="292" width="87" height="16"/>
@@ -780,9 +781,12 @@ Gw
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="selectImageWithSender:" target="ZUe-sW-cTD" id="Mqs-Fw-w5Q"/>
+                                </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f8Y-KP-cTo">
-                                <rect key="frame" x="59" y="320" width="155" height="21"/>
+                                <rect key="frame" x="59" y="319" width="155" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="URm-X2-vc8">
                                     <font key="font" metaFont="system"/>
@@ -809,9 +813,17 @@ Gw
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="openClickedWithSneder:" target="ZUe-sW-cTD" id="Aw7-a3-qYV"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="DWU-Dh-sgK" id="xSI-zF-8bS"/>
+                        <outlet property="nameField" destination="f8Y-KP-cTo" id="63I-RT-bCP"/>
+                        <outlet property="openButton" destination="HQY-Zj-nLy" id="NjQ-gZ-DYf"/>
+                    </connections>
                 </viewController>
                 <customObject id="f8a-6y-YuZ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

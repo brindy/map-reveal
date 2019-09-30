@@ -17,7 +17,8 @@
 		8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */; };
 		852668532301DC2D006AD48A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852668522301DC2D006AD48A /* AppModel.swift */; };
 		852E864223428EB30042E8F1 /* MapsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852E864123428EB30042E8F1 /* MapsTableController.swift */; };
-		8563DB4E230B4556002C4AAC /* MapsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */; };
+		8586B5C72342A3CA003E383C /* ImportMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8586B5C62342A3CA003E383C /* ImportMarkerViewController.swift */; };
+		8586B5CA2342AC58003E383C /* MapsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8586B5C82342AC58003E383C /* MapsModel.xcdatamodeld */; };
 		85D47B3423027B09004E21A7 /* ImportMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D47B3323027B09004E21A7 /* ImportMapViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +36,8 @@
 		8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogOfWarImageView.swift; sourceTree = "<group>"; };
 		852668522301DC2D006AD48A /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		852E864123428EB30042E8F1 /* MapsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsTableController.swift; sourceTree = "<group>"; };
-		8563DB4D230B4556002C4AAC /* MapsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapsModel.xcdatamodel; sourceTree = "<group>"; };
+		8586B5C62342A3CA003E383C /* ImportMarkerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMarkerViewController.swift; sourceTree = "<group>"; };
+		8586B5C92342AC58003E383C /* MapsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapsModel.xcdatamodel; sourceTree = "<group>"; };
 		85D47B3323027B09004E21A7 /* ImportMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,14 +77,15 @@
 				850385F622F49B35002259DB /* CenteringClipView.swift */,
 				8526684E22FBB1C9006AD48A /* Drawable.swift */,
 				8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */,
+				85D47B3323027B09004E21A7 /* ImportMapViewController.swift */,
+				8586B5C62342A3CA003E383C /* ImportMarkerViewController.swift */,
 				850385EF22F48C08002259DB /* Info.plist */,
 				850385EC22F48C08002259DB /* Main.storyboard */,
 				8526684C22FBAB31006AD48A /* MainViewController.swift */,
 				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
-				8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */,
+				8586B5C82342AC58003E383C /* MapsModel.xcdatamodeld */,
 				852E864123428EB30042E8F1 /* MapsTableController.swift */,
-				85D47B3323027B09004E21A7 /* ImportMapViewController.swift */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -159,13 +162,14 @@
 			files = (
 				852668532301DC2D006AD48A /* AppModel.swift in Sources */,
 				850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */,
+				8586B5CA2342AC58003E383C /* MapsModel.xcdatamodeld in Sources */,
 				85D47B3423027B09004E21A7 /* ImportMapViewController.swift in Sources */,
 				8526684D22FBAB31006AD48A /* MainViewController.swift in Sources */,
 				850385E722F48C06002259DB /* AppDelegate.swift in Sources */,
 				850385F722F49B35002259DB /* CenteringClipView.swift in Sources */,
+				8586B5C72342A3CA003E383C /* ImportMarkerViewController.swift in Sources */,
 				8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */,
 				8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */,
-				8563DB4E230B4556002C4AAC /* MapsModel.xcdatamodeld in Sources */,
 				852E864223428EB30042E8F1 /* MapsTableController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,12 +367,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */ = {
+		8586B5C82342AC58003E383C /* MapsModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				8563DB4D230B4556002C4AAC /* MapsModel.xcdatamodel */,
+				8586B5C92342AC58003E383C /* MapsModel.xcdatamodel */,
 			);
-			currentVersion = 8563DB4D230B4556002C4AAC /* MapsModel.xcdatamodel */;
+			currentVersion = 8586B5C92342AC58003E383C /* MapsModel.xcdatamodel */;
 			path = MapsModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -157,14 +157,25 @@ extension MainViewController: MapRendereringDelegate {
 
 extension MainViewController: ImportMapDelegate {
 
-    func viewController(_ controller: ImportMapViewController, didOpenImages images: [NSImage], named: String, toRow row: Int?) {
-        print(#function, named, row ?? -1)
-        AppModel.shared.add(gmImage: images[0], playerImage: images.count > 1 ? images[1] : images[0], named: named, toRow: row) { uid, error in
+    func viewController(_ controller: ImportMapViewController, didOpenImages images: [NSImage], named name: String, toRow row: Int?) {
+        print(#function, name, row ?? -1)
+        AppModel.shared.add(gmImage: images[0], playerImage: images.count > 1 ? images[1] : images[0], named: name, toRow: row) { uid, error in
             guard error == nil else { return }
             guard let index = AppModel.shared.userMaps.firstIndex(where: { $0.uid == uid }) else { return }
             let indexes  = IndexSet(integer: index)
             self.mapsTableView.insertRows(at: indexes, withAnimation: .effectGap)
             self.mapsTableView.selectRowIndexes(indexes, byExtendingSelection: false)
+        }
+    }
+
+}
+
+extension MainViewController: ImportMarkerDelegate {
+
+    func viewController(_ controller: ImportMarkerViewController, didOpenImage image: NSImage, named name: String, toRow row: Int?) {
+        print(#function, name, row ?? -1)
+        AppModel.shared.add(markerImage: image, named: name, toRow: row) { uid, error in
+            
         }
     }
 

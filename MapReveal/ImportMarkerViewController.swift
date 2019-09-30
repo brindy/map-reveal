@@ -1,6 +1,6 @@
 /*
-ImportMapViewController.swift
- 
+ImportMarkerViewController.swift
+
 Copyright 2019 Chris Brind
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,31 +18,30 @@ limitations under the License.
 
 import AppKit
 
-protocol ImportMapDelegate: NSObjectProtocol {
+protocol ImportMarkerDelegate: NSObjectProtocol {
 
-    func viewController(_ controller: ImportMapViewController, didOpenImages images: [NSImage], named: String, toRow row: Int?)
+    func viewController(_ controller: ImportMarkerViewController, didOpenImage image: NSImage, named: String, toRow row: Int?)
 
 }
 
-class ImportMapViewController: NSViewController {
+class ImportMarkerViewController: NSViewController {
 
-    @IBOutlet weak var gmImage: NSImageView!
-    @IBOutlet weak var playerImage: NSImageView!
+    @IBOutlet weak var imageView: NSImageView!
     @IBOutlet weak var openButton: NSButton!
     @IBOutlet weak var nameField: NSTextField!
 
-    weak var delegate: ImportMapDelegate?
+    weak var delegate: ImportMarkerDelegate?
 
     weak var droppedImage: NSImage?
     var dropRow: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        gmImage.image = droppedImage
+        imageView.image = droppedImage
     }
 
     var hasImage: Bool {
-        return gmImage.image != nil || playerImage.image != nil
+        return imageView.image != nil
     }
 
     var hasTitle: Bool {
@@ -54,28 +53,19 @@ class ImportMapViewController: NSViewController {
         refreshOpenButton()
     }
 
-    @IBAction func selectGMImage(sender: Any) {
+    @IBAction func selectImage(sender: Any) {
         print(#function, sender)
         let panel = createOpenPanel()
         if panel.runModal() == .OK, let url = panel.url {
-            gmImage.image = NSImage(contentsOf: url)
+            imageView.image = NSImage(contentsOf: url)
             imageSelected(sender: self)
         }
 
     }
 
-    @IBAction func selectPlayerImage(sender: Any) {
-        print(#function, sender)
-        let panel = createOpenPanel()
-        if panel.runModal() == .OK, let url = panel.url {
-            playerImage.image = NSImage(contentsOf: url)
-            imageSelected(sender: self)
-        }
-    }
-
-    @IBAction func openClicked(sneder: Any) {
-        let images = [gmImage.image, playerImage.image].compactMap { $0 }
-        delegate?.viewController(self, didOpenImages: images, named: nameField.stringValue, toRow: dropRow)
+   @IBAction func openClicked(sneder: Any) {
+        guard let image = imageView.image else { return }
+        delegate?.viewController(self, didOpenImage: image, named: nameField.stringValue, toRow: dropRow)
         dismiss(self)
     }
 
@@ -93,7 +83,7 @@ class ImportMapViewController: NSViewController {
 
 }
 
-extension ImportMapViewController: NSTextFieldDelegate {
+extension ImportMarkerViewController: NSTextFieldDelegate {
 
     func controlTextDidChange(_ obj: Notification) {
         refreshOpenButton()
