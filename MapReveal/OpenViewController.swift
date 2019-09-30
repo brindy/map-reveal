@@ -1,4 +1,6 @@
 /*
+OpenViewController.swift
+ 
 Copyright 2019 Chris Brind
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +15,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-//
-//  OpenViewController.swift
-//  MapReveal
-//
-//  Created by Christopher Brind on 13/08/2019.
-//  Copyright © 2019 Chris Brind. All rights reserved.
-//
 
 import AppKit
 
