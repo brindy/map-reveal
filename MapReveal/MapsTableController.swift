@@ -20,7 +20,8 @@ import AppKit
 
 protocol MapsTableControllerDelegate: NSObjectProtocol {
 
-    func load(userMap: UserMap)
+    func selected(userMap: UserMap)
+    func delete(userMap: UserMap)
     func handle(drop: MapsTableController.UserMapDrop)
 
 }
@@ -61,7 +62,7 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard tableView.selectedRow >= 0 else { return }
         let userMap = AppModel.shared.userMaps[tableView.selectedRow]
-        delegate.load(userMap: userMap)
+        delegate.selected(userMap: userMap)
     }
 
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
@@ -74,7 +75,6 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
 
         if let image = NSImage(pasteboard: info.draggingPasteboard) {
             print(#function, dropOperation == .above ? "above" : "on")
-            // performSegue(withIdentifier: "Open", sender: )
             delegate.handle(drop: UserMapDrop(image: image, row: row))
             return true
         }
@@ -93,6 +93,12 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
         let pasteboardItem = NSPasteboardItem()
         pasteboardItem.setString(uid, forType: mapPasteboardType)
         return pasteboardItem
+    }
+
+    func deleteSelected() {
+        guard tableView.selectedRow >= 0 else { return }
+        let userMap = AppModel.shared.userMaps[tableView.selectedRow]
+        delegate.delete(userMap: userMap)
     }
 
     private func moveMapWithUid(uid: String, to row: Int, onTableView tableView: NSTableView) {

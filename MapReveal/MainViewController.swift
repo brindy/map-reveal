@@ -1,20 +1,20 @@
 /*
-MainViewController.swift
+ MainViewController.swift
  
-Copyright 2019 Chris Brind
+ Copyright 2019 Chris Brind
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+ http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 
 import AppKit
 
@@ -60,25 +60,11 @@ class MainViewController: NSViewController {
     // MARK: actions
 
     @IBAction func openDocument(_ sender: Any) {
-
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier("Open"), sender: self)
-
+        performSegue(withIdentifier: "Open", sender: nil)
     }
 
     @IBAction func delete(_ sender: Any) {
-        guard mapsTableView.selectedRow >= 0 else { return }
-
-        let userMap = AppModel.shared.userMaps[mapsTableView.selectedRow]
-        AppModel.shared.delete(userMap)
-        AppModel.shared.save()
-        mapsTableView.reloadData()
-
-        gmMap?.clear()
-
-        if playerMap?.imageUrl == userMap.playerImageUrl {
-            playerMap?.clear()
-        }
-
+        mapsTableController.deleteSelected()
     }
 
     @IBAction func setRevealPaint(_ sender: Any) {
@@ -128,6 +114,11 @@ class MainViewController: NSViewController {
         AppModel.shared.save()
     }
 
+    @IBAction func markerNameEdited(_ sender: NSTextField) {
+        // TODO update the name
+        AppModel.shared.save()
+    }
+
     // MARK: private
 
     private func createOtherWindow() {
@@ -170,7 +161,8 @@ extension MainViewController: OpenDelegate {
 
 extension MainViewController: MapsTableControllerDelegate {
 
-    func load(userMap: UserMap) {
+    func selected(userMap: UserMap) {
+        markersTableView.selectRowIndexes([], byExtendingSelection: false)
         selectedUserMap = userMap
         guard let gmImageUrl = selectedUserMap?.gmImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
         gmMap?.load(imageUrl: gmImageUrl, revealedUrl: revealedUrl)
@@ -179,6 +171,18 @@ extension MainViewController: MapsTableControllerDelegate {
 
     func handle(drop: MapsTableController.UserMapDrop) {
         performSegue(withIdentifier: "Open", sender: drop)
+    }
+
+    func delete(userMap: UserMap) {
+        AppModel.shared.delete(userMap)
+        AppModel.shared.save()
+        mapsTableView.reloadData()
+
+        gmMap?.clear()
+
+        if playerMap?.imageUrl == userMap.playerImageUrl {
+            playerMap?.clear()
+        }
     }
 
 }

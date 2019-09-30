@@ -80,9 +80,9 @@
 				8526684C22FBAB31006AD48A /* MainViewController.swift */,
 				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
-				85D47B3323027B09004E21A7 /* OpenViewController.swift */,
 				8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */,
 				852E864123428EB30042E8F1 /* MapsTableController.swift */,
+				85D47B3323027B09004E21A7 /* OpenViewController.swift */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
