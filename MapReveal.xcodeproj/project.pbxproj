@@ -18,7 +18,7 @@
 		852668532301DC2D006AD48A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852668522301DC2D006AD48A /* AppModel.swift */; };
 		852E864223428EB30042E8F1 /* MapsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852E864123428EB30042E8F1 /* MapsTableController.swift */; };
 		8563DB4E230B4556002C4AAC /* MapsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */; };
-		85D47B3423027B09004E21A7 /* OpenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D47B3323027B09004E21A7 /* OpenViewController.swift */; };
+		85D47B3423027B09004E21A7 /* ImportMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D47B3323027B09004E21A7 /* ImportMapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +36,7 @@
 		852668522301DC2D006AD48A /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		852E864123428EB30042E8F1 /* MapsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsTableController.swift; sourceTree = "<group>"; };
 		8563DB4D230B4556002C4AAC /* MapsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapsModel.xcdatamodel; sourceTree = "<group>"; };
-		85D47B3323027B09004E21A7 /* OpenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenViewController.swift; sourceTree = "<group>"; };
+		85D47B3323027B09004E21A7 /* ImportMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,7 @@
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
 				8563DB4C230B4556002C4AAC /* MapsModel.xcdatamodeld */,
 				852E864123428EB30042E8F1 /* MapsTableController.swift */,
-				85D47B3323027B09004E21A7 /* OpenViewController.swift */,
+				85D47B3323027B09004E21A7 /* ImportMapViewController.swift */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -159,7 +159,7 @@
 			files = (
 				852668532301DC2D006AD48A /* AppModel.swift in Sources */,
 				850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */,
-				85D47B3423027B09004E21A7 /* OpenViewController.swift in Sources */,
+				85D47B3423027B09004E21A7 /* ImportMapViewController.swift in Sources */,
 				8526684D22FBAB31006AD48A /* MainViewController.swift in Sources */,
 				850385E722F48C06002259DB /* AppDelegate.swift in Sources */,
 				850385F722F49B35002259DB /* CenteringClipView.swift in Sources */,

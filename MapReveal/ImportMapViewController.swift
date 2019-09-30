@@ -18,20 +18,20 @@ limitations under the License.
 
 import AppKit
 
-protocol OpenDelegate: NSObjectProtocol {
+protocol ImportMapDelegate: NSObjectProtocol {
 
-    func viewController(_ controller: OpenViewController, didOpenImages images: [NSImage], named: String, toRow row: Int?)
+    func viewController(_ controller: ImportMapViewController, didOpenImages images: [NSImage], named: String, toRow row: Int?)
 
 }
 
-class OpenViewController: NSViewController {
+class ImportMapViewController: NSViewController {
 
     @IBOutlet weak var gmImage: NSImageView!
     @IBOutlet weak var playerImage: NSImageView!
     @IBOutlet weak var openButton: NSButton!
     @IBOutlet weak var nameField: NSTextField!
 
-    weak var delegate: OpenDelegate?
+    weak var delegate: ImportMapDelegate?
 
     weak var droppedImage: NSImage?
     var dropRow: Int?
@@ -93,7 +93,7 @@ class OpenViewController: NSViewController {
 
 }
 
-extension OpenViewController: NSTextFieldDelegate {
+extension ImportMapViewController: NSTextFieldDelegate {
 
     func controlTextDidChange(_ obj: Notification) {
         refreshOpenButton()

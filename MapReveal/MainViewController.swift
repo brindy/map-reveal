@@ -57,7 +57,7 @@ class MainViewController: NSViewController {
             gmMap = controller
             gmMap?.delegate = self
         }
-        if let controller = segue.destinationController as? OpenViewController {
+        if let controller = segue.destinationController as? ImportMapViewController {
             controller.delegate = self
             controller.droppedImage = (sender as? MapsTableController.UserMapDrop)?.image
             controller.dropRow = (sender as?  MapsTableController.UserMapDrop)?.row
@@ -155,9 +155,9 @@ extension MainViewController: MapRendereringDelegate {
 
 }
 
-extension MainViewController: OpenDelegate {
+extension MainViewController: ImportMapDelegate {
 
-    func viewController(_ controller: OpenViewController, didOpenImages images: [NSImage], named: String, toRow row: Int?) {
+    func viewController(_ controller: ImportMapViewController, didOpenImages images: [NSImage], named: String, toRow row: Int?) {
         print(#function, named, row ?? -1)
         AppModel.shared.add(gmImage: images[0], playerImage: images.count > 1 ? images[1] : images[0], named: named, toRow: row) { uid, error in
             guard error == nil else { return }

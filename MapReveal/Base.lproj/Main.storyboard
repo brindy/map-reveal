@@ -56,9 +56,9 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="File" id="dMs-cI-mzQ">
+                            <menuItem title="Import" id="dMs-cI-mzQ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="File" id="bib-Uj-vzu">
+                                <menu key="submenu" title="Import" id="bib-Uj-vzu">
                                     <items>
                                         <menuItem title="Import Map..." keyEquivalent="i" id="IAo-SY-fd9">
                                             <connections>
@@ -68,6 +68,15 @@
                                         <menuItem title="Import Marker..." keyEquivalent="I" id="Was-JA-tGl">
                                             <connections>
                                                 <action selector="importMarker:" target="Ady-hI-5gd" id="xoy-kM-rG8"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="nOd-y8-Gg6"/>
+                                        <menuItem title="Delete Selected" id="yzH-15-wk1">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <connections>
+                                                <action selector="delete:" target="Ady-hI-5gd" id="RTW-L6-HSm"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -273,10 +282,10 @@
             </objects>
             <point key="canvasLocation" x="113" y="291.5"/>
         </scene>
-        <!--Open View Controller-->
+        <!--Import Map View Controller-->
         <scene sceneID="11R-3g-l2i">
             <objects>
-                <viewController id="zhf-Oi-43h" customClass="OpenViewController" customModule="MapReveal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="zhf-Oi-43h" customClass="ImportMapViewController" customModule="MapReveal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="mnn-1M-BCo">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="359"/>
                         <autoresizingMask key="autoresizingMask"/>
