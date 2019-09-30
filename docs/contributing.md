@@ -1,4 +1,7 @@
-
+--
+layout: default
+title: Contributing
+--
 Before creating a PR please see if there is an associated issue.  If not, please create one and request to have it assigned to you.
 
 If there's already a relevant issue, please request to have it assigned to you.
