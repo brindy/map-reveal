@@ -30,12 +30,12 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
 
     struct UserMapDrop {
 
+        static let pastboardType = NSPasteboard.PasteboardType(rawValue: "mapreveal.usermap")
+
         let image: NSImage
         let row: Int
 
     }
-
-    let mapPasteboardType = NSPasteboard.PasteboardType(rawValue: "mapreveal.usermap")
 
     let tableView: NSTableView
     let delegate: MapsTableControllerDelegate
@@ -46,7 +46,7 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
         super.init()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerForDraggedTypes([ mapPasteboardType, .fileURL ])
+        tableView.registerForDraggedTypes([ UserMapDrop.pastboardType, .fileURL ])
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -68,7 +68,7 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         print(#function, row)
 
-        if let uid = info.draggingPasteboard.string(forType: mapPasteboardType) {
+        if let uid = info.draggingPasteboard.string(forType: UserMapDrop.pastboardType) {
             moveMapWithUid(uid: uid, to: row, onTableView: tableView)
             return true
         }
@@ -83,15 +83,14 @@ class MapsTableController: NSObject, NSTableViewDelegate, NSTableViewDataSource 
     }
 
     func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
-        print(#function)
-        return info.draggingPasteboard.string(forType: mapPasteboardType) != nil ? .move : .copy
+        return info.draggingPasteboard.string(forType: UserMapDrop.pastboardType) != nil ? .move : .copy
     }
 
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
         print(#function, row)
         guard let uid = AppModel.shared.userMaps[row].uid else { return nil }
         let pasteboardItem = NSPasteboardItem()
-        pasteboardItem.setString(uid, forType: mapPasteboardType)
+        pasteboardItem.setString(uid, forType: UserMapDrop.pastboardType)
         return pasteboardItem
     }
 

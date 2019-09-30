@@ -20,6 +20,13 @@ import AppKit
 
 class MainViewController: NSViewController {
 
+    struct Segues {
+
+        static let importMap = "Import Map"
+        static let importMarker = "Import Marker"
+
+    }
+
     @IBOutlet weak var mapsTableView: NSTableView!
     @IBOutlet weak var markersTableView: NSTableView!
 
@@ -59,8 +66,12 @@ class MainViewController: NSViewController {
 
     // MARK: actions
 
-    @IBAction func openDocument(_ sender: Any) {
-        performSegue(withIdentifier: "Open", sender: nil)
+    @IBAction func importMap(_ sender: Any) {
+        performSegue(withIdentifier: Segues.importMap, sender: nil)
+    }
+
+    @IBAction func importMarker(_ sender: Any) {
+        performSegue(withIdentifier: Segues.importMarker, sender: nil)
     }
 
     @IBAction func delete(_ sender: Any) {
@@ -170,7 +181,7 @@ extension MainViewController: MapsTableControllerDelegate {
     }
 
     func handle(drop: MapsTableController.UserMapDrop) {
-        performSegue(withIdentifier: "Open", sender: drop)
+        performSegue(withIdentifier: Segues.importMap, sender: drop)
     }
 
     func delete(userMap: UserMap) {
