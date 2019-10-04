@@ -27,13 +27,14 @@ class MainViewController: NSViewController {
 
     }
 
-    var markerDragDestination: MarkerDragDestination?
+    var markerDragDestination: MarkerDragDestinationView?
 
     @IBOutlet weak var mapsTableView: NSTableView!
     @IBOutlet weak var markersTableView: NSTableView!
 
     weak var gmMap: MapRenderingViewController?
     weak var playerMap: MapRenderingViewController?
+    weak var markerImageView: NSImageView?
 
     var selectedUserMap: UserMap?
     var autoPush: Bool = true
@@ -41,8 +42,6 @@ class MainViewController: NSViewController {
 
     var mapsTableController: MapsTableController!
     var markersTableController: MarkersTableController!
-
-    var markerImageView: NSImageView?
 
     // MARK: overrides
 
@@ -254,7 +253,7 @@ extension MainViewController: MarkersTableControllerDelegate {
 
 extension MainViewController: MarkerDragDelegate {
 
-    func startDragging(_ destination: MarkerDragDestination, marker: MarkerDragDestination.DraggedMarker) {
+    func startDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker) {
         let converted = view.convert(marker.location, to: gmMap?.imageView)
         print(#function, marker.location, converted)
         markerImageView?.removeFromSuperview()
@@ -265,12 +264,20 @@ extension MainViewController: MarkerDragDelegate {
         self.markerImageView = markerImageView
     }
 
-    func updateDragging(_ destination: MarkerDragDestination, marker: MarkerDragDestination.DraggedMarker) {
+    func updateDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker) {
         let converted = view.convert(marker.location, to: gmMap?.imageView)
         print(#function, marker.location, converted)
         if let size = markerImageView?.image?.size {
             markerImageView?.frame = NSRect(origin: converted.offsetBy(size.half.inverted), size: size)
         }
+    }
+
+    func finishDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker) {
+        markerImageView = nil
+    }
+
+    func cancelDragging(_ destination: MarkerDragDestinationView) {
+        markerImageView?.removeFromSuperview()
     }
 
 }

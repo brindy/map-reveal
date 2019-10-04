@@ -33,7 +33,7 @@ class MapRenderingViewController: NSViewController {
     weak var markerDragDelegate: MarkerDragDelegate!
 
     weak var fog: FogOfWarImageView?
-    weak var markerDragDestination: MarkerDragDestination?
+    weak var markerDragDestination: MarkerDragDestinationView?
 
     var revealing = true {
         didSet {
@@ -48,10 +48,8 @@ class MapRenderingViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print(#function, delegate, markerDragDelegate)
-
         let frame = NSRect(x: 0, y: 0, width: 200, height: 200)
-        let markerDragDestination = MarkerDragDestination(frame: frame)
+        let markerDragDestination = MarkerDragDestinationView(frame: frame)
         let fogOfWar = FogOfWarImageView(frame: frame)
 
         imageView.addSubview(fogOfWar)

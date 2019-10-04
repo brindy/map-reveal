@@ -10,12 +10,14 @@ import AppKit
 
 protocol MarkerDragDelegate: NSObjectProtocol {
 
-    func startDragging(_ destination: MarkerDragDestination, marker: MarkerDragDestination.DraggedMarker)
-    func updateDragging(_ destination: MarkerDragDestination, marker: MarkerDragDestination.DraggedMarker)
+    func startDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker)
+    func updateDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker)
+    func finishDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker)
+    func cancelDragging(_ destination: MarkerDragDestinationView)
 
 }
 
-class MarkerDragDestination: NSView {
+class MarkerDragDestinationView: NSView {
 
     weak var delegate: MarkerDragDelegate?
     private var draggedMarker: DraggedMarker?
@@ -49,7 +51,7 @@ class MarkerDragDestination: NSView {
         if let draggedMarker = DraggedMarker(marker: marker, location: sender.draggingLocation) {
             self.draggedMarker = draggedMarker
             delegate?.startDragging(self, marker: draggedMarker)
-            return .generic
+            return .copy
         }
 
         return []
@@ -63,10 +65,23 @@ class MarkerDragDestination: NSView {
 
         if let draggedMarker = draggedMarker {
             delegate?.updateDragging(self, marker: draggedMarker)
-            return .generic
+            return .copy
         }
 
         return []
+    }
+
+    override func draggingExited(_ sender: NSDraggingInfo?) {
+        guard sender?.draggingPasteboard.types?.contains(MarkersTableController.DropInfo.pastboardType) ?? true else { return }
+        delegate?.cancelDragging(self)
+    }
+
+    override func draggingEnded(_ sender: NSDraggingInfo) {
+        guard sender.draggingPasteboard.types?.contains(MarkersTableController.DropInfo.pastboardType) ?? true else { return }
+        draggedMarker?.location = sender.draggingLocation
+        if let draggedMarker = draggedMarker {
+            delegate?.finishDragging(self, marker: draggedMarker)
+        }
     }
 
     class DraggedMarker {
