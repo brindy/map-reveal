@@ -120,7 +120,6 @@ class MapRenderingViewController: NSViewController {
         guard isEditable else { return }
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker(under: point) {
-            print(#function, "found dragging marker")
             self.draggingMarker = draggingMarker
             draggingMarker.dragStarted(at: point)
             return
@@ -133,7 +132,6 @@ class MapRenderingViewController: NSViewController {
         guard isEditable else { return }
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker {
-            print(#function, "found dragging marker")
             draggingMarker.dragUpdated(at: point)
             return
         }

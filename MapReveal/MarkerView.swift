@@ -20,8 +20,6 @@ import AppKit
 
 class MarkerView: NSView {
 
-    var isDragging = false
-
     static func create(with marker: UserMarker) -> NSView? {
         guard let imageUrl = marker.imageUrl else { return nil }
         let image = NSImage(byReferencing: imageUrl)
@@ -37,11 +35,15 @@ class MarkerView: NSView {
         return markerView
     }
 
+    var cursorRect: NSRect?
     var marker: UserMarker!
+    var trackingArea: NSTrackingArea?
+    var isDragging = false
 
     init(frame: NSRect, marker: UserMarker) {
         super.init(frame: frame)
         self.marker = marker
+        updateTrackingAreas()
     }
 
     required init?(coder: NSCoder) {
@@ -63,4 +65,49 @@ class MarkerView: NSView {
         marker.x = Float(point.x + offset.x)
         marker.y = Float(point.y + offset.y)
     }
+
+    override func mouseEntered(with event: NSEvent) {
+        super.mouseEntered(with: event)
+        if isDragging {
+            NSCursor.closedHand.set()
+        } else {
+            NSCursor.openHand.set()
+        }
+    }
+
+    override func mouseDown(with event: NSEvent) {
+        super.mouseDown(with: event)
+        NSCursor.closedHand.set()
+        isDragging = true
+    }
+
+    override func mouseMoved(with event: NSEvent) {
+        super.mouseMoved(with: event)
+        NSCursor.openHand.set()
+    }
+
+    override func mouseDragged(with event: NSEvent) {
+        super.mouseDragged(with: event)
+        NSCursor.closedHand.set()
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        super.mouseUp(with: event)
+        NSCursor.openHand.set()
+        isDragging = false
+    }
+
+    override func mouseExited(with event: NSEvent) {
+        super.mouseExited(with: event)
+        NSCursor.arrow.set()
+    }
+
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        if let trackingArea = trackingArea {
+            removeTrackingArea(trackingArea)
+        }
+        addTrackingArea(NSTrackingArea(rect: bounds, options: [.mouseMoved, .mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil))
+    }
+
 }
