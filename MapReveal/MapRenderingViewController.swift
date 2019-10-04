@@ -43,10 +43,6 @@ class MapRenderingViewController: NSViewController {
         }
     }
 
-    var isDraggingMarker: Bool {
-        return imageView.subviews.contains(where: { ($0 as? MarkerView)?.isDragging ?? false })
-    }
-
     var imageUrl: URL?
     var revealedUrl: URL?
     var isEditable = true
@@ -117,30 +113,43 @@ class MapRenderingViewController: NSViewController {
         imageView.frame = frame
         scrollView.magnify(toFit: frame)
     }
-    
+
+    var draggingMarker: MarkerView?
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
         guard isEditable else { return }
-        guard !isDraggingMarker else { return }
         let point = convert(event.locationInWindow)
+        if let draggingMarker = draggingMarker(under: point) {
+            print(#function, "found dragging marker")
+            self.draggingMarker = draggingMarker
+            draggingMarker.dragStarted(at: point)
+            return
+        }
         fog?.start(at: point)
     }
 
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
         guard isEditable else { return }
-        guard !isDraggingMarker else { return }
         let point = convert(event.locationInWindow)
+        if let draggingMarker = draggingMarker {
+            print(#function, "found dragging marker")
+            draggingMarker.dragUpdated(at: point)
+            return
+        }
         fog?.move(to: point)
     }
 
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
         guard isEditable else { return }
-        guard !isDraggingMarker else { return }
         let point = convert(event.locationInWindow)
+        if let draggingMarker = draggingMarker {
+            draggingMarker.dragFinished(at: point)
+            self.draggingMarker = nil
+            return
+        }
         fog?.finish(at: point)
-
         if let revealedUrl = revealedUrl {
             self.fog?.writeRevealed(to: revealedUrl)
         }
@@ -160,6 +169,10 @@ class MapRenderingViewController: NSViewController {
     private func convert(_ point: NSPoint) -> NSPoint {
         guard let parent = parent else { return point }
         return parent.view.convert(point, to: imageView)
+    }
+
+    private func draggingMarker(under point: NSPoint) -> MarkerView? {
+        return imageView.subviews.first(where: { ($0 as? MarkerView)?.frame.contains(point) ?? false }) as? MarkerView
     }
 
 }

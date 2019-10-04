@@ -48,16 +48,19 @@ class MarkerView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func mouseDown(with event: NSEvent) {
-        super.mouseDown(with: event)
-        print(#function)
-        isDragging = true
+    var offset: NSPoint?
+    func dragStarted(at point: NSPoint) {
+        offset = NSPoint(x: frame.origin.x - point.x, y: frame.origin.y - point.y)
     }
 
-    override func mouseUp(with event: NSEvent) {
-        super.mouseUp(with: event)
-        print(#function)
-        isDragging = false
+    func dragUpdated(at point: NSPoint) {
+        guard let offset = offset else { return }
+        frame.origin = NSPoint(x: point.x + offset.x, y: point.y + offset.y)
     }
 
+    func dragFinished(at point: NSPoint) {
+        guard let offset = offset else { return }
+        marker.x = Float(point.x + offset.x)
+        marker.y = Float(point.y + offset.y)
+    }
 }
