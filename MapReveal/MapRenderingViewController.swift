@@ -16,11 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import Cocoa
+import AppKit
 
 protocol MapRendereringDelegate: NSObjectProtocol {
 
     func toolFinished(_ controller: MapRenderingViewController)
+    func markerModified(_ controller: MapRenderingViewController, marker: UserMarker)
+    func markerRemoved(_ controller: MapRenderingViewController, marker: UserMarker)
 
 }
 
@@ -61,6 +63,12 @@ class MapRenderingViewController: NSViewController {
     }
             
     func load(imageUrl: URL, revealedUrl: URL) {
+
+        imageView.subviews.forEach {
+            if $0 is MarkerView {
+                $0.removeFromSuperview()
+            }
+        }
 
         self.imageUrl = imageUrl
         self.revealedUrl = revealedUrl
@@ -140,9 +148,41 @@ class MapRenderingViewController: NSViewController {
         print(#function)
     }
 
+    func addMarker(_ marker: UserMarker) {
+        print(marker.displayName ?? "nil", marker.x, marker.y)
+
+        if let markerView = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker }) {
+            markerView.frame.origin = NSPoint(x: CGFloat(marker.x), y: CGFloat(marker.y))
+        } else if let markerView = MarkerView.create(with: marker) {
+            imageView.addSubview(markerView)
+        }
+    }
+
     private func convert(_ point: NSPoint) -> NSPoint {
         guard let parent = parent else { return point }
         return parent.view.convert(point, to: imageView)
     }
 
+    class MarkerView: NSView {
+
+        static func create(with marker: UserMarker) -> NSView? {
+            guard let imageUrl = marker.imageUrl else { return nil }
+            let image = NSImage(byReferencing: imageUrl)
+            let imageView = NSImageView(image: image)
+            let frame = NSRect(x: CGFloat(marker.x), y: CGFloat(marker.y), width: image.size.width, height: image.size.height)
+            imageView.frame = NSRect(origin: NSPoint(x: 0, y: 0), size: frame.size)
+
+            let markerView = MarkerView(frame: frame)
+            markerView.addSubview(imageView)
+            markerView.wantsLayer = true
+            markerView.layer?.contentsScale = CGFloat(marker.scale)
+            markerView.marker = marker
+            return markerView
+        }
+
+        var marker: UserMarker!
+
+    }
+
 }
+

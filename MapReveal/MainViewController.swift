@@ -142,7 +142,7 @@ class MainViewController: NSViewController {
     }
 
     @IBAction func markerNameEdited(_ sender: NSTextField) {
-        // TODO update the name
+        AppModel.shared.userMarkers[markersTableView.selectedRow].displayName = sender.stringValue
         AppModel.shared.save()
     }
 
@@ -167,6 +167,15 @@ extension MainViewController: MapRendereringDelegate {
     func toolFinished(_ controller: MapRenderingViewController) {
         guard autoPush else { return }
         pushToOther(self)
+    }
+
+    func markerModified(_ controller: MapRenderingViewController, marker: UserMarker) {
+        AppModel.shared.save()
+    }
+
+    func markerRemoved(_ controller: MapRenderingViewController, marker: UserMarker) {
+        marker.map = nil
+        AppModel.shared.save()
     }
 
 }
@@ -208,6 +217,11 @@ extension MainViewController: MapsTableControllerDelegate {
         selectedUserMap = userMap
         guard let gmImageUrl = selectedUserMap?.gmImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
         gmMap?.load(imageUrl: gmImageUrl, revealedUrl: revealedUrl)
+
+        (userMap.markers as? Set<UserMarker>)?.forEach {
+            gmMap?.addMarker($0)
+        }
+
         gmMap?.zoomToFit()
     }
 
@@ -273,7 +287,19 @@ extension MainViewController: MarkerDragDelegate {
     }
 
     func finishDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker) {
-        markerImageView = nil
+        defer {
+            markerImageView?.removeFromSuperview()
+        }
+        guard let frame = markerImageView?.frame else { return }
+        marker.marker.x = Float(frame.origin.x)
+        marker.marker.y = Float(frame.origin.y)
+        marker.marker.scale = 1.0
+
+        marker.marker.map = selectedUserMap
+        selectedUserMap?.addToMarkers(marker.marker)
+
+        AppModel.shared.save()
+        gmMap?.addMarker(marker.marker)
     }
 
     func cancelDragging(_ destination: MarkerDragDestinationView) {
