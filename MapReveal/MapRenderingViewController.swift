@@ -147,6 +147,7 @@ class MapRenderingViewController: NSViewController {
         if let draggingMarker = draggingMarker {
             draggingMarker.dragFinished(at: point)
             self.draggingMarker = nil
+            AppModel.shared.save()
             return
         }
         fog?.finish(at: point)
