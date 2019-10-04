@@ -75,6 +75,10 @@ class AppModel {
         fetchMarkers()
     }
 
+    func marker(withUid uid: String) -> UserMarker? {
+        return userMarkers.first(where: { $0.uid == uid })
+    }
+
     func add(markerImage image: NSImage, named name: String, toRow row: Int? = nil, completion: @escaping (String?, Error?) -> Void) {
 
         DispatchQueue.global(qos: .utility).async {

@@ -27,6 +27,8 @@ class MainViewController: NSViewController {
 
     }
 
+    var markerDragDestination: MarkerDragDestination?
+
     @IBOutlet weak var mapsTableView: NSTableView!
     @IBOutlet weak var markersTableView: NSTableView!
 
@@ -39,6 +41,8 @@ class MainViewController: NSViewController {
 
     var mapsTableController: MapsTableController!
     var markersTableController: MarkersTableController!
+
+    var markerImageView: NSImageView?
 
     // MARK: overrides
 
@@ -56,8 +60,13 @@ class MainViewController: NSViewController {
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let controller = segue.destinationController as? MapRenderingViewController {
+
+            print(#function)
+
             gmMap = controller
             gmMap?.delegate = self
+            gmMap?.markerDragDelegate = self
+
         }
         if let controller = segue.destinationController as? ImportMapViewController {
             controller.delegate = self
@@ -239,6 +248,49 @@ extension MainViewController: MarkersTableControllerDelegate {
 
         // TODO refresh the map
 
+    }
+
+}
+
+extension MainViewController: MarkerDragDelegate {
+
+    func startDragging(_ destination: MarkerDragDestination, marker: MarkerDragDestination.DraggedMarker) {
+        let converted = view.convert(marker.location, to: gmMap?.imageView)
+        print(#function, marker.location, converted)
+        markerImageView?.removeFromSuperview()
+
+        let size = NSSize(width: marker.image.width, height: marker.image.height)
+        let markerImageView = NSImageView(image: NSImage(cgImage: marker.image, size: size))
+        gmMap?.imageView.addSubview(markerImageView)
+        self.markerImageView = markerImageView
+    }
+
+    func updateDragging(_ destination: MarkerDragDestination, marker: MarkerDragDestination.DraggedMarker) {
+        let converted = view.convert(marker.location, to: gmMap?.imageView)
+        print(#function, marker.location, converted)
+        if let size = markerImageView?.image?.size {
+            markerImageView?.frame = NSRect(origin: converted.offsetBy(size.half.inverted), size: size)
+        }
+    }
+
+}
+
+extension NSSize {
+
+    var half: NSSize {
+        return NSSize(width: width / 2, height: height / 2)
+    }
+
+    var inverted: NSSize {
+        return NSSize(width: -width, height: -height)
+    }
+
+}
+
+extension NSPoint {
+
+    func offsetBy(_ size: NSSize) -> NSPoint {
+        return NSPoint(x: x + size.width, y: y + size.height)
     }
 
 }

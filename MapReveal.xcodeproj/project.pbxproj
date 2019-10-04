@@ -21,6 +21,7 @@
 		8586B5C72342A3CA003E383C /* ImportMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8586B5C62342A3CA003E383C /* ImportMarkerViewController.swift */; };
 		8586B5CA2342AC58003E383C /* MapsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8586B5C82342AC58003E383C /* MapsModel.xcdatamodeld */; };
 		85D47B3423027B09004E21A7 /* ImportMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D47B3323027B09004E21A7 /* ImportMapViewController.swift */; };
+		85E381C3234347C30001C014 /* MarkerDragDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E381C2234347C30001C014 /* MarkerDragDestination.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		8586B5C62342A3CA003E383C /* ImportMarkerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMarkerViewController.swift; sourceTree = "<group>"; };
 		8586B5C92342AC58003E383C /* MapsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapsModel.xcdatamodel; sourceTree = "<group>"; };
 		85D47B3323027B09004E21A7 /* ImportMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMapViewController.swift; sourceTree = "<group>"; };
+		85E381C2234347C30001C014 /* MarkerDragDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerDragDestination.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
 				8586B5C82342AC58003E383C /* MapsModel.xcdatamodeld */,
 				852E864123428EB30042E8F1 /* MapsTableController.swift */,
+				85E381C2234347C30001C014 /* MarkerDragDestination.swift */,
 				8520C4802342B4CD00AC1CFC /* MarkersTableController.swift */,
 			);
 			path = MapReveal;
@@ -173,6 +176,7 @@
 				850385F722F49B35002259DB /* CenteringClipView.swift in Sources */,
 				8586B5C72342A3CA003E383C /* ImportMarkerViewController.swift in Sources */,
 				8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */,
+				85E381C3234347C30001C014 /* MarkerDragDestination.swift in Sources */,
 				8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */,
 				852E864223428EB30042E8F1 /* MapsTableController.swift in Sources */,
 			);

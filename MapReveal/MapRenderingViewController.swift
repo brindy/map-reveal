@@ -30,7 +30,10 @@ class MapRenderingViewController: NSViewController {
     @IBOutlet weak var scrollView: NSScrollView!
 
     weak var delegate: MapRendereringDelegate?
+    weak var markerDragDelegate: MarkerDragDelegate!
+
     weak var fog: FogOfWarImageView?
+    weak var markerDragDestination: MarkerDragDestination?
 
     var revealing = true {
         didSet {
@@ -44,12 +47,19 @@ class MapRenderingViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let fogOfWar = FogOfWarImageView(frame: NSRect(x: 0, y: 0, width: 200, height: 200))
-        fogOfWar.autoresizingMask = [.width, .height]
-        fogOfWar.translatesAutoresizingMaskIntoConstraints = true
+
+        print(#function, delegate, markerDragDelegate)
+
+        let frame = NSRect(x: 0, y: 0, width: 200, height: 200)
+        let markerDragDestination = MarkerDragDestination(frame: frame)
+        let fogOfWar = FogOfWarImageView(frame: frame)
+
         imageView.addSubview(fogOfWar)
+        imageView.addSubview(markerDragDestination)
+
         self.fog = fogOfWar
+        self.markerDragDestination = markerDragDestination
+        self.markerDragDestination?.delegate = markerDragDelegate
     }
             
     func load(imageUrl: URL, revealedUrl: URL) {
@@ -107,6 +117,7 @@ class MapRenderingViewController: NSViewController {
 
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
+        print(#function)
         guard editable else { return }
         let point = convert(event.locationInWindow)
         print(#function, point)
@@ -124,6 +135,11 @@ class MapRenderingViewController: NSViewController {
             self.fog?.writeRevealed(to: revealedUrl)
         }
         delegate?.toolFinished(self)
+    }
+
+    override func mouseEntered(with event: NSEvent) {
+        super.mouseEntered(with: event)
+        print(#function)
     }
 
     private func convert(_ point: NSPoint) -> NSPoint {

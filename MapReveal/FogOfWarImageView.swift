@@ -33,6 +33,16 @@ class FogOfWarImageView: NSView {
     private var currentDrawable: Drawable?
     private var drawables = [Drawable]()
 
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        autoresizingMask = [.width, .height]
+        translatesAutoresizingMaskIntoConstraints = true
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
