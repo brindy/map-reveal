@@ -17,6 +17,7 @@
 		8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526684E22FBB1C9006AD48A /* Drawable.swift */; };
 		8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */; };
 		852668532301DC2D006AD48A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852668522301DC2D006AD48A /* AppModel.swift */; };
+		852D23A32347D18500C3A1C2 /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852D23A22347D18500C3A1C2 /* MarkerView.swift */; };
 		852E864223428EB30042E8F1 /* MapsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852E864123428EB30042E8F1 /* MapsTableController.swift */; };
 		8586B5C72342A3CA003E383C /* ImportMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8586B5C62342A3CA003E383C /* ImportMarkerViewController.swift */; };
 		8586B5CA2342AC58003E383C /* MapsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8586B5C82342AC58003E383C /* MapsModel.xcdatamodeld */; };
@@ -38,6 +39,7 @@
 		8526684E22FBB1C9006AD48A /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
 		8526685022FEB8F5006AD48A /* FogOfWarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogOfWarImageView.swift; sourceTree = "<group>"; };
 		852668522301DC2D006AD48A /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		852D23A22347D18500C3A1C2 /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
 		852E864123428EB30042E8F1 /* MapsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsTableController.swift; sourceTree = "<group>"; };
 		8586B5C62342A3CA003E383C /* ImportMarkerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMarkerViewController.swift; sourceTree = "<group>"; };
 		8586B5C92342AC58003E383C /* MapsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapsModel.xcdatamodel; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				852E864123428EB30042E8F1 /* MapsTableController.swift */,
 				85E381C2234347C30001C014 /* MarkerDragDestinationView.swift */,
 				8520C4802342B4CD00AC1CFC /* MarkersTableController.swift */,
+				852D23A22347D18500C3A1C2 /* MarkerView.swift */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 				8526684D22FBAB31006AD48A /* MainViewController.swift in Sources */,
 				850385E722F48C06002259DB /* AppDelegate.swift in Sources */,
 				850385F722F49B35002259DB /* CenteringClipView.swift in Sources */,
+				852D23A32347D18500C3A1C2 /* MarkerView.swift in Sources */,
 				8586B5C72342A3CA003E383C /* ImportMarkerViewController.swift in Sources */,
 				8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */,
 				85E381C3234347C30001C014 /* MarkerDragDestinationView.swift in Sources */,

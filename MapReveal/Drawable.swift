@@ -22,7 +22,7 @@ protocol Drawable: NSObjectProtocol {
     
     typealias Factory = ((Bool) -> Drawable)
 
-    var revealing: Bool { get }
+    var isRevealing: Bool { get }
 
     func follow(into context: CGContext)
     
@@ -38,7 +38,7 @@ protocol Drawable: NSObjectProtocol {
 
 extension Drawable {
 
-    var revealing: Bool {
+    var isRevealing: Bool {
         return true
     }
 
@@ -68,16 +68,16 @@ class PNGDrawable: NSObject, Drawable {
 
 class PaintDrawable: NSObject, Drawable {
 
-    static func factory(revealing: Bool) -> Drawable { return PaintDrawable(revealing) }
+    static func factory(isRevealing: Bool) -> Drawable { return PaintDrawable(isRevealing) }
 
-    let revealing: Bool
+    let isRevealing: Bool
 
     var width: CGFloat = 50
     var points = Set<NSPoint>()
     var lastPoint: NSPoint?
 
     private init(_ revealing: Bool) {
-        self.revealing = revealing
+        self.isRevealing = revealing
         super.init()
     }
 
@@ -120,7 +120,7 @@ class AreaDrawable: NSObject, Drawable {
 
     let followFillColor = NSColor(white: 1.0, alpha: 0.5).cgColor
 
-    let revealing: Bool
+    let isRevealing: Bool
 
     var startPoint: NSPoint?
     var lastPoint: NSPoint?
@@ -132,7 +132,7 @@ class AreaDrawable: NSObject, Drawable {
     }
 
     private init(_ revealing: Bool) {
-        self.revealing = revealing
+        self.isRevealing = revealing
         super.init()
     }
 

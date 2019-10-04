@@ -114,7 +114,7 @@ class MainViewController: NSViewController {
 
     @IBAction func toggleReveal(_ sender: Any) {
         print(#function, sender)
-        gmMap?.revealing = (sender as? NSButton)?.state == .on
+        gmMap?.isRevealing = (sender as? NSButton)?.state == .on
     }
 
     @IBAction func toggleAutoPush(_ sender: Any) {
@@ -152,7 +152,7 @@ class MainViewController: NSViewController {
         let otherWindowController = storyboard?.instantiateController(withIdentifier: "VisibleMap") as? NSWindowController
         guard let otherViewController = otherWindowController?.contentViewController as? MapRenderingViewController else { return }
         otherViewController.fog?.color = NSColor.white
-        otherViewController.editable = false
+        otherViewController.isEditable = false
         self.playerMap = otherViewController
         otherWindowController?.showWindow(self)
         DispatchQueue.main.async {

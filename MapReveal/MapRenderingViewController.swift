@@ -37,20 +37,24 @@ class MapRenderingViewController: NSViewController {
     weak var fog: FogOfWarImageView?
     weak var markerDragDestination: MarkerDragDestinationView?
 
-    var revealing = true {
+    var isRevealing = true {
         didSet {
-            fog?.revealing = revealing
+            fog?.isRevealing = isRevealing
         }
+    }
+
+    var isDraggingMarker: Bool {
+        return imageView.subviews.contains(where: { ($0 as? MarkerView)?.isDragging ?? false })
     }
 
     var imageUrl: URL?
     var revealedUrl: URL?
-    var editable = true
+    var isEditable = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let frame = NSRect(x: 0, y: 0, width: 200, height: 200)
+        let frame = NSRect.zero // (x: 0, y: 0, width: 200, height: 200)
         let markerDragDestination = MarkerDragDestinationView(frame: frame)
         let fogOfWar = FogOfWarImageView(frame: frame)
 
@@ -80,7 +84,8 @@ class MapRenderingViewController: NSViewController {
         let newFrame = NSRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: image.size.width, height: image.size.height)
         imageView?.frame = newFrame
         view.needsLayout = true
-        
+
+        fog?.frame = newFrame
         fog?.restore()
 
         DispatchQueue.global(qos: .utility).async {
@@ -115,37 +120,31 @@ class MapRenderingViewController: NSViewController {
     
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
-        guard editable else { return }
+        guard isEditable else { return }
+        guard !isDraggingMarker else { return }
         let point = convert(event.locationInWindow)
-        print(#function, point)
         fog?.start(at: point)
     }
 
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
-        print(#function)
-        guard editable else { return }
+        guard isEditable else { return }
+        guard !isDraggingMarker else { return }
         let point = convert(event.locationInWindow)
-        print(#function, point)
         fog?.move(to: point)
     }
 
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
-        guard editable else { return }
+        guard isEditable else { return }
+        guard !isDraggingMarker else { return }
         let point = convert(event.locationInWindow)
-        print(#function, point)
         fog?.finish(at: point)
 
         if let revealedUrl = revealedUrl {
             self.fog?.writeRevealed(to: revealedUrl)
         }
         delegate?.toolFinished(self)
-    }
-
-    override func mouseEntered(with event: NSEvent) {
-        super.mouseEntered(with: event)
-        print(#function)
     }
 
     func addMarker(_ marker: UserMarker) {
@@ -163,26 +162,4 @@ class MapRenderingViewController: NSViewController {
         return parent.view.convert(point, to: imageView)
     }
 
-    class MarkerView: NSView {
-
-        static func create(with marker: UserMarker) -> NSView? {
-            guard let imageUrl = marker.imageUrl else { return nil }
-            let image = NSImage(byReferencing: imageUrl)
-            let imageView = NSImageView(image: image)
-            let frame = NSRect(x: CGFloat(marker.x), y: CGFloat(marker.y), width: image.size.width, height: image.size.height)
-            imageView.frame = NSRect(origin: NSPoint(x: 0, y: 0), size: frame.size)
-
-            let markerView = MarkerView(frame: frame)
-            markerView.addSubview(imageView)
-            markerView.wantsLayer = true
-            markerView.layer?.contentsScale = CGFloat(marker.scale)
-            markerView.marker = marker
-            return markerView
-        }
-
-        var marker: UserMarker!
-
-    }
-
 }
-

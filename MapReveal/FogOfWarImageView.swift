@@ -20,9 +20,9 @@ import AppKit
 
 class FogOfWarImageView: NSView {
 
-    var revealing = true {
+    var isRevealing = true {
         didSet {
-            currentDrawable = currentDrawFactory(revealing)
+            currentDrawable = currentDrawFactory(isRevealing)
         }
     }
 
@@ -119,6 +119,8 @@ class FogOfWarImageView: NSView {
     }
 
     func createImage() -> CGImage? {
+        guard frame.width > 0 && frame.height > 0 else { return nil }
+
         let cgContext = CGContext(data: nil,
                            width: Int(frame.width),
                            height: Int(frame.height),
@@ -130,8 +132,6 @@ class FogOfWarImageView: NSView {
 
         cgContext.setFillColor(CGColor.white)
         cgContext.fill(bounds)
-
-        cgContext.fill(frame)
 
         draw(drawables, into: nsContext)
 
@@ -182,14 +182,14 @@ class FogOfWarImageView: NSView {
     private func draw(_ drawables: [Drawable], into context: NSGraphicsContext) {
         drawables.forEach {
             context.saveGraphicsState()
-            configure(context, for: $0.revealing)
+            configure(context, for: $0.isRevealing)
             $0.reveal(into: context.cgContext)
             context.restoreGraphicsState()
         }
     }
 
     private func newDrawable() {
-        currentDrawable = currentDrawFactory(revealing)
+        currentDrawable = currentDrawFactory(isRevealing)
     }
 
     private func configure(_ context: NSGraphicsContext, for revealing: Bool) {

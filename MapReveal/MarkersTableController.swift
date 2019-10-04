@@ -123,7 +123,6 @@ class MarkersTableController: NSObject, NSTableViewDelegate, NSTableViewDataSour
         tableView.endUpdates()
 
         AppModel.shared.moveMarker(from: originalRow, to: newRow)
-
     }
 
 }
