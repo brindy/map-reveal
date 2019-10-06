@@ -293,7 +293,8 @@ extension MainViewController: MarkerDragDelegate {
         guard let frame = markerImageView?.frame else { return }
         marker.marker.x = Float(frame.origin.x)
         marker.marker.y = Float(frame.origin.y)
-        marker.marker.scale = 1.0
+        marker.marker.width = Float(frame.size.width)
+        marker.marker.height = Float(frame.size.height)
 
         marker.marker.map = selectedUserMap
         selectedUserMap?.addToMarkers(marker.marker)

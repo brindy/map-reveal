@@ -132,7 +132,7 @@ class MapRenderingViewController: NSViewController {
         guard isEditable else { return }
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker {
-            draggingMarker.dragUpdated(at: point)
+            draggingMarker.dragUpdated(at: point, scaling: event.modifierFlags.contains(.shift))
             return
         }
         fog?.move(to: point)

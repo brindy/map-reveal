@@ -24,13 +24,13 @@ class MarkerView: NSView {
         guard let imageUrl = marker.imageUrl else { return nil }
         let image = NSImage(byReferencing: imageUrl)
         let imageView = NSImageView(image: image)
-        let frame = NSRect(x: CGFloat(marker.x), y: CGFloat(marker.y), width: image.size.width, height: image.size.height)
+        let frame = NSRect(x: CGFloat(marker.x), y: CGFloat(marker.y), width: CGFloat(marker.width), height: CGFloat(marker.height))
         imageView.frame = NSRect(origin: NSPoint(x: 0, y: 0), size: frame.size)
+        imageView.imageScaling = .scaleProportionallyUpOrDown
+        imageView.autoresizingMask = [.width, .height]
 
         let markerView = MarkerView(frame: frame, marker: marker)
         markerView.addSubview(imageView)
-        markerView.wantsLayer = true
-        markerView.layer?.contentsScale = CGFloat(marker.scale)
         return markerView
     }
 
@@ -45,6 +45,7 @@ class MarkerView: NSView {
         self.marker = marker
         super.init(frame: frame)
         updateTrackingAreas()
+        autoresizesSubviews = true
     }
 
     required init?(coder: NSCoder) {
@@ -55,15 +56,24 @@ class MarkerView: NSView {
         offset = NSPoint(x: frame.origin.x - point.x, y: frame.origin.y - point.y)
     }
 
-    func dragUpdated(at point: NSPoint) {
+    func dragUpdated(at point: NSPoint, scaling: Bool) {
         guard let offset = offset else { return }
-        frame.origin = NSPoint(x: point.x + offset.x, y: point.y + offset.y)
+
+        if scaling {
+            let distance = point.distanceTo(frame.origin)
+            frame.size = NSSize(width: distance, height: distance)
+        } else {
+            frame.origin = NSPoint(x: point.x + offset.x, y: point.y + offset.y)
+        }
+
     }
 
     func dragFinished(at point: NSPoint) {
         guard let offset = offset else { return }
         marker.x = Float(point.x + offset.x)
         marker.y = Float(point.y + offset.y)
+        marker.width = Float(frame.size.width)
+        marker.height = Float(frame.size.height)
     }
 
     override func mouseEntered(with event: NSEvent) {
@@ -108,6 +118,20 @@ class MarkerView: NSView {
             removeTrackingArea(trackingArea)
         }
         addTrackingArea(NSTrackingArea(rect: bounds, options: [.mouseMoved, .mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil))
+    }
+
+}
+
+extension NSPoint {
+
+    func distanceTo(_ point: NSPoint) -> CGFloat {
+        return distanceTo(x: point.x, y: point.y)
+    }
+
+    func distanceTo(x: CGFloat, y: CGFloat) -> CGFloat {
+        let width = self.x - x
+        let height = self.y - y
+        return sqrt(width * width + height * height)
     }
 
 }
