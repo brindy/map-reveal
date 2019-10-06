@@ -31,18 +31,19 @@ class MarkerView: NSView {
         markerView.addSubview(imageView)
         markerView.wantsLayer = true
         markerView.layer?.contentsScale = CGFloat(marker.scale)
-        markerView.marker = marker
         return markerView
     }
 
-    var cursorRect: NSRect?
-    var marker: UserMarker!
-    var trackingArea: NSTrackingArea?
+    let marker: UserMarker
     var isDragging = false
 
+    private var cursorRect: NSRect?
+    private var trackingArea: NSTrackingArea?
+    private var offset: NSPoint?
+
     init(frame: NSRect, marker: UserMarker) {
-        super.init(frame: frame)
         self.marker = marker
+        super.init(frame: frame)
         updateTrackingAreas()
     }
 
@@ -50,7 +51,6 @@ class MarkerView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var offset: NSPoint?
     func dragStarted(at point: NSPoint) {
         offset = NSPoint(x: frame.origin.x - point.x, y: frame.origin.y - point.y)
     }
