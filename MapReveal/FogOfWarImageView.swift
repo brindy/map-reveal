@@ -160,7 +160,7 @@ class FogOfWarImageView: NSView {
 
     }
 
-    func readRevealed(from url: URL) {
+    func readRevealed(from url: URL, completion: () -> Void) {
         print(#function, url)
 
         guard let image = NSImage(contentsOf: url) else {
@@ -174,9 +174,7 @@ class FogOfWarImageView: NSView {
         }
 
         drawables = [PNGDrawable(image: cgImage)]
-        DispatchQueue.main.async {
-            self.needsDisplay = true
-        }
+        completion()
     }
 
     private func draw(_ drawables: [Drawable], into context: NSGraphicsContext) {

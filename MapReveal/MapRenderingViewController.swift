@@ -81,11 +81,15 @@ class MapRenderingViewController: NSViewController {
         imageView?.frame = newFrame
         view.needsLayout = true
 
-        fog?.frame = newFrame
+        fog?.frame = NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
         fog?.restore()
 
         DispatchQueue.global(qos: .utility).async {
-            self.fog?.readRevealed(from: revealedUrl)
+            self.fog?.readRevealed(from: revealedUrl) {
+                DispatchQueue.main.async {
+                    self.fog?.needsDisplay = true
+                }
+            }
         }
     }
 
