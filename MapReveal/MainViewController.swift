@@ -221,7 +221,7 @@ extension MainViewController: MapsTableControllerDelegate {
         (userMap.markers as? Set<UserMarker>)?.forEach {
             gmMap?.addMarker($0)
         }
-
+        
         gmMap?.zoomToFit()
     }
 
@@ -247,7 +247,10 @@ extension MainViewController: MarkersTableControllerDelegate {
 
     func selected(userMarker: UserMarker) {
         mapsTableView.selectRowIndexes([], byExtendingSelection: false)
-        // TODO
+        if let map = userMarker.map, map != selectedUserMap {
+            selected(userMap: map)
+        }
+        gmMap?.zoomTo(marker: userMarker)
     }
 
     func handle(drop: MarkersTableController.DropInfo) {
@@ -296,6 +299,10 @@ extension MainViewController: MarkerDragDelegate {
         marker.marker.width = Float(frame.size.width)
         marker.marker.height = Float(frame.size.height)
 
+        if let previousMap = marker.marker.map {
+            previousMap.removeFromMarkers(marker.marker)
+        }
+
         marker.marker.map = selectedUserMap
         selectedUserMap?.addToMarkers(marker.marker)
 
@@ -319,12 +326,20 @@ extension NSSize {
         return NSSize(width: -width, height: -height)
     }
 
+    func plus(width: CGFloat, height: CGFloat) -> NSSize {
+        return NSSize(width: self.width + width, height: self.height + height)
+    }
+
 }
 
 extension NSPoint {
 
     func offsetBy(_ size: NSSize) -> NSPoint {
-        return NSPoint(x: x + size.width, y: y + size.height)
+        return offsetBy(x: size.width, y: size.height)
+    }
+
+    func offsetBy(x: CGFloat, y: CGFloat) -> NSPoint {
+        return NSPoint(x: self.x + x, y: self.x + y)
     }
 
 }

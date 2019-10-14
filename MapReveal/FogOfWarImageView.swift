@@ -36,7 +36,6 @@ class FogOfWarImageView: NSView {
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         autoresizingMask = [.width, .height]
-        translatesAutoresizingMaskIntoConstraints = true
     }
 
     required init?(coder: NSCoder) {
@@ -160,7 +159,7 @@ class FogOfWarImageView: NSView {
 
     }
 
-    func readRevealed(from url: URL, completion: () -> Void) {
+    func readRevealed(from url: URL) {
         print(#function, url)
 
         guard let image = NSImage(contentsOf: url) else {
@@ -174,7 +173,6 @@ class FogOfWarImageView: NSView {
         }
 
         drawables = [PNGDrawable(image: cgImage)]
-        completion()
     }
 
     private func draw(_ drawables: [Drawable], into context: NSGraphicsContext) {

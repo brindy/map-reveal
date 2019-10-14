@@ -26,9 +26,7 @@ class MarkerDragDestinationView: NSView {
         super.init(frame: frameRect)
 
         autoresizingMask = [.width, .height]
-        translatesAutoresizingMaskIntoConstraints = true
         registerForDraggedTypes([MarkersTableController.DropInfo.pastboardType])
-        needsLayout = true
     }
 
     required init?(coder: NSCoder) {

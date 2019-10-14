@@ -79,18 +79,11 @@ class MapRenderingViewController: NSViewController {
         guard let currentFrame = imageView?.frame else { return }
         let newFrame = NSRect(x: currentFrame.origin.x, y: currentFrame.origin.y, width: image.size.width, height: image.size.height)
         imageView?.frame = newFrame
-        view.needsLayout = true
 
         fog?.frame = NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
         fog?.restore()
 
-        DispatchQueue.global(qos: .utility).async {
-            self.fog?.readRevealed(from: revealedUrl) {
-                DispatchQueue.main.async {
-                    self.fog?.needsDisplay = true
-                }
-            }
-        }
+        self.fog?.readRevealed(from: revealedUrl)
     }
 
     func update(from other: FogOfWarImageView) {
@@ -115,7 +108,7 @@ class MapRenderingViewController: NSViewController {
         guard let image = imageView.image else { return }
         let frame = NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
         imageView.frame = frame
-        scrollView.magnify(toFit: frame)
+        scrollView.magnify(toFit: imageView.bounds)
     }
 
     var draggingMarker: MarkerView?
@@ -167,6 +160,12 @@ class MapRenderingViewController: NSViewController {
         } else if let markerView = MarkerView.create(with: marker) {
             imageView.addSubview(markerView)
         }
+    }
+
+    func zoomTo(marker: UserMarker) {
+        guard let marker = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker } ) else { return }
+        scrollView.magnify(toFit: marker.frame)
+        scrollView.magnification /= 4.0
     }
 
     private func convert(_ point: NSPoint) -> NSPoint {
