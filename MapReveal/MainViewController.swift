@@ -134,6 +134,7 @@ class MainViewController: NSViewController {
         if zoomFit {
             playerMap?.zoomToFit()
         }
+        pushMarkers(playerMap)
     }
 
     @IBAction func imageNameEdited(_ sender: NSTextField) {
@@ -160,6 +161,12 @@ class MainViewController: NSViewController {
         }
     }
 
+    private func pushMarkers(_ map: MapRenderingViewController?) {
+        (selectedUserMap?.markers as? Set<UserMarker>)?.forEach {
+            map?.addMarker($0)
+        }
+    }
+
 }
 
 extension MainViewController: MapRendereringDelegate {
@@ -171,6 +178,9 @@ extension MainViewController: MapRendereringDelegate {
 
     func markerModified(_ controller: MapRenderingViewController, marker: UserMarker) {
         AppModel.shared.save()
+        if autoPush {
+            pushMarkers(playerMap)
+        }
     }
 
     func markerRemoved(_ controller: MapRenderingViewController, marker: UserMarker) {
@@ -217,11 +227,7 @@ extension MainViewController: MapsTableControllerDelegate {
         selectedUserMap = userMap
         guard let gmImageUrl = selectedUserMap?.gmImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
         gmMap?.load(imageUrl: gmImageUrl, revealedUrl: revealedUrl)
-
-        (userMap.markers as? Set<UserMarker>)?.forEach {
-            gmMap?.addMarker($0)
-        }
-        
+        pushMarkers(gmMap)
         gmMap?.zoomToFit()
     }
 
@@ -262,7 +268,8 @@ extension MainViewController: MarkersTableControllerDelegate {
         AppModel.shared.save()
         markersTableView.reloadData()
 
-        // TODO refresh the map
+        gmMap?.removeMarker(userMarker)
+        playerMap?.removeMarker(userMarker)
 
     }
 
@@ -308,6 +315,11 @@ extension MainViewController: MarkerDragDelegate {
 
         AppModel.shared.save()
         gmMap?.addMarker(marker.marker)
+
+        if autoPush {
+            playerMap?.addMarker(marker.marker)
+        }
+
     }
 
     func cancelDragging(_ destination: MarkerDragDestinationView) {

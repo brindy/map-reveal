@@ -46,6 +46,7 @@ class MapRenderingViewController: NSViewController {
     var imageUrl: URL?
     var revealedUrl: URL?
     var isEditable = true
+    var draggingMarker: MarkerView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,7 +112,6 @@ class MapRenderingViewController: NSViewController {
         scrollView.magnify(toFit: imageView.bounds)
     }
 
-    var draggingMarker: MarkerView?
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
         guard isEditable else { return }
@@ -141,6 +141,7 @@ class MapRenderingViewController: NSViewController {
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker {
             draggingMarker.dragFinished(at: point)
+            delegate?.markerModified(self, marker: draggingMarker.marker)
             self.draggingMarker = nil
             AppModel.shared.save()
             return
@@ -160,6 +161,14 @@ class MapRenderingViewController: NSViewController {
         } else if let markerView = MarkerView.create(with: marker) {
             imageView.addSubview(markerView)
         }
+    }
+
+    func removeMarker(_ marker: UserMarker) {
+
+        if let markerView = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker }) {
+            markerView.removeFromSuperview()
+        }
+
     }
 
     func zoomTo(marker: UserMarker) {
