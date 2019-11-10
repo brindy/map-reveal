@@ -119,6 +119,7 @@ class MapRenderingViewController: NSViewController {
         if let draggingMarker = draggingMarker(under: point) {
             self.draggingMarker = draggingMarker
             draggingMarker.dragStarted(at: point)
+            imageView.bringSubviewToFront(draggingMarker)
             return
         }
         fog?.start(at: point)
@@ -143,6 +144,7 @@ class MapRenderingViewController: NSViewController {
             draggingMarker.dragFinished(at: point)
             delegate?.markerModified(self, marker: draggingMarker.marker)
             self.draggingMarker = nil
+            updateMarkerOrder()
             AppModel.shared.save()
             return
         }
@@ -184,6 +186,36 @@ class MapRenderingViewController: NSViewController {
 
     private func draggingMarker(under point: NSPoint) -> MarkerView? {
         return imageView.subviews.first(where: { ($0 as? MarkerView)?.frame.contains(point) ?? false }) as? MarkerView
+    }
+
+    private func updateMarkerOrder() {
+
+        var i: Int64 = 0
+        imageView.subviews.forEach({
+            ($0 as? MarkerView)?.marker.displayOrder = i
+            i += 1
+        })
+
+    }
+
+}
+
+extension NSView {
+
+    func bringSubviewToFront(_ view: NSView) {
+            var theView = view
+            self.sortSubviews({(viewA,viewB,rawPointer) in
+                let view = rawPointer?.load(as: NSView.self)
+
+                switch view {
+                case viewA:
+                    return ComparisonResult.orderedDescending
+                case viewB:
+                    return ComparisonResult.orderedAscending
+                default:
+                    return ComparisonResult.orderedSame
+                }
+            }, context: &theView)
     }
 
 }

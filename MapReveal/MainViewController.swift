@@ -162,7 +162,9 @@ class MainViewController: NSViewController {
     }
 
     private func pushMarkers(_ map: MapRenderingViewController?) {
-        (selectedUserMap?.markers as? Set<UserMarker>)?.forEach {
+        (selectedUserMap?.markers as? Set<UserMarker>)?.sorted(by: { l, r in
+            return l.displayOrder < r.displayOrder
+        }).forEach {
             map?.addMarker($0)
         }
     }
