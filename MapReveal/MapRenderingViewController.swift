@@ -114,7 +114,7 @@ class MapRenderingViewController: NSViewController {
 
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
-        guard isEditable else { return }
+
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker(under: point) {
             self.draggingMarker = draggingMarker
@@ -122,23 +122,27 @@ class MapRenderingViewController: NSViewController {
             imageView.bringSubviewToFront(draggingMarker)
             return
         }
+
+        guard isEditable else { return }
         fog?.start(at: point)
     }
 
     override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
-        guard isEditable else { return }
+
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker {
             draggingMarker.dragUpdated(at: point, scaling: event.modifierFlags.contains(.shift))
             return
         }
+
+        guard isEditable else { return }
         fog?.move(to: point)
     }
 
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
-        guard isEditable else { return }
+
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker {
             draggingMarker.dragFinished(at: point)
@@ -148,6 +152,8 @@ class MapRenderingViewController: NSViewController {
             AppModel.shared.save()
             return
         }
+
+        guard isEditable else { return }
         fog?.finish(at: point)
         if let revealedUrl = revealedUrl {
             self.fog?.writeRevealed(to: revealedUrl)
@@ -156,7 +162,7 @@ class MapRenderingViewController: NSViewController {
     }
 
     func addMarker(_ marker: UserMarker) {
-        print(marker.displayName ?? "nil", marker.x, marker.y)
+        print(#function, marker.displayName ?? "nil", marker.x, marker.y)
 
         if let markerView = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker }) {
             markerView.frame.origin = NSPoint(x: CGFloat(marker.x), y: CGFloat(marker.y))
@@ -180,7 +186,7 @@ class MapRenderingViewController: NSViewController {
     }
 
     private func convert(_ point: NSPoint) -> NSPoint {
-        guard let parent = parent else { return point }
+        guard let parent = parent else { return view.convert(point, to: imageView) }
         return parent.view.convert(point, to: imageView)
     }
 

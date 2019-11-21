@@ -154,6 +154,7 @@ class MainViewController: NSViewController {
         guard let otherViewController = otherWindowController?.contentViewController as? MapRenderingViewController else { return }
         otherViewController.fog?.color = NSColor.white
         otherViewController.isEditable = false
+        otherViewController.delegate = self
         self.playerMap = otherViewController
         otherWindowController?.showWindow(self)
         DispatchQueue.main.async {
@@ -179,6 +180,11 @@ extension MainViewController: MapRendereringDelegate {
     }
 
     func markerModified(_ controller: MapRenderingViewController, marker: UserMarker) {
+
+        if controller == playerMap {
+            pushMarkers(gmMap)
+        }
+
         AppModel.shared.save()
         if autoPush {
             pushMarkers(playerMap)
