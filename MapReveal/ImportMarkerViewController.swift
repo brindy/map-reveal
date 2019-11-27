@@ -20,7 +20,7 @@ import AppKit
 
 protocol ImportMarkerDelegate: NSObjectProtocol {
 
-    func viewController(_ controller: ImportMarkerViewController, didOpenImage image: NSImage, named: String, toRow row: Int?)
+    func viewController(_ controller: ImportMarkerViewController, didOpenImage image: NSImage, named: String, copies: Int, toRow row: Int?)
 
 }
 
@@ -29,6 +29,7 @@ class ImportMarkerViewController: NSViewController {
     @IBOutlet weak var imageView: NSImageView!
     @IBOutlet weak var openButton: NSButton!
     @IBOutlet weak var nameField: NSTextField!
+    @IBOutlet weak var copiesField: NSTextField!
 
     weak var delegate: ImportMarkerDelegate?
 
@@ -65,7 +66,7 @@ class ImportMarkerViewController: NSViewController {
 
    @IBAction func openClicked(sneder: Any) {
         guard let image = imageView.image else { return }
-        delegate?.viewController(self, didOpenImage: image, named: nameField.stringValue, toRow: dropRow)
+        delegate?.viewController(self, didOpenImage: image, named: nameField.stringValue, copies: copiesField.integerValue, toRow: dropRow)
         dismiss(self)
     }
 

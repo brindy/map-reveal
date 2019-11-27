@@ -79,11 +79,10 @@ class AppModel {
         return userMarkers.first(where: { $0.uid == uid })
     }
 
-    func add(markerImage image: NSImage, named name: String, toRow row: Int? = nil, completion: @escaping (String?, Error?) -> Void) {
+    func add(markerImage image: NSImage, named name: String, copies: Int, toRow row: Int? = nil, completion: @escaping (Error?) -> Void) {
 
         DispatchQueue.global(qos: .utility).async {
 
-            let uid = UUID().uuidString
             var lastError: Error? = nil
             do {
                 let context = self.persistence.newBackgroundContext()
@@ -92,27 +91,41 @@ class AppModel {
                     self.fetchMarkers()
                 }
 
-                let entity = UserMarker(context: context)
-                entity.displayName = name
-                entity.uid = uid
-
-                guard let imageUrl = entity.imageUrl else { return }
-                try image.write(to: imageUrl)
-
                 var markers = self.fetchMarkers(context: context)
-                markers.insert(entity, at: (row ?? self.userMarkers.count) + 1)
-                self.applyOrder(markers)
 
+                for index in 1 ... copies {
+                    let uid = UUID().uuidString
+
+                    let entity = UserMarker(context: context)
+                    entity.displayName = name + self.copySuffix(index, copies)
+                    entity.uid = uid
+
+                    guard let imageUrl = entity.imageUrl else { return }
+                    try image.write(to: imageUrl)
+
+                    let destination = (row ?? markers.count)
+                    markers.insert(entity, at: min(markers.count, destination))
+                }
+
+                self.applyOrder(markers)
                 try context.save()
             } catch {
                 lastError = error
             }
 
             DispatchQueue.main.async {
-                completion(lastError == nil ? uid : nil, lastError)
+                completion(lastError)
             }
         }
 
+    }
+
+    func copySuffix(_ index: Int, _ copies: Int) -> String {
+        if copies == 1 {
+            return ""
+        }
+
+        return " \(copies + 1 - index)"
     }
 
     func add(gmImage: NSImage, playerImage: NSImage, named: String, toRow row: Int? = nil, completion: @escaping (String?, Error?) -> Void) {
@@ -166,10 +179,18 @@ class AppModel {
 
     func delete(_ userMap: UserMap) {
         persistence.viewContext.delete(userMap)
+        save()
     }
 
     func delete(_ marker: UserMarker) {
         persistence.viewContext.delete(marker)
+        save()
+    }
+
+    func removeFromMap(_ marker: UserMarker) {
+        persistence.viewContext.refresh(marker, mergeChanges: false)
+        marker.map = nil
+        save()
     }
 
     private func fetchMaps() {

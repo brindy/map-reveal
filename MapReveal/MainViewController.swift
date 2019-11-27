@@ -219,12 +219,12 @@ extension MainViewController: ImportMapDelegate {
 
 extension MainViewController: ImportMarkerDelegate {
 
-    func viewController(_ controller: ImportMarkerViewController, didOpenImage image: NSImage, named name: String, toRow row: Int?) {
+    func viewController(_ controller: ImportMarkerViewController, didOpenImage image: NSImage, named name: String, copies: Int, toRow row: Int?) {
         print(#function, name, row ?? -1)
-        AppModel.shared.add(markerImage: image, named: name, toRow: row) { uid, error in
+        AppModel.shared.add(markerImage: image, named: name, copies: copies, toRow: row) { error in
             guard error == nil else { return }
-            guard let index = AppModel.shared.userMarkers.firstIndex(where: { $0.uid == uid }) else { return }
-            let indexes  = IndexSet(integer: index)
+            let row = row ?? AppModel.shared.userMarkers.count - copies
+            let indexes  = IndexSet(row ..< (row + copies))
             self.markersTableView.insertRows(at: indexes, withAnimation: .effectGap)
             self.markersTableView.selectRowIndexes(indexes, byExtendingSelection: false)
         }
@@ -276,16 +276,18 @@ extension MainViewController: MarkersTableControllerDelegate {
     }
 
     func delete(userMarker: UserMarker) {
+        let selected = markersTableView.selectedRow
         AppModel.shared.delete(userMarker)
         AppModel.shared.save()
         markersTableView.reloadData()
+        markersTableView.selectRowIndexes(IndexSet(integer: selected), byExtendingSelection: false)
 
         gmMap?.removeMarker(userMarker)
         playerMap?.removeMarker(userMarker)
     }
 
     func removeFromMap(userMarker: UserMarker) {
-        userMarker.map = nil
+        AppModel.shared.removeFromMap(userMarker)
         AppModel.shared.save()
         markersTableView.reloadData()
 
