@@ -22,6 +22,7 @@ protocol MarkersTableControllerDelegate: NSObjectProtocol {
 
     func selected(userMarker: UserMarker)
     func delete(userMarker: UserMarker)
+    func removeFromMap(userMarker: UserMarker)
     func handle(drop: MarkersTableController.DropInfo)
 
 }
@@ -105,6 +106,12 @@ class MarkersTableController: NSObject, NSTableViewDelegate, NSTableViewDataSour
         guard tableView.selectedRow >= 0 else { return }
         let userMarker = AppModel.shared.userMarkers[tableView.selectedRow]
         delegate.delete(userMarker: userMarker)
+    }
+
+    func removeSelected() {
+        guard tableView.selectedRow >= 0 else { return }
+        let userMarker = AppModel.shared.userMarkers[tableView.selectedRow]
+        delegate.removeFromMap(userMarker: userMarker)
     }
 
     private func moveMarkerWithUid(uid: String, to row: Int, onTableView tableView: NSTableView) {

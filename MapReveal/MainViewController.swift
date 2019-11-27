@@ -124,6 +124,10 @@ class MainViewController: NSViewController {
     @IBAction func toggleZoomFit(_ sender: Any) {
         zoomFit = (sender as? NSButton)?.state == .on
     }
+
+    @IBAction func removeFromMap(_ sender: Any) {
+        markersTableController.removeSelected()
+    }
     
     @IBAction func pushToOther(_ sender: Any) {
         print(#function)
@@ -278,7 +282,15 @@ extension MainViewController: MarkersTableControllerDelegate {
 
         gmMap?.removeMarker(userMarker)
         playerMap?.removeMarker(userMarker)
+    }
 
+    func removeFromMap(userMarker: UserMarker) {
+        userMarker.map = nil
+        AppModel.shared.save()
+        markersTableView.reloadData()
+
+        gmMap?.removeMarker(userMarker)
+        playerMap?.removeMarker(userMarker)
     }
 
 }
