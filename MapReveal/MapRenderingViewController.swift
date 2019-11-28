@@ -48,6 +48,7 @@ class MapRenderingViewController: NSViewController {
     var isEditable = true
     var draggingMarker: MarkerView?
     var selectedMarker: MarkerView?
+    var dragStart: Date?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,8 +120,7 @@ class MapRenderingViewController: NSViewController {
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker(under: point) {
             self.draggingMarker = draggingMarker
-            selected(marker: draggingMarker.marker)
-            delegate?.markerSelected(self, marker: draggingMarker.marker)
+            dragStart = Date()
             draggingMarker.dragStarted(at: point)
             imageView.bringSubviewToFront(draggingMarker)
             return
@@ -136,6 +136,7 @@ class MapRenderingViewController: NSViewController {
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker {
             draggingMarker.dragUpdated(at: point, scaling: event.modifierFlags.contains(.shift))
+            dragStart = nil
             return
         }
 
@@ -148,6 +149,13 @@ class MapRenderingViewController: NSViewController {
 
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker {
+
+            if dragStart != nil {
+                selected(marker: draggingMarker.marker)
+                delegate?.markerSelected(self, marker: draggingMarker.marker)
+                dragStart = nil
+            }
+
             draggingMarker.dragFinished(at: point)
             self.draggingMarker = nil
             updateMarkerOrder()
