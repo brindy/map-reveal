@@ -24,7 +24,8 @@ class MarkerView: NSView {
         guard let imageUrl = marker.imageUrl else { return nil }
         let image = NSImage(byReferencing: imageUrl)
         let imageView = NSImageView(image: image)
-        let frame = NSRect(x: CGFloat(marker.x), y: CGFloat(marker.y), width: CGFloat(marker.width), height: CGFloat(marker.height))
+        let size = CGFloat(max(marker.width, marker.height))
+        let frame = NSRect(x: CGFloat(marker.x), y: CGFloat(marker.y), width: size, height: size)
         imageView.frame = NSRect(origin: NSPoint(x: 0, y: 0), size: frame.size)
         imageView.imageScaling = .scaleProportionallyUpOrDown
         imageView.autoresizingMask = [.width, .height]
@@ -36,6 +37,15 @@ class MarkerView: NSView {
 
     let marker: UserMarker
     var isDragging = false
+    var selected = false {
+        didSet {
+            if selected {
+                layer?.borderColor = NSColor.green.cgColor
+            } else {
+                layer?.borderColor = NSColor.black.cgColor
+            }
+        }
+    }
 
     private var cursorRect: NSRect?
     private var trackingArea: NSTrackingArea?
@@ -46,6 +56,8 @@ class MarkerView: NSView {
         super.init(frame: frame)
         updateTrackingAreas()
         autoresizesSubviews = true
+        wantsLayer = true
+        updateLayerProperties()
     }
 
     required init?(coder: NSCoder) {
@@ -62,6 +74,7 @@ class MarkerView: NSView {
         if scaling {
             let distance = point.distanceTo(frame.origin)
             frame.size = NSSize(width: distance, height: distance)
+            updateLayerProperties()
         } else {
             frame.origin = NSPoint(x: point.x + offset.x, y: point.y + offset.y)
         }
@@ -118,6 +131,11 @@ class MarkerView: NSView {
             removeTrackingArea(trackingArea)
         }
         addTrackingArea(NSTrackingArea(rect: bounds, options: [.mouseMoved, .mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil))
+    }
+
+    private func updateLayerProperties() {
+        layer?.cornerRadius = frame.size.height / 2
+        layer?.borderWidth = frame.size.height / 10
     }
 
 }

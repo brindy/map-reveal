@@ -21,8 +21,8 @@ import AppKit
 protocol MapRendereringDelegate: NSObjectProtocol {
 
     func toolFinished(_ controller: MapRenderingViewController)
+    func markerSelected(_ controller: MapRenderingViewController, marker: UserMarker)
     func markerModified(_ controller: MapRenderingViewController, marker: UserMarker)
-    func markerRemoved(_ controller: MapRenderingViewController, marker: UserMarker)
 
 }
 
@@ -47,6 +47,7 @@ class MapRenderingViewController: NSViewController {
     var revealedUrl: URL?
     var isEditable = true
     var draggingMarker: MarkerView?
+    var selectedMarker: MarkerView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,6 +119,8 @@ class MapRenderingViewController: NSViewController {
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker(under: point) {
             self.draggingMarker = draggingMarker
+            selected(marker: draggingMarker.marker)
+            delegate?.markerSelected(self, marker: draggingMarker.marker)
             draggingMarker.dragStarted(at: point)
             imageView.bringSubviewToFront(draggingMarker)
             return
@@ -146,10 +149,10 @@ class MapRenderingViewController: NSViewController {
         let point = convert(event.locationInWindow)
         if let draggingMarker = draggingMarker {
             draggingMarker.dragFinished(at: point)
-            delegate?.markerModified(self, marker: draggingMarker.marker)
             self.draggingMarker = nil
             updateMarkerOrder()
             AppModel.shared.save()
+            delegate?.markerModified(self, marker: draggingMarker.marker)
             return
         }
 
@@ -165,7 +168,7 @@ class MapRenderingViewController: NSViewController {
         print(#function, marker.displayName ?? "nil", marker.x, marker.y)
 
         if let markerView = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker }) {
-            markerView.frame.origin = NSPoint(x: CGFloat(marker.x), y: CGFloat(marker.y))
+            markerView.frame = CGRect(x: CGFloat(marker.x), y: CGFloat(marker.y), width: CGFloat(marker.width), height: CGFloat(marker.height))
         } else if let markerView = MarkerView.create(with: marker) {
             imageView.addSubview(markerView)
         }
@@ -183,6 +186,13 @@ class MapRenderingViewController: NSViewController {
         guard let marker = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker } ) else { return }
         scrollView.magnify(toFit: marker.frame)
         scrollView.magnification /= 4.0
+    }
+
+    func selected(marker: UserMarker) {
+        selectedMarker?.selected = false
+        guard let marker = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker } ) else { return }
+        selectedMarker = marker as? MarkerView
+        selectedMarker?.selected = true
     }
 
     private func convert(_ point: NSPoint) -> NSPoint {

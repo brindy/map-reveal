@@ -178,6 +178,12 @@ class MainViewController: NSViewController {
 
 extension MainViewController: MapRendereringDelegate {
 
+    func markerSelected(_ controller: MapRenderingViewController, marker: UserMarker) {
+        if let index = AppModel.shared.userMarkers.firstIndex(of: marker) {
+            markersTableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
+        }
+    }
+
     func toolFinished(_ controller: MapRenderingViewController) {
         guard autoPush else { return }
         pushToOther(self)
@@ -193,11 +199,6 @@ extension MainViewController: MapRendereringDelegate {
         if autoPush {
             pushMarkers(playerMap)
         }
-    }
-
-    func markerRemoved(_ controller: MapRenderingViewController, marker: UserMarker) {
-        marker.map = nil
-        AppModel.shared.save()
     }
 
 }
@@ -269,6 +270,8 @@ extension MainViewController: MarkersTableControllerDelegate {
             selected(userMap: map)
         }
         gmMap?.zoomTo(marker: userMarker)
+        gmMap?.selected(marker: userMarker)
+        playerMap?.selected(marker: userMarker)
     }
 
     func handle(drop: MarkersTableController.DropInfo) {
