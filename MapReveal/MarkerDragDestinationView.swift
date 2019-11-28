@@ -46,6 +46,7 @@ class MarkerDragDestinationView: NSView {
             return []
         }
 
+        print(#function, sender.draggingLocation)
         if let draggedMarker = DraggedMarker(marker: marker, location: sender.draggingLocation) {
             self.draggedMarker = draggedMarker
             delegate?.startDragging(self, marker: draggedMarker)
@@ -59,6 +60,7 @@ class MarkerDragDestinationView: NSView {
         guard sender.draggingPasteboard.types?.contains(MarkersTableController.DropInfo.pastboardType) ?? true else {
             return []
         }
+        print(#function, sender.draggingLocation)
         draggedMarker?.location = sender.draggingLocation
 
         if let draggedMarker = draggedMarker {

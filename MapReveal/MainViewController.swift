@@ -303,7 +303,7 @@ extension MainViewController: MarkersTableControllerDelegate {
 extension MainViewController: MarkerDragDelegate {
 
     func startDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker) {
-        let converted = view.convert(marker.location, to: gmMap?.imageView)
+        guard let converted = gmMap?.imageView.convert(marker.location, from: nil) else { return }
         print(#function, marker.location, converted)
         markerImageView?.removeFromSuperview()
 
@@ -314,10 +314,10 @@ extension MainViewController: MarkerDragDelegate {
     }
 
     func updateDragging(_ destination: MarkerDragDestinationView, marker: MarkerDragDestinationView.DraggedMarker) {
-        let converted = view.convert(marker.location, to: gmMap?.imageView)
+        guard let converted = gmMap?.imageView.convert(marker.location, from: nil) else { return }
         print(#function, marker.location, converted)
         if let size = markerImageView?.image?.size {
-            markerImageView?.frame = NSRect(origin: converted.offsetBy(size.half.inverted), size: size)
+            markerImageView?.frame = NSRect(origin: CGPoint(x: converted.x - size.width / 2, y: converted.y - size.height / 2), size: size)
         }
     }
 
@@ -365,18 +365,6 @@ extension NSSize {
 
     func plus(width: CGFloat, height: CGFloat) -> NSSize {
         return NSSize(width: self.width + width, height: self.height + height)
-    }
-
-}
-
-extension NSPoint {
-
-    func offsetBy(_ size: NSSize) -> NSPoint {
-        return offsetBy(x: size.width, y: size.height)
-    }
-
-    func offsetBy(x: CGFloat, y: CGFloat) -> NSPoint {
-        return NSPoint(x: self.x + x, y: self.x + y)
     }
 
 }
