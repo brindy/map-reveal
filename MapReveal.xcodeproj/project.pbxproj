@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		850107B223915B99004F2929 /* MapRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850107B123915B99004F2929 /* MapRendering.swift */; };
 		850385E722F48C06002259DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385E622F48C06002259DB /* AppDelegate.swift */; };
 		850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385E822F48C06002259DB /* MapRenderingViewController.swift */; };
 		850385EB22F48C08002259DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 850385EA22F48C08002259DB /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		850107B123915B99004F2929 /* MapRendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRendering.swift; sourceTree = "<group>"; };
 		850385E322F48C06002259DB /* MapReveal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapReveal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		850385E622F48C06002259DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		850385E822F48C06002259DB /* MapRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRenderingViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				850385EF22F48C08002259DB /* Info.plist */,
 				850385EC22F48C08002259DB /* Main.storyboard */,
 				8526684C22FBAB31006AD48A /* MainViewController.swift */,
+				850107B123915B99004F2929 /* MapRendering.swift */,
 				850385E822F48C06002259DB /* MapRenderingViewController.swift */,
 				850385F022F48C08002259DB /* MapReveal.entitlements */,
 				8586B5C82342AC58003E383C /* MapsModel.xcdatamodeld */,
@@ -180,6 +183,7 @@
 				852D23A32347D18500C3A1C2 /* MarkerView.swift in Sources */,
 				8586B5C72342A3CA003E383C /* ImportMarkerViewController.swift in Sources */,
 				8526684F22FBB1C9006AD48A /* Drawable.swift in Sources */,
+				850107B223915B99004F2929 /* MapRendering.swift in Sources */,
 				85E381C3234347C30001C014 /* MarkerDragDestinationView.swift in Sources */,
 				8526685122FEB8F5006AD48A /* FogOfWarImageView.swift in Sources */,
 				852E864223428EB30042E8F1 /* MapsTableController.swift in Sources */,

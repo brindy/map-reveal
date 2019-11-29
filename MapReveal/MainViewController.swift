@@ -32,8 +32,9 @@ class MainViewController: NSViewController {
     @IBOutlet weak var mapsTableView: NSTableView!
     @IBOutlet weak var markersTableView: NSTableView!
 
-    weak var gmMap: MapRenderingViewController?
-    weak var playerMap: MapRenderingViewController?
+    var gmMap: MapRenderingViewController?
+    var playerMap: MapRendering?
+
     weak var markerImageView: NSImageView?
 
     var selectedUserMap: UserMap?
@@ -60,11 +61,9 @@ class MainViewController: NSViewController {
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let controller = segue.destinationController as? MapRenderingViewController {
 
-            print(#function)
-
             gmMap = controller
             gmMap?.delegate = self
-            gmMap?.markerDragDelegate = self
+            controller.markerDragDelegate = self
 
         }
         if let controller = segue.destinationController as? ImportMapViewController {
@@ -166,7 +165,7 @@ class MainViewController: NSViewController {
         }
     }
 
-    private func pushMarkers(_ map: MapRenderingViewController?) {
+    private func pushMarkers(_ map: MapRendering?) {
         (selectedUserMap?.markers as? Set<UserMarker>)?.sorted(by: { l, r in
             return l.displayOrder < r.displayOrder
         }).forEach {
@@ -178,20 +177,20 @@ class MainViewController: NSViewController {
 
 extension MainViewController: MapRendereringDelegate {
 
-    func markerSelected(_ controller: MapRenderingViewController, marker: UserMarker) {
+    func markerSelected(_ renderer: MapRendering, marker: UserMarker) {
         if let index = AppModel.shared.userMarkers.firstIndex(of: marker) {
             markersTableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
         }
     }
 
-    func toolFinished(_ controller: MapRenderingViewController) {
+    func toolFinished(_ renderer: MapRendering) {
         guard autoPush else { return }
         pushToOther(self)
     }
 
-    func markerModified(_ controller: MapRenderingViewController, marker: UserMarker) {
+    func markerModified(_ renderer: MapRendering, marker: UserMarker) {
 
-        if controller == playerMap {
+        if (renderer as? MapRenderingViewController) != gmMap {
             pushMarkers(gmMap)
         }
 
@@ -270,8 +269,8 @@ extension MainViewController: MarkersTableControllerDelegate {
             selected(userMap: map)
         }
         gmMap?.zoomTo(marker: userMarker)
-        gmMap?.selected(marker: userMarker)
-        playerMap?.selected(marker: userMarker)
+        gmMap?.showSelectedMarker(userMarker)
+        playerMap?.showSelectedMarker(userMarker)
     }
 
     func handle(drop: MarkersTableController.DropInfo) {

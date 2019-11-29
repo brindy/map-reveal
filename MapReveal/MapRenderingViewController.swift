@@ -18,15 +18,7 @@ limitations under the License.
 
 import AppKit
 
-protocol MapRendereringDelegate: NSObjectProtocol {
-
-    func toolFinished(_ controller: MapRenderingViewController)
-    func markerSelected(_ controller: MapRenderingViewController, marker: UserMarker)
-    func markerModified(_ controller: MapRenderingViewController, marker: UserMarker)
-
-}
-
-class MapRenderingViewController: NSViewController {
+class MapRenderingViewController: NSViewController, MapRendering {
 
     @IBOutlet weak var imageView: NSImageView!
     @IBOutlet weak var scrollView: NSScrollView!
@@ -151,7 +143,7 @@ class MapRenderingViewController: NSViewController {
         if let draggingMarker = draggingMarker {
 
             if dragStart != nil {
-                selected(marker: draggingMarker.marker)
+                showSelectedMarker(draggingMarker.marker)
                 delegate?.markerSelected(self, marker: draggingMarker.marker)
                 dragStart = nil
             }
@@ -197,7 +189,7 @@ class MapRenderingViewController: NSViewController {
         scrollView.magnification /= 4.0
     }
 
-    func selected(marker: UserMarker) {
+    func showSelectedMarker(_ marker: UserMarker) {
         selectedMarker?.selected = false
         guard let marker = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker } ) else { return }
         selectedMarker = marker as? MarkerView
