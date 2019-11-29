@@ -93,8 +93,6 @@ class MarkerView: NSView {
         super.mouseEntered(with: event)
         if isDragging {
             NSCursor.closedHand.set()
-        } else {
-            NSCursor.openHand.set()
         }
     }
 
@@ -106,7 +104,11 @@ class MarkerView: NSView {
 
     override func mouseMoved(with event: NSEvent) {
         super.mouseMoved(with: event)
-        NSCursor.openHand.set()
+        let point = convert(event.locationInWindow, from: nil)
+        let distanceToCenter = point.distanceTo(x: frame.size.width / 2, y: frame.size.height / 2)
+        if distanceToCenter < frame.size.width / 2 {
+            NSCursor.openHand.set()
+        }
     }
 
     override func mouseDragged(with event: NSEvent) {

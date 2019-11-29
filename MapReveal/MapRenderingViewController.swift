@@ -210,7 +210,15 @@ class MapRenderingViewController: NSViewController {
     }
 
     private func draggingMarker(under point: NSPoint) -> MarkerView? {
-        return imageView.subviews.last(where: { ($0 as? MarkerView)?.frame.contains(point) ?? false }) as? MarkerView
+        return imageView.subviews.last(where: {
+            guard let markerView = $0 as? MarkerView,
+                markerView.frame.contains(point) else { return false }
+
+            let maxDistance = markerView.frame.width / 2
+            let distance = point.distanceTo(x: markerView.frame.midX, y: markerView.frame.midY)
+            return distance <= maxDistance
+
+        }) as? MarkerView
     }
 
     private func updateMarkerOrder() {
