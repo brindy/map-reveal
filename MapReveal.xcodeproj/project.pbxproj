@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		850107B223915B99004F2929 /* MapRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850107B123915B99004F2929 /* MapRendering.swift */; };
+		850107B42391AC09004F2929 /* BorderColorCycler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850107B32391AC09004F2929 /* BorderColorCycler.swift */; };
 		850385E722F48C06002259DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385E622F48C06002259DB /* AppDelegate.swift */; };
 		850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850385E822F48C06002259DB /* MapRenderingViewController.swift */; };
 		850385EB22F48C08002259DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 850385EA22F48C08002259DB /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		850107B123915B99004F2929 /* MapRendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRendering.swift; sourceTree = "<group>"; };
+		850107B32391AC09004F2929 /* BorderColorCycler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderColorCycler.swift; sourceTree = "<group>"; };
 		850385E322F48C06002259DB /* MapReveal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapReveal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		850385E622F48C06002259DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		850385E822F48C06002259DB /* MapRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRenderingViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				85E381C2234347C30001C014 /* MarkerDragDestinationView.swift */,
 				8520C4802342B4CD00AC1CFC /* MarkersTableController.swift */,
 				852D23A22347D18500C3A1C2 /* MarkerView.swift */,
+				850107B32391AC09004F2929 /* BorderColorCycler.swift */,
 			);
 			path = MapReveal;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8520C4812342B4CD00AC1CFC /* MarkersTableController.swift in Sources */,
+				850107B42391AC09004F2929 /* BorderColorCycler.swift in Sources */,
 				852668532301DC2D006AD48A /* AppModel.swift in Sources */,
 				850385E922F48C06002259DB /* MapRenderingViewController.swift in Sources */,
 				8586B5CA2342AC58003E383C /* MapsModel.xcdatamodeld in Sources */,

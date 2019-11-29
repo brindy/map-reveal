@@ -35,13 +35,27 @@ class MarkerView: NSView {
         return markerView
     }
 
+    var animator: BorderColorCycler?
+
     let marker: UserMarker
     var isDragging = false
     var selected = false {
         didSet {
             if selected {
-                layer?.borderColor = NSColor.green.cgColor
+                animator = BorderColorCycler.animateBorder(of: self, every: 0.1, with: [
+                    NSColor.green.darker().darker().darker().darker(),
+                    NSColor.green.darker().darker().darker(),
+                    NSColor.green.darker().darker(),
+                    NSColor.green.darker(),
+                    NSColor.green,
+                    NSColor.green.darker(),
+                    NSColor.green.darker().darker(),
+                    NSColor.green.darker().darker().darker(),
+                    NSColor.green.darker().darker().darker().darker(),
+                ])
             } else {
+                animator?.stop()
+                animator = nil
                 layer?.borderColor = NSColor.black.cgColor
             }
         }
@@ -152,6 +166,18 @@ extension NSPoint {
         let width = self.x - x
         let height = self.y - y
         return sqrt(width * width + height * height)
+    }
+
+}
+
+extension NSColor {
+
+    func brighter() -> NSColor {
+        return NSColor(calibratedHue: hueComponent, saturation: saturationComponent, brightness: brightnessComponent + 0.1, alpha: alphaComponent)
+    }
+
+    func darker() -> NSColor {
+        return NSColor(calibratedHue: hueComponent, saturation: saturationComponent, brightness: brightnessComponent - 0.1, alpha: alphaComponent)
     }
 
 }
