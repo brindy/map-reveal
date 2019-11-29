@@ -122,7 +122,7 @@ class MapRenderingViewController: NSViewController {
             self.draggingMarker = draggingMarker
             dragStart = Date()
             draggingMarker.dragStarted(at: point)
-            imageView.bringSubviewToFront(draggingMarker)
+            draggingMarker.bringToFront()
             return
         }
 
@@ -176,6 +176,7 @@ class MapRenderingViewController: NSViewController {
         print(#function, marker.displayName ?? "nil", marker.x, marker.y)
 
         if let markerView = imageView.subviews.first(where: { ($0 as? MarkerView)?.marker == marker }) {
+            markerView.bringToFront()
             markerView.frame = CGRect(x: CGFloat(marker.x), y: CGFloat(marker.y), width: CGFloat(marker.width), height: CGFloat(marker.height))
         } else if let markerView = MarkerView.create(with: marker) {
             imageView.addSubview(markerView)
@@ -209,7 +210,7 @@ class MapRenderingViewController: NSViewController {
     }
 
     private func draggingMarker(under point: NSPoint) -> MarkerView? {
-        return imageView.subviews.first(where: { ($0 as? MarkerView)?.frame.contains(point) ?? false }) as? MarkerView
+        return imageView.subviews.last(where: { ($0 as? MarkerView)?.frame.contains(point) ?? false }) as? MarkerView
     }
 
     private func updateMarkerOrder() {
@@ -240,6 +241,11 @@ extension NSView {
                     return ComparisonResult.orderedSame
                 }
             }, context: &theView)
+    }
+
+    func bringToFront() {
+        guard let superview = self.superview else { return }
+        superview.bringSubviewToFront(self)
     }
 
 }
