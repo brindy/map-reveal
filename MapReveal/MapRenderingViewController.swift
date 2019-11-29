@@ -45,7 +45,7 @@ class MapRenderingViewController: NSViewController, MapRendering {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let frame = NSRect.zero // (x: 0, y: 0, width: 200, height: 200)
+        let frame = NSRect.zero
         let markerDragDestination = MarkerDragDestinationView(frame: frame)
         let fogOfWar = FogOfWarImageView(frame: frame)
 
@@ -81,8 +81,10 @@ class MapRenderingViewController: NSViewController, MapRendering {
         self.fog?.readRevealed(from: revealedUrl)
     }
 
-    func update(from other: FogOfWarImageView) {
-        fog?.update(from: other)
+    func updateRevealed() {
+        guard let revealedUrl = revealedUrl else { return }
+        fog?.restore()
+        fog?.readRevealed(from: revealedUrl)
     }
 
     func clear() {

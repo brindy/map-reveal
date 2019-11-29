@@ -30,6 +30,6 @@ protocol MapRendering {
     func showSelectedMarker(_ marker: UserMarker)
     func removeMarker(_ marker: UserMarker)
 
-    // FIX:
-    func update(from: FogOfWarImageView)
+    func updateRevealed()
+    
 }

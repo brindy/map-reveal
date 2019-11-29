@@ -131,9 +131,8 @@ class MainViewController: NSViewController {
     @IBAction func pushToOther(_ sender: Any) {
         print(#function)
         guard let playerImageUrl = selectedUserMap?.playerImageUrl, let revealedUrl = selectedUserMap?.revealedUrl else { return }
-        guard let fog = gmMap?.fog else { return }
         playerMap?.load(imageUrl: playerImageUrl, revealedUrl: revealedUrl)
-        playerMap?.update(from: fog)
+        playerMap?.updateRevealed()
         if zoomFit {
             playerMap?.zoomToFit()
         }
