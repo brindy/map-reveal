@@ -307,7 +307,7 @@ extension MainViewController: MarkerDragDelegate {
         print(#function, marker.location, converted)
         markerImageView?.removeFromSuperview()
 
-        let size = NSSize(width: marker.image.width, height: marker.image.height)
+        let size = gmMap?.selectedMarker?.frame.size ?? NSSize(width: marker.image.width, height: marker.image.height)
         let markerImageView = NSImageView(image: NSImage(cgImage: marker.image, size: size))
         gmMap?.imageView.addSubview(markerImageView)
         self.markerImageView = markerImageView
