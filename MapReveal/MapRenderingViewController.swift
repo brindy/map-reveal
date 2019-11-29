@@ -163,7 +163,7 @@ class MapRenderingViewController: NSViewController, MapRendering {
         if let revealedUrl = revealedUrl {
             self.fog?.writeRevealed(to: revealedUrl)
         }
-        delegate?.toolFinished(self)
+        (parent as? MainViewController)?.toolFinished(self)
     }
 
     func addMarker(_ marker: UserMarker) {

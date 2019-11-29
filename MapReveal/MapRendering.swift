@@ -10,12 +10,10 @@ import Foundation
 
 protocol MapRendereringDelegate: NSObjectProtocol {
 
-    func toolFinished(_ renderer: MapRendering)
     func markerSelected(_ renderer: MapRendering, marker: UserMarker)
     func markerModified(_ renderer: MapRendering, marker: UserMarker)
 
 }
-
 
 protocol MapRendering {
 
