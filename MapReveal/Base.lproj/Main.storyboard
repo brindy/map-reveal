@@ -70,7 +70,13 @@
                                                 <action selector="importMarker:" target="Ady-hI-5gd" id="xoy-kM-rG8"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="nOd-y8-Gg6"/>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Edit" id="6Td-Ov-Zur">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Edit" id="dta-6h-CBX">
+                                    <items>
                                         <menuItem title="Remove from Map" id="rwh-62-uHM">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
@@ -458,7 +464,7 @@ Gw
                                                                             <tableColumns>
                                                                                 <tableColumn width="243" minWidth="40" maxWidth="1000" id="xUI-5U-2yA">
                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Maps">
-                                                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                                                        <font key="font" metaFont="message" size="11"/>
                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                     </tableHeaderCell>
@@ -543,7 +549,7 @@ Gw
                                                                             <tableColumns>
                                                                                 <tableColumn width="243" minWidth="40" maxWidth="1000" id="LEc-RH-fs6">
                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Markers">
-                                                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                                                        <font key="font" metaFont="message" size="11"/>
                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                     </tableHeaderCell>
