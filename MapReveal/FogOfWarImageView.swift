@@ -80,23 +80,48 @@ class FogOfWarImageView: NSView {
         newDrawable()
     }
 
-    func start(at point: NSPoint) {
+    func usePathTool() {
+        currentDrawFactory = PathDrawable.factory
+        newDrawable()
+    }
+
+    func down(at point: NSPoint) -> Bool {
+        defer {
+            needsDisplay = true
+        }
 
         if nil == currentDrawable {
             newDrawable()
         }
 
-        currentDrawable?.start(at: point)
-        needsDisplay = true
+        let isFinished = currentDrawable?.down(at: point) ?? false
+        if isFinished {
+            finish()
+        }
+        return isFinished
     }
     
     func move(to point: NSPoint) {
+        defer {
+            needsDisplay = true
+        }
         currentDrawable?.moved(to: point)
-        needsDisplay = true
+    }
+
+    func up(at point: NSPoint) -> Bool {
+        defer {
+            needsDisplay = true
+        }
+
+        let isFinished = currentDrawable?.up(at: point) ?? false
+        if isFinished {
+            finish()
+        }
+        return isFinished
     }
     
-    func finish(at point: NSPoint) {
-        if let currentDrawable = currentDrawable, currentDrawable.finish(at: point) {
+    func finish() {
+        if let currentDrawable = currentDrawable {
             drawables.append(currentDrawable)
             if let image = createImage() {
                 drawables = [PNGDrawable(image: image)]

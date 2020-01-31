@@ -101,6 +101,10 @@ class MapRenderingViewController: NSViewController, MapRendering {
         fog?.useAreaTool()
     }
 
+    func usePathTool() {
+        fog?.usePathTool()
+    }
+
     func zoomToFit() {
         guard let image = imageView.image else { return }
         let frame = NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
@@ -121,7 +125,9 @@ class MapRenderingViewController: NSViewController, MapRendering {
         }
 
         guard isEditable else { return }
-        fog?.start(at: point)
+        if fog?.down(at: point) ?? false {
+            toolFinished()
+        }
     }
 
     override func mouseDragged(with event: NSEvent) {
@@ -159,7 +165,13 @@ class MapRenderingViewController: NSViewController, MapRendering {
         }
 
         guard isEditable else { return }
-        fog?.finish(at: point)
+        if fog?.up(at: point) ?? false {
+            toolFinished()
+        }
+
+    }
+
+    func toolFinished() {
         if let revealedUrl = revealedUrl {
             self.fog?.writeRevealed(to: revealedUrl)
         }

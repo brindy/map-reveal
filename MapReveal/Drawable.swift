@@ -27,12 +27,15 @@ protocol Drawable: NSObjectProtocol {
     func follow(into context: CGContext)
     
     func reveal(into context: CGContext)
-    
-    func start(at point: NSPoint)
-    
+
+    /// @return true if finished
+    func down(at point: NSPoint) -> Bool
+
     func moved(to point: NSPoint)
+
+    /// @return true if finished
+    func up(at point: NSPoint) -> Bool
     
-    func finish(at point: NSPoint) -> Bool
 
 }
 
@@ -44,12 +47,12 @@ extension Drawable {
 
     func follow(into context: CGContext) { }
 
-    func start(at point: NSPoint) { }
-    
+    func down(at point: NSPoint) -> Bool { return true }
+
     func moved(to point: NSPoint) { }
-    
-    func finish(at point: NSPoint) -> Bool { return true }
-    
+
+    func up(at point: NSPoint) -> Bool { return true }
+
 }
 
 class PNGDrawable: NSObject, Drawable {
@@ -81,8 +84,9 @@ class PaintDrawable: NSObject, Drawable {
         super.init()
     }
 
-    func start(at point: NSPoint) {
+    func down(at point: NSPoint) -> Bool {
         lastPoint = point
+        return false
     }
     
     func moved(to point: NSPoint) {
@@ -90,9 +94,9 @@ class PaintDrawable: NSObject, Drawable {
         points.insert(point)
     }
     
-    func finish(at point: NSPoint) -> Bool {
+    func up(at point: NSPoint) -> Bool {
         lastPoint = nil
-        return !points.isEmpty
+        return true
     }
     
     func follow(into context: CGContext) {
@@ -108,6 +112,69 @@ class PaintDrawable: NSObject, Drawable {
     
     private func rect(from point: NSPoint) -> CGRect {
         return CGRect(x: point.x - width / 2, y: point.y - width / 2, width: width, height: width)
+    }
+
+}
+
+class PathDrawable: NSObject, Drawable {
+
+    static func factory(revealing: Bool) -> Drawable {
+        return PathDrawable(revealing)
+    }
+
+    let isRevealing: Bool
+
+    var startPoint: NSPoint?
+    var lastPoint: NSPoint?
+    var path: CGMutablePath?
+
+    init(_ revealing: Bool) {
+        self.isRevealing = revealing
+    }
+
+    func down(at point: NSPoint) -> Bool {
+
+        var finished = false
+        if nil == path {
+            path = CGMutablePath()
+            path?.move(to: point)
+        } else {
+            finished = lastPoint == point
+            lastPoint = point
+            path?.addLine(to: point)
+            startPoint = point
+        }
+
+        print(#function, lastPoint as Any, point, finished)
+        return finished
+    }
+
+    func up(at point: NSPoint) -> Bool {
+        return false
+    }
+
+    func reveal(into context: CGContext) {
+
+        print(#function)
+
+        guard let path = path else { return }
+
+        context.addPath(path)
+        context.fillPath()
+
+    }
+
+    func follow(into context: CGContext) {
+
+        print(#function, path as Any)
+
+        guard let path = path else { return }
+
+        context.setStrokeColor(NSColor.black.cgColor)
+        context.setLineWidth(10.0)
+        context.addPath(path)
+        context.strokePath()
+        context.fillPath()
     }
 
 }
@@ -136,12 +203,18 @@ class AreaDrawable: NSObject, Drawable {
         super.init()
     }
 
-    func start(at point: NSPoint) {
+    func down(at point: NSPoint) -> Bool {
         startPoint = point
+        return false
     }
 
     func moved(to point: NSPoint) {
         lastPoint = point
+    }
+
+    func up(at point: NSPoint) -> Bool {
+        lastPoint = point
+        return true
     }
 
     func reveal(into context: CGContext) {

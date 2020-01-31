@@ -104,6 +104,7 @@ class MainViewController: NSViewController {
     }
     
     @IBAction func setRevealPath(_ sender: Any) {
+        gmMap?.usePathTool()
         print(#function)
     }
     
