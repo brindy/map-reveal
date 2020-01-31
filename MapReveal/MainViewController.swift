@@ -108,10 +108,6 @@ class MainViewController: NSViewController {
         print(#function)
     }
     
-    @IBAction func activatePointer(_ sender: Any) {
-        print(#function)
-    }
-
     @IBAction func toggleReveal(_ sender: Any) {
         print(#function, sender)
         gmMap?.isRevealing = (sender as? NSButton)?.state == .on

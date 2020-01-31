@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -204,13 +204,6 @@ CA
                                         <action selector="setRevealPath:" target="Oky-zY-oP4" id="npa-cA-euu"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="F8B58DEF-C81F-4D64-814E-9B7E27F43240" explicitItemIdentifier="Pointer" label="Pointer" paletteLabel="Pointer" tag="-1" image="MRPointer" selectable="YES" id="kDN-bC-6Nj">
-                                    <size key="minSize" width="48" height="48"/>
-                                    <size key="maxSize" width="48" height="48"/>
-                                    <connections>
-                                        <action selector="activatePointer:" target="Oky-zY-oP4" id="HzK-BX-Fed"/>
-                                    </connections>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="07DB64A7-203F-4CE6-89CE-72C05D543335" explicitItemIdentifier="RevealToggle" label="Reveal" paletteLabel="Reveal" sizingBehavior="auto" id="EiO-90-BAc">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="cOd-IE-oVy">
@@ -274,7 +267,6 @@ CA
                                 <toolbarItem reference="Nbb-84-eF2"/>
                                 <toolbarItem reference="Ysq-5T-peu"/>
                                 <toolbarItem reference="r6S-hO-qcM"/>
-                                <toolbarItem reference="kDN-bC-6Nj"/>
                                 <toolbarItem reference="6yx-gd-d5y"/>
                                 <toolbarItem reference="EiO-90-BAc"/>
                                 <toolbarItem reference="tXp-4g-Nzo"/>
@@ -464,7 +456,7 @@ Gw
                                                                             <tableColumns>
                                                                                 <tableColumn width="243" minWidth="40" maxWidth="1000" id="xUI-5U-2yA">
                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Maps">
-                                                                                        <font key="font" metaFont="message" size="11"/>
+                                                                                        <font key="font" metaFont="menu" size="11"/>
                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                     </tableHeaderCell>
@@ -549,7 +541,7 @@ Gw
                                                                             <tableColumns>
                                                                                 <tableColumn width="243" minWidth="40" maxWidth="1000" id="LEc-RH-fs6">
                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Markers">
-                                                                                        <font key="font" metaFont="message" size="11"/>
+                                                                                        <font key="font" metaFont="menu" size="11"/>
                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                     </tableHeaderCell>
@@ -871,7 +863,6 @@ Gw
     <resources>
         <image name="MRPaint" width="24" height="24"/>
         <image name="MRPath" width="24" height="24"/>
-        <image name="MRPointer" width="24" height="24"/>
         <image name="MRRect" width="24" height="24"/>
         <image name="MRSend" width="24" height="24"/>
         <image name="NSActionTemplate" width="14" height="14"/>
