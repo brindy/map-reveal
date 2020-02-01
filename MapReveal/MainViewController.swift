@@ -149,16 +149,19 @@ class MainViewController: NSViewController {
     // MARK: private
 
     private func createOtherWindow() {
-        let otherWindowController = storyboard?.instantiateController(withIdentifier: "VisibleMap") as? NSWindowController
-        guard let otherViewController = otherWindowController?.contentViewController as? MapRenderingViewController else { return }
-        otherViewController.fog?.color = NSColor.white
-        otherViewController.isEditable = false
-        otherViewController.delegate = self
-        self.playerMap = otherViewController
-        otherWindowController?.showWindow(self)
-        DispatchQueue.main.async {
-            otherWindowController?.window?.orderFrontRegardless()
-        }
+//        let otherWindowController = storyboard?.instantiateController(withIdentifier: "VisibleMap") as? NSWindowController
+//        guard let otherViewController = otherWindowController?.contentViewController as? MapRenderingViewController else { return }
+//        otherViewController.fog?.color = NSColor.white
+//        otherViewController.isEditable = false
+//        otherViewController.delegate = self
+//        self.playerMap = otherViewController
+//        otherWindowController?.showWindow(self)
+//        DispatchQueue.main.async {
+//            otherWindowController?.window?.orderFrontRegardless()
+//        }
+
+        playerMap = ZeroConfigMapRendering()
+
     }
 
     private func pushMarkers(_ map: MapRendering?) {
